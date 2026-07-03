@@ -1,11 +1,10 @@
 // mixin for custom icon with size and color as parameters
-@mixin custom-icon($size: 16px, $color: transparent) {
+@mixin custom-icon($size: 16px) {
     display: inline-block;
     width: $size;
     height: $size;
     font-weight: normal;
     font-style: normal;
-    color: $color;
 }
 
 // mixin for custom font with font-family as parameter
