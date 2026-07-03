@@ -6,6 +6,7 @@ npm-debug.log*
 # Files
 node_modules
 dist
+main.css.map
 
 # Editor directories and files
 .vscode/*

@@ -1,15 +1,17 @@
-// Setting up the font variables for the project, defining the font-family for headings and body text
-$font-heading: 'Roboto', sans-serif;
-$font-body: 'Inter', sans-serif;
+@use '../abstracts/variables' as *;
 
 // Set Font Weights
 $font-light: 300;
 $font-regular: 400;
 $font-bold: 700;
 
+// font size variables
+$text-heading: 6.9rem;
+$text-subheading: 1.8rem;
+
 // Set the font sizes for headings and body text
 body {
-    font-family: $font-body;
+    font-family: Inter, sans-serif;
     font-weight: $font-regular;
     color: $color-secondary;
 }
