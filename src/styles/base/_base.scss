@@ -1,0 +1,18 @@
+// font-face declarations for custom fonts which is defining the font-family and the source of the font files
+@font-face {
+    font-family: 'Inter';
+    src: url('/assets/fonts/Inter/inter-regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/fonts/Roboto/roboto-regular.woff2') format('woff2');
+}
+
+// font-face declaration for custom icon font which is defining the font-family and the source of the font files
+@font-face {
+    font-family: 'my-icons';
+    src:
+        url('/assets/fonts/Icons/app-icons.woff') format('woff'),
+        url('/assets/fonts/Icons/app-icons.ttf') format('truetype');
+}
