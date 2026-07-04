@@ -25,7 +25,7 @@ function handleActionBtns() {
     const actions = document.querySelector('.header__actions');
     const navMenu = document.querySelector('.header__nav');
     const container = document.querySelector('.header__container');
-    const mobile = window.matchMedia('(max-width: 828px)');
+    const mobile = window.matchMedia('(max-width: 760px)');
 
     /**
      * Move or restore the action buttons for the current screen size.
