@@ -5,6 +5,11 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/src/styles/main.scss" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+            \
+        />
     </head>
 
     <body>
@@ -202,6 +207,40 @@
                         </div>
                     </div>
                 </section>
+                <section class="testimonials">
+                    <div class="testimonials__container">
+                        <h2 class="section-subtitle testimonials__subtitle">
+                            TESTIMONIALS
+                        </h2>
+                        <h3 class="section-title testimonials__title">
+                            Trust our clients
+                        </h3>
+                        <div class="swiper testimonials__slider">
+                            <button
+                                type="button"
+                                class="testimonials__nav-btn testimonials__nav-btn--prev"
+                                aria-label="Previous testimonial"
+                            >
+                                <i class="ic-arrow-left" aria-hidden="true"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="testimonials__nav-btn testimonials__nav-btn--next"
+                                aria-label="Next testimonial"
+                            >
+                                <i class="ic-arrow-right" aria-hidden="true">
+                                </i>
+                            </button>
+                            <div
+                                class="swiper-wrapper"
+                                id="testimonial-wrapper"
+                            ></div>
+                            <div
+                                class="swiper-pagination testimonials__pagination"
+                            ></div>
+                        </div>
+                    </div>
+                </section>
             </main>
         </div>
         <template id="stat-card-template">
@@ -211,5 +250,6 @@
             </div>
         </template>
         <script type="module" src="./src/script/index.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
     </body>
 </html>
