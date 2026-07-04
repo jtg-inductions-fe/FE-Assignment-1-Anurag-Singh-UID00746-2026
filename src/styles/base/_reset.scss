@@ -1,3 +1,9 @@
+/*
+   File: src/styles/base/_reset.scss
+   Purpose: CSS reset to normalize default browser styles
+   Notes: Keep reset minimal to avoid unintended overrides
+*/
+
 // Reset styles for all elements to ensure consistent styling across different browsers
 *,
 *::before,

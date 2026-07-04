@@ -1,35 +1,34 @@
 @font-face {
-  font-family: "Inter";
-  src: url("/assets/fonts/inter/Inter-Regular.woff2") format("woff2");
+    font-family: 'Inter';
+    src: url('/assets/fonts/inter/Inter-Regular.woff2') format('woff2');
 }
+
 @font-face {
-  font-family: "Roboto";
-  src: url("/assets/fonts/roboto/Roboto-Regular.woff2") format("woff2");
-}
-@font-face {
-  font-family: my-icons;
-  src: url("/assets/fonts/icons/app-icons.woff") format("woff"), url("/assets/fonts/icons/app-icons.ttf") format("truetype");
+    font-family: my-icons;
+    src:
+        url('/assets/fonts/icons/app-icons.woff') format('woff'),
+        url('/assets/fonts/icons/app-icons.ttf') format('truetype');
 }
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 html {
-  font-size: 62.5%;
+    font-size: 62.5%;
 }
 
 img,
 svg {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 input,
 button {
-  font: inherit;
+    font: inherit;
 }
 
 p,
@@ -39,11 +38,11 @@ h3,
 h4,
 h5,
 h6 {
-  overflow-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 p {
-  text-wrap: pretty;
+    text-wrap: pretty;
 }
 
 h1,
@@ -52,11 +51,11 @@ h3,
 h4,
 h5,
 h6 {
-  text-wrap: balance;
+    text-wrap: balance;
 }
 
 body {
-  font-family: Inter, sans-serif;
-  font-weight: 400;
-  color: #666666;
-}/*# sourceMappingURL=main.css.map */
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    color: #666666;
+} /*# sourceMappingURL=main.css.map */

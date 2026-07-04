@@ -1,3 +1,9 @@
+/* 
+    File: src/styles/abstracts/_mixins.scss
+    Purpose: Collection of reusable mixins (flex, grid, container, responsive)
+    Notes: Use these mixins across components for consistent layout utilities
+*/
+
 @use 'variables' as *;
 
 // Mixin for Flexbox layout with customizable properties for justify-content, align-items, flex-direction, and flex-wrap
@@ -12,7 +18,7 @@
 @mixin grid($columns: 2, $gap: 10px) {
     display: grid;
     grid-template-columns: repeat($columns, 1fr);
-    grid-gap: $gap;
+    gap: $gap;
 }
 
 // Mixin for setting the width and height of an element with customizable properties for width and height
@@ -48,15 +54,15 @@
 // Mixin for responsive design, allowing the application of different styles based on specified breakpoints (mobile, tablet, desktop)
 @mixin respond-to($breakpoint) {
     @if $breakpoint == mobile {
-        @media (max-width: breakpoint-mobile) {
+        @media (max-width: breakpoint-sm) {
             @content;
         }
     } @else if $breakpoint == tablet {
-        @media (max-width: breakpoint-tablet) {
+        @media (max-width: breakpoint-md) {
             @content;
         }
     } @else if $breakpoint == desktop {
-        @media (min-width: breakpoint-desktop) {
+        @media (min-width: breakpoint-lg) {
             @content;
         }
     }
