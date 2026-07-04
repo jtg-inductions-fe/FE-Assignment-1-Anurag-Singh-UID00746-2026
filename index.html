@@ -1,12 +1,31 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Travlog</title>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    </head>
-    <body>
-        <i class="ic-hero-explore"></i>
-        <script type="module" src="./src/script/index.js"></script>
-    </body>
+
+<head>
+    <title>Travlog</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="header__container">
+            <a href="/" class="header__logo">
+                <img src="./public/assets/images/logo-header.svg" alt="Travlog Logo" />
+            </a>
+            <button class="header__toggle">
+                <i class="ic-hamburger-menu"></i>
+            </button>
+            <nav class="header__nav" id="header-nav">
+                <ul class="header__menu"></ul>
+            </nav>
+            <div class="header__actions">
+                <a href="#" class="header-btn header__btn--login">Login</a>
+                <a href="#" class="header-btn header__btn--signup">Sign Up</a>
+            </div>
+        </div>
+    </header>
+    <script type="module" src="./src/script/index.js"></script>
+</body>
+
 </html>

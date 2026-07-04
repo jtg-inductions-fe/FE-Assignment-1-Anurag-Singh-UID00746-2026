@@ -4,6 +4,8 @@
    Notes: Loaded early to ensure fonts and foundational settings are available
 */
 
+@use '../abstracts/variables' as *;
+
 // Inter font (regular)
 @font-face {
     font-family: 'Inter';
@@ -27,14 +29,20 @@
     font-weight: normal;
     font-style: normal;
     line-height: 1;
+    color: $color-purple;
     // remove the extra space below the icon
     display: inline-block;
     // allow the icon to be treated like text
-    vertical-align: middle;
+    // vertical-align: middle;
     -webkit-font-smoothing: antialiased;
     // Chrome and Safari
     -moz-osx-font-smoothing: grayscale;
     // Firefox
+}
+
+.ic-hamburger-menu::before {
+    content: '\e90b';
+    font-size: 4rem;
 }
 
 .ic-hero-explore::before {
