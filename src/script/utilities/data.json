@@ -1,0 +1,24 @@
+{
+    "navigation": [
+        {
+            "text": "Home",
+            "url": "#",
+            "isActive": true
+        },
+        {
+            "text": "Discover",
+            "url": "#",
+            "isActive": false
+        },
+        {
+            "text": "Special Deals",
+            "url": "#",
+            "isActive": false
+        },
+        {
+            "text": "Contact",
+            "url": "#",
+            "isActive": false
+        }
+    ]
+}
