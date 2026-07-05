@@ -41,7 +41,7 @@
 // Mixin for responsive design, allowing the application of different styles based on specified breakpoints (mobile, tablet, desktop)
 @mixin respond-to($breakpoint) {
     @if $breakpoint == mobile {
-        @media (max-width: $breakpoint-sm) {
+        @media (max-width: #{$breakpoint-sm - 1px}) {
             @content;
         }
     } @else if $breakpoint == tablet {
