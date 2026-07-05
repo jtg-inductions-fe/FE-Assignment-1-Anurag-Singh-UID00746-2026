@@ -1,14 +1,8 @@
 import navLinks from './utilities/data.json';
 
-/**
- * Initialize page behavior when the DOM is fully loaded.
- * @returns {void}
- */
-document.addEventListener('DOMContentLoaded', () => {
-    renderNavigation();
-    toggleNavigation();
-    handleActionBtns();
-});
+renderNavigation();
+toggleNavigation();
+handleActionBtns();
 
 /**
  * Render the site navigation menu from JSON data.
@@ -60,28 +54,19 @@ function handleActionBtns() {
      * @returns {void}
      */
     function relocate(e) {
-
         if (e.matches) {
-
             if (navMenu && actions) {
                 navMenu.appendChild(actions);
                 actions.classList.add('header__actions--drawer-mobile');
             }
-
-        } 
-        
-        else {
-
+        } else {
             if (container && actions) {
                 container.appendChild(actions);
                 actions.classList.remove('header__actions--drawer-mobile');
             }
-
         }
-
     }
 
     mobile.addEventListener('change', relocate);
     relocate(mobile);
-
 }
