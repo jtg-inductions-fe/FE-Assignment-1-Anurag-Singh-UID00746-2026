@@ -10,23 +10,54 @@
     <body>
         <header class="header">
             <div class="header__container">
-                <a href="/" class="header__logo">
+                <a href="/" class="header__logo" aria-label="Travlog Homepage">
                     <img
                         src="/assets/images/logo-header.svg"
                         alt="Travlog Logo"
                     />
                 </a>
-                <button type="button" class="header__toggle">
-                    <i class="ic-hamburger-menu"></i>
+                <button
+                    type="button"
+                    class="header__toggle"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded="false"
+                    aria-controls="header-nav"
+                >
+                    <i class="ic-hamburger-menu" aria-hidden="true"></i>
                 </button>
-                <nav class="header__nav" id="header-nav">
-                    <ul class="header__menu"></ul>
+                <nav
+                    class="header__nav"
+                    id="header-nav"
+                    aria-label="Main navigation"
+                >
+                    <ul class="header__menu">
+                        <li>
+                            <a
+                                href="#"
+                                class="header__link header__link--active"
+                                aria-current="page"
+                            >
+                                Home
+                            </a>
+                        </li>
+                        <li><a href="#" class="header__link">Discover</a></li>
+                        <li>
+                            <a href="#" class="header__link">Special Deals</a>
+                        </li>
+                        <li><a href="#" class="header__link">Contact</a></li>
+                    </ul>
                 </nav>
                 <div class="header__actions">
-                    <a href="#" class="header-btn header__btn--login">Login</a>
-                    <a href="#" class="header-btn header__btn--signup"
-                        >Sign Up</a
+                    <a href="#" class="header__login" aria-label="Login Button">
+                        Login
+                    </a>
+                    <a
+                        href="#"
+                        class="header__signup"
+                        aria-label="Signup button"
                     >
+                        Sign Up
+                    </a>
                 </div>
             </div>
         </header>

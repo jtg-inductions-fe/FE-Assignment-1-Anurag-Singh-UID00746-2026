@@ -1,28 +1,5 @@
-import navLinks from './utilities/data.json';
-
-renderNavigation();
 toggleNavigation();
 handleActionBtns();
-
-/**
- * Render the site navigation menu from JSON data.
- * @returns {void}
- */
-function renderNavigation() {
-    const menuList = document.querySelector('.header__menu');
-
-    navLinks.navigation.forEach((link) => {
-        const listItem = document.createElement('li');
-        let linkClass = 'header__link';
-
-        if (link.isActive) {
-            linkClass = linkClass + ' header__link--active';
-        }
-
-        listItem.innerHTML = `<a href="${link.url}" class="${linkClass}">${link.text}</a>`;
-        menuList.appendChild(listItem);
-    });
-}
 
 /**
  * Attach a click listener to the mobile menu toggle button.
@@ -33,6 +10,9 @@ function toggleNavigation() {
     const navMenu = document.querySelector('.header__nav');
 
     toggleButton.addEventListener('click', () => {
+        const isExpanded =
+            toggleButton.getAttribute('aria-expanded') === 'true';
+        toggleButton.setAttribute('aria-expanded', !isExpanded);
         toggleButton.classList.toggle('header__toggle--active');
         navMenu.classList.toggle('header__nav--active');
     });
@@ -46,7 +26,7 @@ function handleActionBtns() {
     const actions = document.querySelector('.header__actions');
     const navMenu = document.querySelector('.header__nav');
     const container = document.querySelector('.header__container');
-    const mobile = window.matchMedia('(max-width: 760px)');
+    const mobile = window.matchMedia('(max-width: 430px)');
 
     /**
      * Move or restore the action buttons for the current screen size.
