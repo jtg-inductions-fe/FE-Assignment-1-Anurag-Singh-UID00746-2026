@@ -1,0 +1,31 @@
+/* 
+	File: src/styles/abstracts/_variables.scss
+	Purpose: Project-wide SASS variables (colors, breakpoints, button colors)
+	Notes: Import this before components that rely on consistent tokens
+*/
+
+// Base Colors
+$color-black: #000000;
+$color-gray-dark: #666666;
+$color-gray-light: #eeeeee;
+$color-pink: #f85e9f;
+$color-purple: #5d50c6;
+
+// Breakpoints for responsive design
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+
+// Brand Application
+$color-brand-primary: $color-black;
+$color-brand-secondary: $color-gray-dark;
+$color-brand-accent: $color-pink;
+
+// Component Tokens: Buttons
+$color-btn-primary: $color-purple;
+$color-btn-secondary: $color-gray-light;
+
+// Media Query / Breakpoint Aliases
+$breakpoint-sm: $breakpoint-mobile;
+$breakpoint-md: $breakpoint-tablet;
+$breakpoint-lg: $breakpoint-desktop;

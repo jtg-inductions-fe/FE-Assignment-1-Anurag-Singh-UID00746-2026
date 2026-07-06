@@ -1,1 +1,11 @@
-// TODO: Add styles as per the requirement
+/* ==========================================================================
+	File: src/styles/main.scss
+	Purpose: Primary stylesheet that imports variables, mixins, and base styles
+	Notes: Central entrypoint for SCSS compilation
+	========================================================================== */
+
+@use 'abstracts/variables' as *;
+@use 'abstracts/mixins' as *;
+@use 'base/base' as *;
+@use 'base/reset' as *;
+@use 'base/typography' as *;
