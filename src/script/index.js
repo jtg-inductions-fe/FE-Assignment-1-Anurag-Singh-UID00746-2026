@@ -1,33 +1,8 @@
 const toggleButton = document.getElementById('header__toggle');
 const navMenu = document.querySelector('.header__nav');
 
-<<<<<<< HEAD
 if (toggleButton && navMenu) {
     toggleButton.addEventListener('click', toggleNavigation);
-=======
-renderNavigation();
-toggleNavigation();
-handleActionBtns();
-
-/**
- * Render the site navigation menu from JSON data.
- * @returns {void}
- */
-function renderNavigation() {
-    const menuList = document.querySelector('.header__menu');
-
-    navLinks.navigation.forEach((link) => {
-        const listItem = document.createElement('li');
-        let linkClass = 'header__link';
-
-        if (link.isActive) {
-            linkClass = linkClass + ' header__link--active';
-        }
-
-        listItem.innerHTML = `<a href="${link.url}" class="${linkClass}">${link.text}</a>`;
-        menuList.appendChild(listItem);
-    });
->>>>>>> e165092 ([AS_A1_02]: Completed navbar with responsiveness)
 }
 
 handleActionBtns();
