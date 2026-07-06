@@ -68,5 +68,6 @@ function handleActionBtns() {
     }
 
     mobile.addEventListener('change', relocate);
+    // Run once on initial page load to set the correct layout immediately
     relocate(mobile);
 }
