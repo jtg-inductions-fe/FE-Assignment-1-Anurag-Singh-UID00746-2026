@@ -1,0 +1,37 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../base/base' as *;
+@use '../base/reset' as *;
+@use '../base/typography' as *;
+
+.badge {
+    @include flex(center, center, row);
+    position: absolute;
+    border-radius: 50%;
+    width: fit-content;
+    padding: 1rem;
+    z-index: 4;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
+
+    &--primary {
+        background-color: $color-brand-accent;
+        top: 13.7em;
+        right: 12.5em;
+
+        // @include respond-to(tablet) {
+        //     top: 27rem;
+        //     right: 24rem;
+        // }
+    }
+
+    &--secondary {
+        background-color: $color-brand-accent-orange;
+        left: 6em;
+        top: 37em;
+
+        // @include respond-to(tablet) {
+        //     top: 46rem;
+        //     left: 10rem;
+        // }
+    }
+}
