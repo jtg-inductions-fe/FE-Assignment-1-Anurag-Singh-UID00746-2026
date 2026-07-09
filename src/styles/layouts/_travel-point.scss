@@ -1,0 +1,132 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../base/base' as *;
+@use '../base/reset' as *;
+@use '../base/typography' as *;
+
+.travel-point {
+    @include flex(center, center, column);
+
+    &__container {
+        @include flex(center, center, column);
+        // height: 400px;
+        width: 100%;
+        // background: gray;
+        margin-top: 8rem;
+
+        @include respond-to(tablet) {
+            margin-top: 12rem;
+        }
+
+        @include respond-to(desktop) {
+            @include flex(start, center, row);
+        }
+    }
+
+    &__visual {
+        height: 100%;
+        width: 100%;
+        // background: blue;
+    }
+
+    &__content {
+        width: 100%;
+        height: 100%;
+        // background: red;
+        // box-sizing: border-box;
+        margin: 0 auto;
+        padding: 4rem 0;
+        // box-sizing: border-box;
+        text-align: center;
+
+        @include respond-to(desktop) {
+            padding-right: 6rem;
+            text-align: start;
+            // max-width: 50rem;
+            width: 100%;
+            // padding: 0 12rem;
+        }
+    }
+
+    &__header {
+        margin-bottom: 4rem;
+        @include respond-to(desktop) {
+            max-width: clamp(50rem, 55.5vw, 100rem);
+            width: 100%;
+        }
+    }
+
+    &__description {
+        color: $color-brand-secondary;
+        font-size: $text-size-subheading;
+        line-height: 1.6;
+        max-width: 35rem;
+        margin: 0 auto;
+        // background: red;
+
+        @include respond-to(desktop) {
+            margin: 0;
+            font-size: 1.8rem;
+            max-width: clamp(50rem, 55.5vw, 80rem);
+            width: 100%;
+        }
+
+        @include respond-to(tablet) {
+            max-width: 78rem;
+            width: 100%;
+        }
+    }
+
+    &__stats {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.5rem;
+        width: 100%;
+        margin-top: 4rem;
+        padding: 0 4rem;
+
+        @include respond-to(tablet) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 3.2rem;
+            padding: 0 12rem;
+        }
+
+        @include respond-to(desktop) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            // max-width: 70rem;
+            // width: 50rem;
+            // padding-right: 6rem;
+            // max-width: clamp(40rem, 55.5vw, 100rem);
+            max-width: 62rem;
+            padding: 0;
+        }
+    }
+
+    &__card {
+        @include flex(center, center, column);
+        border: $border-accent;
+        border-radius: 3.2rem;
+        padding: 4rem 2.4rem;
+        gap: 2rem;
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+
+        &:hover {
+            transform: translateY(-0.4rem);
+            box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.05);
+        }
+    }
+
+    &__card-number {
+        font-size: $text-size-numeric-data;
+        font-weight: $font-weight-heading;
+        color: $color-brand-accent-secondary;
+    }
+
+    &__card-label {
+        color: $color-brand-accent-tertiary;
+        font-size: 1.8rem;
+        margin: 0;
+    }
+}

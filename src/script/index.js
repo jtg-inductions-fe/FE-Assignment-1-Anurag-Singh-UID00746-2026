@@ -34,7 +34,7 @@ function handleActionBtns() {
     const actions = document.querySelector('.header__actions');
     const navMenu = document.querySelector('.header__nav');
     const container = document.querySelector('.header__container');
-    const mobile = window.matchMedia('(max-width: 828px)');
+    const mobile = window.matchMedia('(max-width: 430px)');
 
     /**
      * Move or restore the action buttons for the current screen size.
@@ -58,4 +58,39 @@ function handleActionBtns() {
     mobile.addEventListener('change', relocate);
     // Run once on initial page load to set the correct layout immediately
     relocate(mobile);
+}
+
+async function renderStatsIntoContent() {
+    const contentContainer = document.querySelector('.travel-point__stats');
+
+    if (!contentContainer) {
+        console.error('travel-point stats container not found');
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            new URL('./utilities/data.json', import.meta.url),
+        );
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const statsList = data['travel-point'].stats;
+
+        contentContainer.innerHTML = statsList
+            .map(
+                (stat) => `
+            <div class="travel-point__card">
+                <span class="travel-point__card-number">${stat.number}</span>
+                <p class="travel-point__card-label">${stat.label}</p>
+            </div>
+        `,
+            )
+            .join('');
+    } catch (error) {
+        console.error('Error fetching or parsing data.json:', error);
+    }
 }
