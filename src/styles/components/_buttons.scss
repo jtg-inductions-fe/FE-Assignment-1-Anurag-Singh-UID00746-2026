@@ -35,4 +35,39 @@
         color: $color-brand-primary;
         border: $border-accent;
     }
+
+    &--tertiary {
+        padding: 1.5rem 3rem;
+        background-color: $color-btn-primary;
+        color: $color-btn-secondary;
+        width: 100%;
+        box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.08);
+        border: none;
+
+        @include respond-to(tablet) {
+            width: fit-content;
+        }
+
+        @include respond-to(desktop) {
+            width: fit-content;
+        }
+    }
+
+    &--accent {
+        @include flex(center, center, center);
+        gap: 1rem;
+        padding: 1.5rem 3rem;
+        background-color: $color-btn-secondary;
+        color: $color-brand-primary;
+        width: 100%;
+        border: $border-accent;
+
+        @include respond-to(tablet) {
+            width: fit-content;
+        }
+
+        @include respond-to(desktop) {
+            width: fit-content;
+        }
+    }
 }
