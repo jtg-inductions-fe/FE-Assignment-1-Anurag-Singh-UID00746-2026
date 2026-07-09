@@ -1,7 +1,7 @@
-/* 
-	File: src/styles/main.scss
-	Purpose: Primary stylesheet that imports variables, mixins, and base styles
-	Notes: Central entrypoint for SCSS compilation
+/*
+    File: src/styles/layouts/_header.scss
+    Purpose: Styles for the site header, navigation, toggle button, and action controls
+    Notes: Includes responsive layout behavior for mobile and desktop views
 */
 
 @use '../abstracts/mixins' as *;
@@ -12,20 +12,16 @@
 
 .header {
     @include flex(center, center, row);
-    padding: 2rem 1rem;
-
-    @include respond-to(tablet) {
-        padding: 3rem;
-    }
+    padding: 3.8rem 1.5rem 1.7rem 1.5rem;
 
     @include respond-to(desktop) {
-        padding: 4rem 1rem;
+        padding: 6.5rem 13.5rem;
     }
 
     &__container {
         @include flex(space-between, center, row);
         width: 100%;
-        max-width: 150rem;
+        max-width: 120rem;
         position: relative;
     }
 
@@ -54,7 +50,7 @@
         order: 1;
 
         @include respond-to(tablet) {
-            margin-left: 8rem;
+            margin-left: 10rem;
         }
     }
 
@@ -71,7 +67,9 @@
         margin: 0;
         transform: translateY(100%);
         transition: transform 0.35s ease;
-        background: linear-gradient(to bottom, #fff6f0 0%, #ffffff 100%);
+        background: $gradient-bg-soft;
+        z-index: 1000;
+        background: $gradient-bg-soft;
         border-top: 2px solid #ffebe0;
 
         &--active {
@@ -134,15 +132,5 @@
             align-items: center;
             margin-top: 2rem;
         }
-    }
-
-    &__login {
-        @include button(transparent, 2, 2, 10);
-        color: $color-brand-primary;
-    }
-
-    &__signup {
-        @include button($color-btn-primary, 3, 2, 10);
-        color: $color-btn-secondary;
     }
 }

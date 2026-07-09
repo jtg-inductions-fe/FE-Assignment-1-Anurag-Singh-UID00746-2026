@@ -6,19 +6,30 @@
 
 // Base Colors
 $color-black: #000000;
+$color-black-accent: #191825;
 $color-gray-dark: #666666;
-$color-gray-light: #eeeeee;
+$color-gray-light: #ffffff;
 $color-pink: #f85e9f;
+$color-orange: #ff5722;
 $color-purple: #5d50c6;
+$color-peach-light: #fff6f0;
+$color-white: #ffffff;
+$color-peach-dark: rgba(255, 203, 192, 0.4);
+$color-peach-base: rgba(255, 219, 211, 0.85);
+$color-peach-mid: rgba(255, 235, 230, 0.5);
+$color-peach-glow: rgba(255, 246, 243, 0.2);
+$color-transparent: rgba(255, 255, 255, 0);
 
 // Breakpoints for responsive design
-$breakpoint-small: 430px;
+$breakpoint-small: 431px;
 $breakpoint-large: 1025px;
 
 // Brand Application
 $color-brand-primary: $color-black;
 $color-brand-secondary: $color-gray-dark;
 $color-brand-accent: $color-pink;
+$color-brand-accent-secondary: $color-orange;
+$color-brand-accent-tertiary: $color-black-accent;
 
 // Component Tokens: Buttons
 $color-btn-primary: $color-purple;
@@ -27,3 +38,11 @@ $color-btn-secondary: $color-gray-light;
 // Media Query / Breakpoint Aliases
 $breakpoint-sm: $breakpoint-small;
 $breakpoint-lg: $breakpoint-large;
+
+$gradient-bg-soft: linear-gradient(
+    to bottom,
+    $color-peach-light 0%,
+    $color-white 100%
+);
+
+$border-accent: 1px solid rgb(236, 234, 234);
