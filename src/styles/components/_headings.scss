@@ -11,6 +11,10 @@
     @include respond-to(tablet) {
         font-size: $text-size-medium;
     }
+
+    @include respond-to(desktop) {
+        font-size: $text-size-medium;
+    }
 }
 
 .section-title {
@@ -18,5 +22,9 @@
 
     @include respond-to(tablet) {
         font-size: $text-size-testimonial;
+    }
+
+    @include respond-to(desktop) {
+        font-size: 4.4rem;
     }
 }
