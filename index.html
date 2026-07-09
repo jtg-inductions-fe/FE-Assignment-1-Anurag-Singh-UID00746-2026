@@ -16,76 +16,153 @@
                         alt="Travlog Logo"
                     />
                 </a>
-                <a href="#" class="btn btn--primary" aria-label="Signup button">
-                    Sign Up
-                </a>
-            </div>
-        </div>
-    </header>
-    <main>
-        <section class="hero">
-            <div class="hero__container">
-                <div class="hero__visuals">
-                    <img src="assets/images/hero-visual.webp" />
+                <button
+                    type="button"
+                    class="header__toggle"
+                    id="header__toggle"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded="false"
+                    aria-controls="header-nav"
+                >
+                    <i class="ic-hamburger-menu" aria-hidden="true"></i>
+                </button>
+                <nav
+                    class="header__nav"
+                    id="header-nav"
+                    aria-label="Main navigation"
+                >
+                    <ul class="header__menu">
+                        <li>
+                            <a
+                                href="#"
+                                class="header__link header__link--active"
+                                aria-current="page"
+                            >
+                                Home
+                            </a>
+                        </li>
+                        <li><a href="#" class="header__link">Discover</a></li>
+                        <li>
+                            <a href="#" class="header__link">Special Deals</a>
+                        </li>
+                        <li><a href="#" class="header__link">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="header__actions">
+                    <a
+                        href="#"
+                        class="btn btn--secondary"
+                        aria-label="Login Button"
+                    >
+                        Log In
+                    </a>
+                    <a
+                        href="#"
+                        class="btn btn--primary"
+                        aria-label="Signup button"
+                    >
+                        Sign Up
+                    </a>
                 </div>
-                <div class="hero__content">
-                    <div class="hero__eyebrow">
-                        <i class="ic-hero-explore"></i>
-                        <span class="hero__eyebrow-text">
-                            Explore the world!
-                        </span>
+            </div>
+        </header>
+        <main>
+            <section class="hero">
+                <div class="hero__container">
+                    <div class="hero__visuals">
+                        <img src="assets/images/hero-visual.webp" />
                     </div>
+                    <div class="hero__content">
+                        <div class="hero__eyebrow">
+                            <i class="ic-hero-explore"></i>
+                            <span class="hero__eyebrow-text">
+                                Explore the world!
+                            </span>
+                        </div>
 
-                    <h1 class="hero__title">
-                        Travel
-                        <span class="hero__title--highlight">top <br> destination</span>
-                        of the world
-                    </h1>
+                        <h1 class="hero__title">
+                            Travel
+                            <span class="hero__title--highlight">
+                                top <br />
+                                destination
+                            </span>
+                            of the world
+                        </h1>
 
-                    <p class="hero__description">
-                        We always make our customer happy by providing as many
-                        choices as possible
-                    </p>
-
-                    <div class="hero__actions">
-                        <button class="btn btn--primary">
-                            Get Started
-                        </button>
-                        <button class="btn btn--secondary">
-                            <i class="ic-hero-play"></i>
-                            Watch Demo
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="hero__partners">
-                <img src="/assets/images/logo-tripadvisor.svg" alt="Tripadvisor Logo" class="hero__partner-logo">
-                <img src="/assets/images/logo-expedia.svg" alt="Expedia Logo" class="hero__partner-logo">
-                <img src="/assets/images/logo-booking.svg" alt="Booking.com Logo" class="hero__partner-logo">
-                <img src="/assets/images/logo-airbnb.svg" alt="Airbnb Logo" class="hero__partner-logo">
-                <img src="/assets/images/logo-orbitz.svg" alt="Orbitz Logo" class="hero__partner-logo">
-            </div>
-        </section>
-        <section class="travel-point">
-            <div class="travel-point__container">
-                <div class="travel-point__visual">
-                    <img src="/assets/images/img-traveler.webp" alt="Traveler Image">
-                </div>
-                <div class="travel-point__content">
-                    <div class="travel-point__header">
-                        <span class="section-subtitle">TRAVEL POINT</span>
-                        <h2 class="section-title">We helping you find your dream location</h2>
-                        <p class="travel-point__description">
-                            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
-                            piece of classical Latin literature from 45 BC.
+                        <p class="hero__description">
+                            We always make our customer happy by providing as
+                            many choices as possible
                         </p>
-                    </div>
-                    <div class="travel-point__stats"></div>
-                </div>
-            </div>
-        </section>
-    </main>
-    <script type="module" src="./src/script/index.js"></script>
-</body>
 
+                        <div class="hero__actions">
+                            <button class="btn btn--primary">
+                                Get Started
+                            </button>
+                            <button class="btn btn--secondary">
+                                <i class="ic-hero-play"></i>
+                                Watch Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero__partners">
+                    <img
+                        src="/assets/images/logo-tripadvisor.svg"
+                        alt="Tripadvisor Logo"
+                        class="hero__partner-logo"
+                    />
+                    <img
+                        src="/assets/images/logo-expedia.svg"
+                        alt="Expedia Logo"
+                        class="hero__partner-logo"
+                    />
+                    <img
+                        src="/assets/images/logo-booking.svg"
+                        alt="Booking.com Logo"
+                        class="hero__partner-logo"
+                    />
+                    <img
+                        src="/assets/images/logo-airbnb.svg"
+                        alt="Airbnb Logo"
+                        class="hero__partner-logo"
+                    />
+                    <img
+                        src="/assets/images/logo-orbitz.svg"
+                        alt="Orbitz Logo"
+                        class="hero__partner-logo"
+                    />
+                </div>
+            </section>
+            <section class="travel-point">
+                <div class="travel-point__container">
+                    <div class="travel-point__visual">
+                        <img
+                            src="/assets/images/img-traveler.webp"
+                            alt="Traveler Image"
+                        />
+                    </div>
+                    <div class="travel-point__content">
+                        <div class="travel-point__wrapper">
+                            <div class="travel-point__header">
+                                <span class="section-subtitle">
+                                    TRAVEL POINT
+                                </span>
+                                <h2 class="section-title">
+                                    We helping you find your dream location
+                                </h2>
+                                <p class="travel-point__description">
+                                    Contrary to popular belief, Lorem Ipsum is
+                                    not simply random text. It has roots in a
+                                    piece of classical Latin literature from 45
+                                    BC.
+                                </p>
+                            </div>
+                            <div class="travel-point__stats"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <script type="module" src="./src/script/index.js"></script>
+    </body>
 </html>
