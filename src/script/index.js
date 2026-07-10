@@ -1,23 +1,20 @@
-import '../styles/main.scss';
+const toggleButton = document.getElementById('header__toggle');
+const navMenu = document.querySelector('.header__nav');
 
-toggleNavigation();
+if (toggleButton && navMenu) {
+    toggleButton.addEventListener('click', toggleNavigation);
+}
+
 handleActionBtns();
 
 /**
- * Attach a click listener to the mobile menu toggle button.
- * @returns {void}
+ * Toggle the mobile navigation menu open and closed state.
  */
 function toggleNavigation() {
-    const toggleButton = document.querySelector('.header__toggle');
-    const navMenu = document.querySelector('.header__nav');
-
-    toggleButton.addEventListener('click', () => {
-        const isExpanded =
-            toggleButton.getAttribute('aria-expanded') === 'true';
-        toggleButton.setAttribute('aria-expanded', !isExpanded);
-        toggleButton.classList.toggle('header__toggle--active');
-        navMenu.classList.toggle('header__nav--active');
-    });
+    const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+    toggleButton.setAttribute('aria-expanded', !isExpanded);
+    toggleButton.classList.toggle('header__toggle--active');
+    navMenu.classList.toggle('header__nav--active');
 }
 
 /**
@@ -28,7 +25,7 @@ function handleActionBtns() {
     const actions = document.querySelector('.header__actions');
     const navMenu = document.querySelector('.header__nav');
     const container = document.querySelector('.header__container');
-    const mobile = window.matchMedia('(max-width: 430px)');
+    const mobile = window.matchMedia('(max-width: 828px)');
 
     /**
      * Move or restore the action buttons for the current screen size.

@@ -5,19 +5,21 @@
 */
 
 @use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 /* Font Weights */
 $font-light: 300;
 $font-regular: 400;
 $font-bold: 700;
 
-// Font Size Scale (Structured from small to large)
+// Font Size Scale (Structured from extra small to large)
+$font-xs: 0.7rem;
 $font-sm: 1.4rem;
-$font-md: 1.8rem;
+$font-md: 1.6rem;
 $font-lg: 2.3rem;
 $font-xl: 2.8rem;
-$font-2xl: 3.5rem;
-$font-3xl: 4.4rem;
+$font-2xl: 3.2rem;
+$font-3xl: 4rem;
 $font-4xl: 6.9rem;
 
 // Semantic Font Weights
@@ -29,14 +31,40 @@ $font-weight-heading: $font-bold;
 $text-size-heading: $font-4xl;
 $text-size-subheading: $font-md;
 $text-size-small: $font-sm;
+$text-size-extra-small: $font-xs;
 $text-size-medium: $font-lg;
 $text-size-numeric-data: $font-2xl;
 $text-size-testimonial: $font-3xl;
 $text-size-testimonial-name: $font-xl;
 
-// Set the font sizes for headings and body text
 body {
     font-family: Inter, sans-serif;
     font-weight: $font-weight-body;
     color: $color-brand-secondary;
+}
+
+.text-subtitle {
+    color: $color-brand-accent;
+    font-size: $text-size-subheading;
+    text-transform: uppercase;
+    font-weight: $font-weight-heading;
+    letter-spacing: 0.4rem;
+}
+
+.text-title-large {
+    color: $color-brand-primary;
+    font-size: $text-size-numeric-data;
+    font-weight: $font-weight-heading;
+}
+
+.break-line {
+    display: block;
+
+    @include respond-to(tablet) {
+        display: inline;
+    }
+
+    @include respond-to(desktop) {
+        display: inline;
+    }
 }

@@ -1,9 +1,10 @@
 @use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 @use '../base/typography' as *;
 
 // font-face declaration for custom icon font which defines the font-family and the source of the font files
 @font-face {
-    font-family: 'my-app-icons';
+    font-family: my-app-icons;
     src:
         url('/assets/fonts/icons/app-icons.woff') format('woff'),
         url('/assets/fonts/icons/app-icons.ttf') format('truetype');
@@ -11,18 +12,22 @@
 
 [class^='ic-'],
 [class*=' ic-'] {
-    font-family: 'my-app-icons';
+    font-family: my-app-icons;
     font-weight: normal;
     font-style: normal;
     line-height: 1;
     color: $color-purple;
+
     // remove the extra space below the icon
     display: inline-block;
+
     // allow the icon to be treated like text
     // vertical-align: middle;
     -webkit-font-smoothing: antialiased;
+
     // Chrome and Safari
     -moz-osx-font-smoothing: grayscale;
+
     // Firefox
 }
 
@@ -31,16 +36,38 @@
     font-size: 4rem;
 }
 
+.ic-hero-play::before {
+    content: '\e90c';
+    font-size: 2rem;
+}
+
+.ic-play::before {
+    content: '\e90c';
+    font-size: 2.4rem;
+}
+
 .ic-hero-explore::before {
     content: '\e900';
+    font-size: 2rem;
+    color: $color-brand-accent;
 }
 
 .ic-hero-location::before {
     content: '\e901';
+    color: yellow;
+    font-size: 1.3rem;
+}
+
+.ic-location-pin::before {
+    content: '\e901';
+    color: $color-pink;
+    font-size: 1.3rem;
 }
 
 .ic-hero-paper-plane::before {
     content: '\e902';
+    color: white;
+    font-size: 1.4rem;
 }
 
 .ic-luggage-yellow::before {
@@ -73,4 +100,6 @@
 
 .ic-hero-add-user::before {
     content: '\e90a';
+    color: white;
+    font-size: 1.4rem;
 }
