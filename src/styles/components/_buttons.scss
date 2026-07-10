@@ -10,29 +10,22 @@
     font-weight: $font-weight-heading;
     white-space: nowrap;
     text-align: center;
-    padding: 1.5rem 3rem;
-    max-width: 100%;
-    width: 100%;
-
-    @include respond-to(tablet) {
-        width: fit-content;
-    }
-
-    @include respond-to(desktop) {
-        width: fit-content;
-    }
+    border: none;
+    cursor: pointer;
 
     &--primary {
+        padding: 1.5rem 3rem;
         background-color: $color-btn-primary;
         color: $color-btn-secondary;
-        border: none;
+
+        &:hover {
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.15);
+        }
     }
 
     &--secondary {
-        @include flex(center, center, center);
-        gap: 1rem;
-        background-color: $color-btn-secondary;
+        padding: 2rem 2.5rem;
+        background-color: transparent;
         color: $color-brand-primary;
-        border: $border-accent;
     }
 }
