@@ -1,5 +1,3 @@
-// import '../styles/main.scss';
-
 const toggleButton = document.getElementById('header__toggle');
 const navMenu = document.querySelector('.header__nav');
 
@@ -64,33 +62,28 @@ async function renderStatsIntoContent() {
     const contentContainer = document.querySelector('.travel-point__stats');
 
     if (!contentContainer) {
-        console.error('travel-point stats container not found');
         return;
     }
 
-    try {
-        const response = await fetch(
-            new URL('./utilities/data.json', import.meta.url),
-        );
+    const response = await fetch(
+        new URL('./utilities/data.json', import.meta.url),
+    );
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-        const data = await response.json();
-        const statsList = data['travel-point'].stats;
+    const data = await response.json();
+    const statsList = data['travel-point'].stats;
 
-        contentContainer.innerHTML = statsList
-            .map(
-                (stat) => `
+    contentContainer.innerHTML = statsList
+        .map(
+            (stat) => `
             <div class="travel-point__card">
-                <span class="travel-point__card-number">${stat.number}</span>
+                <span class="travel-point__card-number">${stat.value}</span>
                 <p class="travel-point__card-label">${stat.label}</p>
             </div>
         `,
-            )
-            .join('');
-    } catch (error) {
-        console.error('Error fetching or parsing data.json:', error);
-    }
+        )
+        .join('');
 }
