@@ -10,14 +10,20 @@
     font-weight: $font-weight-heading;
     white-space: nowrap;
     text-align: center;
+    border: none;
+    cursor: pointer;
 
-    &__primary {
+    &--primary {
         padding: 1.5rem 3rem;
         background-color: $color-btn-primary;
         color: $color-btn-secondary;
+
+        &:hover {
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.15);
+        }
     }
 
-    &__secondary {
+    &--secondary {
         padding: 2rem 2.5rem;
         background-color: transparent;
         color: $color-brand-primary;
