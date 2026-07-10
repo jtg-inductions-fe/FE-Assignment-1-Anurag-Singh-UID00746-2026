@@ -5,7 +5,6 @@
 */
 
 @use 'variables' as *;
-@use '../base/typography' as *;
 
 // Mixin for Flexbox layout with customizable properties for justify-content, align-items, flex-direction, and flex-wrap
 @mixin flex($justify: center, $align: center, $direction: row) {
