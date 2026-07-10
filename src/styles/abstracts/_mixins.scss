@@ -5,23 +5,6 @@
 */
 
 @use 'variables' as *;
-@use '../base/typography' as *;
-
-// Mixin for Button with customizable properties for color, padding and radius
-@mixin button(
-    $color: transparent,
-    $padding-x: 1,
-    $padding-y: 0.5,
-    $radius: 0.25
-) {
-    background-color: $color;
-    padding: #{$padding-y}rem #{$padding-x}rem;
-    border-radius: #{$radius}rem;
-    font-size: $text-size-small;
-    font-weight: $font-weight-heading;
-    white-space: nowrap;
-    text-align: center;
-}
 
 // Mixin for Flexbox layout with customizable properties for justify-content, align-items, flex-direction, and flex-wrap
 @mixin flex($justify: center, $align: center, $direction: row) {
@@ -36,21 +19,6 @@
     display: grid;
     grid-template-columns: repeat($columns, 1fr);
     gap: $gap;
-}
-
-// Mixin for setting the width and height of an element with customizable properties for width and height
-@mixin position(
-    $position,
-    $top: null,
-    $right: null,
-    $bottom: null,
-    $left: null
-) {
-    position: $position;
-    top: $top;
-    right: $right;
-    bottom: $bottom;
-    left: $left;
 }
 
 // Mixin for responsive design, allowing the application of different styles based on specified breakpoints (mobile, tablet, desktop)
@@ -68,4 +36,19 @@
             @content;
         }
     }
+}
+
+@mixin peach-glow($glow-width, $glow-height, $accent-width, $accent-height) {
+    background-image: radial-gradient(
+            ellipse $glow-width $glow-height at 0% 0%,
+            $color-peach-base 0%,
+            $color-peach-mid 45%,
+            $color-peach-glow 75%,
+            $color-transparent 100%
+        ),
+        radial-gradient(
+            ellipse $accent-width $accent-height at 0% 20%,
+            $color-peach-dark 0%,
+            $color-transparent 100%
+        );
 }

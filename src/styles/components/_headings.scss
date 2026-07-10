@@ -1,0 +1,14 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../base/base' as *;
+@use '../base/reset' as *;
+@use '../base/typography' as *;
+
+.section-subtitle {
+    display: block;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    margin-bottom: 3rem;
+}
