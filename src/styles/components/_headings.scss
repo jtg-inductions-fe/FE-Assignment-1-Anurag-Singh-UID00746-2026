@@ -5,10 +5,34 @@
 @use '../base/typography' as *;
 
 .section-subtitle {
+    color: $color-brand-accent;
+    font-size: $text-size-subheading;
+    font-weight: $font-weight-heading;
+    text-transform: uppercase;
+    letter-spacing: 0.4rem;
     display: block;
     margin-bottom: 2rem;
+
+    @include respond-to(tablet) {
+        font-size: $text-size-medium;
+    }
+
+    @include respond-to(desktop) {
+        font-size: $text-size-medium;
+    }
 }
 
 .section-title {
+    color: $color-brand-primary;
+    font-size: $text-size-numeric-data;
+    font-weight: $font-weight-heading;
     margin-bottom: 3rem;
+
+    @include respond-to(tablet) {
+        font-size: $text-size-testimonial;
+    }
+
+    @include respond-to(desktop) {
+        font-size: 4.4rem;
+    }
 }

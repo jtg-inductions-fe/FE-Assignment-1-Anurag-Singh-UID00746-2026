@@ -1,20 +1,27 @@
 const toggleButton = document.getElementById('header__toggle');
 const navMenu = document.querySelector('.header__nav');
 
-if (toggleButton && navMenu) {
-    toggleButton.addEventListener('click', toggleNavigation);
-}
-
+initializeNavigation();
 handleActionBtns();
+renderStatsIntoContent();
 
 /**
  * Toggle the mobile navigation menu open and closed state.
+ * @returns {void}
  */
 function toggleNavigation() {
     const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
     toggleButton.setAttribute('aria-expanded', !isExpanded);
     toggleButton.classList.toggle('header__toggle--active');
     navMenu.classList.toggle('header__nav--active');
+}
+
+/**
+ * Attach a click listener to the mobile menu toggle button.
+ * @returns {void}
+ */
+function initializeNavigation() {
+    toggleButton.addEventListener('click', toggleNavigation);
 }
 
 /**
@@ -49,4 +56,34 @@ function handleActionBtns() {
     mobile.addEventListener('change', relocate);
     // Run once on initial page load to set the correct layout immediately
     relocate(mobile);
+}
+
+async function renderStatsIntoContent() {
+    const contentContainer = document.querySelector('.travel-point__stats');
+
+    if (!contentContainer) {
+        return;
+    }
+
+    const response = await fetch(
+        new URL('./utilities/data.json', import.meta.url),
+    );
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const statsList = data['travel-point'].stats;
+
+    contentContainer.innerHTML = statsList
+        .map(
+            (stat) => `
+            <div class="travel-point__card">
+                <span class="travel-point__card-number">${stat.value}</span>
+                <p class="travel-point__card-label">${stat.label}</p>
+            </div>
+        `,
+        )
+        .join('');
 }
