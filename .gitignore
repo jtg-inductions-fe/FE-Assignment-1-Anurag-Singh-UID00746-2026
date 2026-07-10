@@ -1,4 +1,4 @@
-# Logs
+# Logs (npm generates .log files when error occurs on npm install)
 logs
 *.log
 npm-debug.log*
@@ -13,4 +13,5 @@ main.css.map
 !.vscode/extensions.json
 .idea
 .DS_Store
-*.sw?
+*.sw? 
+# swap files generated in Linux when we edit the code

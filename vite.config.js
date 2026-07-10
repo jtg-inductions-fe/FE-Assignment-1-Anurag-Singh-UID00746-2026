@@ -6,11 +6,12 @@ export default defineConfig(() => {
     return {
         plugins: [
             createHtmlPlugin({
-                minify: true,
+                minify: true, // deletes all the redundant spaces and comments before creating the dist file from index.html
             }),
             ViteImageOptimizer({
+                // It reduces the size of the images without changing the quality
                 test: /\.(jpg|png)$/i,
-                includePublic: true,
+                includePublic: true, // public folder is included
                 logStats: true,
                 png: {
                     quality: 90,

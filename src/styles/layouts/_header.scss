@@ -1,0 +1,136 @@
+/*
+    File: src/styles/layouts/_header.scss
+    Purpose: Styles for the site header, navigation, toggle button, and action controls
+    Notes: Includes responsive layout behavior for mobile and desktop views
+*/
+
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../base/base' as *;
+@use '../base/reset' as *;
+@use '../base/typography' as *;
+
+.header {
+    @include flex(center, center, row);
+    padding: 3.8rem 1.5rem 1.7rem 1.5rem;
+
+    @include respond-to(desktop) {
+        padding: 6.5rem 13.5rem;
+    }
+
+    &__container {
+        @include flex(space-between, center, row);
+        width: 100%;
+        max-width: 120rem;
+        position: relative;
+    }
+
+    &__toggle {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        order: 2;
+        transition: transform 0.35s ease;
+
+        &--active {
+            transform: rotate(90deg);
+        }
+
+        @include respond-to(tablet) {
+            order: 0;
+        }
+
+        @include respond-to(desktop) {
+            display: none;
+        }
+    }
+
+    &__logo {
+        width: 5rem;
+        order: 1;
+
+        @include respond-to(tablet) {
+            margin-left: 10rem;
+        }
+    }
+
+    &__nav {
+        @include flex(center, center, column);
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 80vh;
+        padding: 3rem 1.5rem 4rem;
+        border-radius: 3rem 3rem 0 0;
+        margin: 0;
+        transform: translateY(100%);
+        transition: transform 0.35s ease;
+        background: $gradient-bg-soft;
+        z-index: 1000;
+        background: $gradient-bg-soft;
+        border-top: 2px solid #ffebe0;
+
+        &--active {
+            transform: translateY(0);
+        }
+
+        @include respond-to(desktop) {
+            position: static;
+            max-height: none;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            transform: translateY(0);
+            order: 2;
+        }
+    }
+
+    &__link {
+        display: block;
+        width: 100%;
+        color: $color-brand-secondary;
+        text-decoration: none;
+        font-size: $text-size-small;
+        text-align: center;
+        padding: 1.2rem 0;
+        transition: color 0.3s ease;
+
+        &:hover,
+        &--active {
+            color: $color-brand-primary;
+            font-weight: $font-weight-heading;
+        }
+    }
+
+    &__menu {
+        @include flex(center, center, column);
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        gap: 2.4rem;
+        width: 100%;
+
+        @include respond-to(desktop) {
+            flex-direction: row;
+            gap: 6.4rem;
+            width: auto;
+        }
+    }
+
+    &__actions {
+        @include flex(center, center, row);
+        order: 3;
+        align-items: center;
+        gap: 1rem;
+
+        &--drawer-mobile {
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+    }
+}
