@@ -1,10 +1,10 @@
 {
     "travel-point": {
         "stats": [
-            { "number": "500+", "label": "Holiday Package" },
-            { "number": "100", "label": "Luxury Hotel" },
-            { "number": "7", "label": "Premium Airlines" },
-            { "number": "2k+", "label": "Happy Customer" }
+            { "value": "500+", "label": "Holiday Package" },
+            { "value": "100", "label": "Luxury Hotel" },
+            { "value": "7", "label": "Premium Airlines" },
+            { "value": "2k+", "label": "Happy Customer" }
         ]
     }
 }
