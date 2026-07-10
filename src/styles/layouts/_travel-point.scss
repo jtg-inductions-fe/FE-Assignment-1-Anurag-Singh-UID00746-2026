@@ -10,18 +10,44 @@
     &__container {
         @include flex(center, center, column);
         width: 100%;
-        // background: gray;
         margin-top: 8rem;
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 450px;
+            height: 600px;
+            background: $bg-right-yellow-glow;
+            background-repeat: no-repeat;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: -1;
+            display: none;
+        }
 
         @include respond-to(tablet) {
+            display: block;
             margin-top: 12rem;
             gap: 5rem;
+
+            &::after {
+                display: block;
+                top: -35rem;
+            }
         }
 
         @include respond-to(desktop) {
             @include flex(start, center, row);
             gap: 0rem;
             margin-top: 12rem;
+
+            &::after {
+                display: block;
+                height: 700px;
+                top: -35rem;
+            }
         }
     }
 
