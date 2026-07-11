@@ -1,3 +1,5 @@
+import data from './utilities/data.json';
+
 const toggleButton = document.getElementById('header__toggle');
 const navMenu = document.querySelector('.header__nav');
 
@@ -58,32 +60,35 @@ function handleActionBtns() {
     relocate(mobile);
 }
 
-async function renderStatsIntoContent() {
+/**
+ * Renders travel statistics from the bundled JSON data into
+ * the travel point stats container.
+ *
+ * @returns {void}
+ */
+function renderStatsIntoContent() {
     const contentContainer = document.querySelector('.travel-point__stats');
+    const template = document.getElementById('stat-card-template');
 
-    if (!contentContainer) {
+    if (!contentContainer || !template) {
         return;
     }
 
-    const response = await fetch(
-        new URL('./utilities/data.json', import.meta.url),
-    );
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
     const statsList = data['travel-point'].stats;
+    contentContainer.textContent = '';
 
-    contentContainer.innerHTML = statsList
-        .map(
-            (stat) => `
-            <div class="travel-point__card">
-                <span class="travel-point__card-number">${stat.value}</span>
-                <p class="travel-point__card-label">${stat.label}</p>
-            </div>
-        `,
-        )
-        .join('');
+    const fragment = document.createDocumentFragment();
+
+    statsList.forEach((stat) => {
+        const clone = template.content.cloneNode(true);
+
+        clone.querySelector('.travel-point__card-number').textContent =
+            stat.value;
+        clone.querySelector('.travel-point__card-label').textContent =
+            stat.label;
+
+        fragment.appendChild(clone);
+    });
+
+    contentContainer.appendChild(fragment);
 }

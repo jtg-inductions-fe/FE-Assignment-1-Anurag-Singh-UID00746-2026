@@ -33,7 +33,7 @@ $text-size-subheading: $font-md;
 $text-size-small: $font-sm;
 $text-size-extra-small: $font-xs;
 $text-size-medium: $font-lg;
-$text-size-numeric-data: $font-2xl;
+$text-size-large: $font-2xl;
 $text-size-testimonial: $font-3xl;
 $text-size-testimonial-name: $font-xl;
 
@@ -41,20 +41,6 @@ body {
     font-family: Inter, sans-serif;
     font-weight: $font-weight-body;
     color: $color-brand-secondary;
-}
-
-.text-subtitle {
-    color: $color-brand-accent;
-    font-size: $text-size-subheading;
-    text-transform: uppercase;
-    font-weight: $font-weight-heading;
-    letter-spacing: 0.4rem;
-}
-
-.text-title-large {
-    color: $color-brand-primary;
-    font-size: $text-size-numeric-data;
-    font-weight: $font-weight-heading;
 }
 
 .break-line {

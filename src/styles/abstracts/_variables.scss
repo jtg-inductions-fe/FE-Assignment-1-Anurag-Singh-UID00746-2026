@@ -21,10 +21,6 @@ $color-peach-glow: rgba(255, 246, 243, 0.2);
 $color-transparent: rgba(255, 255, 255, 0);
 $color-yellow-glow: #facd49;
 
-// Breakpoints for responsive design
-$breakpoint-small: 431px;
-$breakpoint-large: 1025px;
-
 // Brand Application
 $color-brand-primary: $color-black;
 $color-brand-secondary: $color-gray-dark;
@@ -33,11 +29,17 @@ $color-brand-accent-secondary: $color-orange;
 $color-brand-accent-tertiary: $color-black-accent;
 
 // Component Tokens: Buttons
-$color-btn-primary: $color-purple;
-$color-btn-secondary: $color-gray-light;
+$color-interactive-primary: $color-purple;
+$color-interactive-inverse: $color-gray-light;
+
+// Breakpoints for responsive design
+$breakpoint-small: 431px;
+$breakpoint-medium: 1025px;
+$breakpoint-large: 1441px;
 
 // Media Query / Breakpoint Aliases
 $breakpoint-sm: $breakpoint-small;
+$breakpoint-md: $breakpoint-medium;
 $breakpoint-lg: $breakpoint-large;
 
 $gradient-bg-soft: linear-gradient(
@@ -48,9 +50,7 @@ $gradient-bg-soft: linear-gradient(
 
 $border-accent: 1px solid rgb(236, 234, 234);
 
-$color-yellow-glow: #facd49;
-
-$bg-right-yellow-glow: radial-gradient(
+$bg-yellow-glow: radial-gradient(
     circle at right center,
     rgba($color-yellow-glow, 0.25) 0%,
     rgba($color-yellow-glow, 0) 70%

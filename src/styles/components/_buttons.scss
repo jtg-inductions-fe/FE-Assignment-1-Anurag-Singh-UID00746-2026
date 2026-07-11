@@ -5,6 +5,8 @@
 @use '../base/typography' as *;
 
 .btn {
+    @include flex(center, center, row);
+    gap: 1rem;
     border-radius: 10rem;
     font-size: $text-size-small;
     font-weight: $font-weight-heading;
@@ -23,15 +25,13 @@
     }
 
     &--primary {
-        background-color: $color-btn-primary;
-        color: $color-btn-secondary;
+        background-color: $color-interactive-primary;
+        color: $color-interactive-inverse;
         border: none;
     }
 
     &--secondary {
-        @include flex(center, center, center);
-        gap: 1rem;
-        background-color: $color-btn-secondary;
+        background-color: $color-interactive-inverse;
         color: $color-brand-primary;
         border: $border-accent;
     }

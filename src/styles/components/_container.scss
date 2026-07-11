@@ -1,0 +1,20 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../base/base' as *;
+@use '../base/reset' as *;
+@use '../base/typography' as *;
+
+.container {
+    width: 100%;
+    margin-inline: auto;
+    max-width: $breakpoint-small;
+
+    @include respond-to(tablet) {
+        max-width: $breakpoint-medium;
+    }
+
+    @include respond-to(desktop) {
+        position: relative;
+        max-width: $breakpoint-large;
+    }
+}

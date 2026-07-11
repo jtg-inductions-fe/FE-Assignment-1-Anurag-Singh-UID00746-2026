@@ -19,7 +19,7 @@
             right: 0;
             width: 450px;
             height: 600px;
-            background: $bg-right-yellow-glow;
+            background: $bg-yellow-glow;
             background-repeat: no-repeat;
             filter: blur(100px);
             pointer-events: none;
@@ -28,7 +28,6 @@
         }
 
         @include respond-to(tablet) {
-            display: block;
             margin-top: 12rem;
             gap: 5rem;
 
@@ -163,7 +162,7 @@
     }
 
     &__card-number {
-        font-size: $text-size-numeric-data;
+        font-size: $text-size-large;
         font-weight: $font-weight-heading;
         color: $color-brand-accent-secondary;
     }
