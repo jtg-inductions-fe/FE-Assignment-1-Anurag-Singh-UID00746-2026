@@ -42,15 +42,3 @@ body {
     font-weight: $font-weight-body;
     color: $color-brand-secondary;
 }
-
-.break-line {
-    display: block;
-
-    @include respond-to(tablet) {
-        display: inline;
-    }
-
-    @include respond-to(desktop) {
-        display: inline;
-    }
-}

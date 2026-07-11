@@ -17,8 +17,8 @@
             content: '';
             position: absolute;
             right: 0;
-            width: 450px;
-            height: 600px;
+            width: 45rem;
+            height: 60rem;
             background: $bg-yellow-glow;
             background-repeat: no-repeat;
             filter: blur(100px);
@@ -44,7 +44,7 @@
 
             &::after {
                 display: block;
-                height: 700px;
+                height: 70rem;
                 top: -35rem;
             }
         }
