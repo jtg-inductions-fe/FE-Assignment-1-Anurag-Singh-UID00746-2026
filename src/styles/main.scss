@@ -1,9 +1,14 @@
 /* 
 	File: src/styles/main.scss
-	Purpose: Primary stylesheet that imports variables, mixins, and base styles
+	Purpose: Primary stylesheet that imports layout, component, and vendor styles
 	Notes: Central entrypoint for SCSS compilation
 */
 
 @use './layouts/header' as *;
 @use './components/buttons' as *;
+@use './components/headings' as *;
+@use './components/container' as *;
+@use './components/gradients' as *;
 @use './vendors/icomoon' as *;
+@use './layouts/hero' as *;
+@use './layouts/travel-point' as *;

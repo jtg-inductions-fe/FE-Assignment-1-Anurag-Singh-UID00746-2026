@@ -5,23 +5,6 @@
 */
 
 @use 'variables' as *;
-@use '../base/typography' as *;
-
-// Mixin for Button with customizable properties for color, padding and radius
-@mixin button(
-    $color: transparent,
-    $padding-x: 1,
-    $padding-y: 0.5,
-    $radius: 0.25
-) {
-    background-color: $color;
-    padding: #{$padding-y}rem #{$padding-x}rem;
-    border-radius: #{$radius}rem;
-    font-size: $text-size-small;
-    font-weight: $font-weight-heading;
-    white-space: nowrap;
-    text-align: center;
-}
 
 // Mixin for Flexbox layout with customizable properties for justify-content, align-items, flex-direction, and flex-wrap
 @mixin flex($justify: center, $align: center, $direction: row) {
@@ -38,21 +21,6 @@
     gap: $gap;
 }
 
-// Mixin for setting the width and height of an element with customizable properties for width and height
-@mixin position(
-    $position,
-    $top: null,
-    $right: null,
-    $bottom: null,
-    $left: null
-) {
-    position: $position;
-    top: $top;
-    right: $right;
-    bottom: $bottom;
-    left: $left;
-}
-
 // Mixin for responsive design, allowing the application of different styles based on specified breakpoints (mobile, tablet, desktop)
 @mixin respond-to($breakpoint) {
     @if $breakpoint == mobile {
@@ -60,11 +28,11 @@
             @content;
         }
     } @else if $breakpoint == tablet {
-        @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg) {
+        @media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
             @content;
         }
     } @else if $breakpoint == desktop {
-        @media (min-width: $breakpoint-lg) {
+        @media (min-width: $breakpoint-md) {
             @content;
         }
     }

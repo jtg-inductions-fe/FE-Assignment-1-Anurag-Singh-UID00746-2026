@@ -1,0 +1,201 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../base/base' as *;
+@use '../base/reset' as *;
+@use '../base/typography' as *;
+
+.hero {
+    @include flex(center, center, column);
+    position: relative;
+
+    @include respond-to(desktop) {
+        padding: 0 13.5rem;
+    }
+
+    &__dot-pattern {
+        display: none;
+
+        @include respond-to(desktop) {
+            display: block;
+            position: absolute;
+            bottom: 4rem;
+            left: 4rem;
+        }
+
+        @include respond-to(tablet) {
+            display: block;
+            position: absolute;
+            bottom: 14rem;
+            left: 5rem;
+        }
+    }
+
+    &__container {
+        @include flex(center, center, column);
+        height: 100%;
+        max-width: 118rem;
+        width: 100%;
+        box-sizing: border-box;
+
+        @include respond-to(desktop) {
+            @include flex(center, center, row);
+            gap: 5rem;
+        }
+    }
+
+    &__visuals {
+        @include flex(center, center, row);
+        width: 100%;
+        order: 1;
+        margin-top: 4rem;
+        padding: 0 2rem;
+
+        @include respond-to(tablet) {
+            margin-top: 5rem;
+            padding: 0;
+        }
+
+        @include respond-to(desktop) {
+            order: 2;
+            margin-top: 0;
+            padding: 0;
+            max-width: 110rem;
+        }
+    }
+
+    &__content {
+        @include flex(center, center, column);
+        gap: 2rem;
+        text-align: center;
+        height: 50%;
+        width: 100%;
+        order: 2;
+
+        @include respond-to(desktop) {
+            @include flex(start, start, column);
+            text-align: start;
+            height: 100%;
+            order: 1;
+            margin-bottom: 8rem;
+            max-width: 44rem;
+        }
+
+        @include respond-to(tablet) {
+            max-width: 65rem;
+        }
+    }
+
+    &__eyebrow {
+        @include flex(center, center, row);
+        width: fit-content;
+        gap: 1.6rem;
+        padding: 1.6rem 3.2rem;
+        border-radius: 10rem;
+        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    &__eyebrow-text {
+        font-size: $text-size-small;
+        color: $color-brand-accent;
+        font-weight: $font-weight-heading;
+    }
+
+    &__title {
+        font-size: $text-size-display-lg;
+        color: $color-brand-primary;
+        font-weight: $font-weight-heading;
+        width: 100%;
+
+        @include respond-to(tablet) {
+            font-size: 5.6rem;
+            margin-top: 2rem;
+        }
+
+        @include respond-to(desktop) {
+            font-size: $text-size-heading;
+            max-width: 40rem;
+            margin-top: 3rem;
+        }
+
+        &--highlight {
+            color: $color-brand-accent;
+        }
+    }
+
+    &__description {
+        font-size: $text-size-subheading;
+        color: $color-brand-secondary;
+        line-height: 1.6;
+
+        @include respond-to(tablet) {
+            max-width: 44rem;
+        }
+
+        @include respond-to(desktop) {
+            font-size: 1.8rem;
+            max-width: 44rem;
+        }
+    }
+
+    &__actions {
+        @include flex(center, center, column);
+        width: 100%;
+        align-items: stretch;
+        gap: 1.6rem;
+        padding: 0 2rem;
+
+        @include respond-to(tablet) {
+            @include flex(center, center, row);
+            padding: 0;
+        }
+
+        @include respond-to(desktop) {
+            @include flex(flex-start, center, row);
+            margin-top: 2rem;
+            padding: 0;
+        }
+    }
+
+    &__partners {
+        @include flex(center, center, row);
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 1rem 1.8rem;
+        padding: 0 5rem;
+        margin-top: 4rem;
+        order: 3;
+
+        @include respond-to(tablet) {
+            max-width: 60vw;
+            padding: 0;
+            gap: 3rem 1.8rem;
+            margin-top: 12rem;
+        }
+
+        @include respond-to(desktop) {
+            max-width: 116.6rem;
+            width: 81vw;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            padding: 0;
+            order: 0;
+        }
+    }
+
+    &__partner-logo {
+        width: calc(33.333% - 1.2rem);
+        height: 3.5rem;
+        object-fit: contain;
+        display: block;
+
+        @include respond-to(tablet) {
+            height: 4rem;
+        }
+
+        @include respond-to(desktop) {
+            width: auto;
+            max-height: 3rem;
+        }
+    }
+}

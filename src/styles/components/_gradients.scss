@@ -1,0 +1,32 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../base/base' as *;
+@use '../base/reset' as *;
+@use '../base/typography' as *;
+
+.ellipse__gradient {
+    position: absolute;
+    opacity: 0.65;
+    background-color: #ffc5c5;
+    filter: blur(12rem);
+    width: 70%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    top: -10%;
+    left: -20%;
+    z-index: -1;
+
+    @include respond-to(tablet) {
+        width: 50%;
+        filter: blur(16rem);
+        top: -20%;
+        left: -15%;
+    }
+
+    @include respond-to(desktop) {
+        width: 45%;
+        filter: blur(16rem);
+        top: -15%;
+        left: -15%;
+    }
+}
