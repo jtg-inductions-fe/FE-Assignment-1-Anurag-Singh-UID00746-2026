@@ -8,7 +8,6 @@
 $color-black: #000000;
 $color-black-accent: #191825;
 $color-gray-dark: #666666;
-$color-gray-light: #ffffff;
 $color-pink: #f85e9f;
 $color-orange: #ff5722;
 $color-purple: #5d50c6;
@@ -30,7 +29,7 @@ $color-brand-accent-tertiary: $color-black-accent;
 
 // Component Tokens: Buttons
 $color-interactive-primary: $color-purple;
-$color-interactive-inverse: $color-gray-light;
+$color-interactive-inverse: $color-white;
 
 // Breakpoints for responsive design
 $breakpoint-small: 431px;

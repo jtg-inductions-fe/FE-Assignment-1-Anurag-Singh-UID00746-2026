@@ -23,7 +23,9 @@ function toggleNavigation() {
  * @returns {void}
  */
 function initializeNavigation() {
-    toggleButton.addEventListener('click', toggleNavigation);
+    if (toggleButton) {
+        toggleButton.addEventListener('click', toggleNavigation);
+    }
 }
 
 /**

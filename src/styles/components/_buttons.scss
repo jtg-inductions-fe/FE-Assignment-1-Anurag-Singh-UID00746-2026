@@ -6,6 +6,7 @@
 
 .btn {
     @include flex(center, center, row);
+
     gap: 1rem;
     border-radius: 10rem;
     font-size: $text-size-small;
