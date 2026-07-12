@@ -184,3 +184,63 @@ document.addEventListener('DOMContentLoaded', function () {
             contentContainer.textContent = 'Failed to load content.';
         });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const accordionButtons = document.querySelectorAll('.footer__heading-btn');
+
+    /**
+     * Handles the click event on accordion heading buttons for mobile view.
+     * Toggles the maximum height and open states of the current footer section,
+     * while closing all other open sibling footer sections.
+     *
+     * @this {HTMLButtonElement}
+     * @returns {void}
+     */
+    accordionButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+            if (window.innerWidth >= 431) return;
+
+            const section = this.closest('.footer__section');
+            const content = section.querySelector('.footer__content');
+            const isOpen = section.classList.contains(
+                'footer__section--is-open',
+            );
+
+            document.querySelectorAll('.footer__section').forEach((el) => {
+                if (el !== section) {
+                    el.classList.remove('footer__section--is-open');
+                    el.querySelector('.footer__content').style.maxHeight = null;
+                    el.querySelector('.footer__heading-btn').setAttribute(
+                        'aria-expanded',
+                        'false',
+                    );
+                }
+            });
+
+            if (isOpen) {
+                section.classList.remove('footer__section--is-open');
+                content.style.maxHeight = null;
+                this.setAttribute('aria-expanded', 'false');
+            } else {
+                section.classList.add('footer__section--is-open');
+                content.style.maxHeight = content.scrollHeight + 'px';
+                this.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    /**
+     * Resets the accordion states, transitions, and layout overrides
+     * when the browser window viewport scales past the mobile breakpoint threshold.
+     *
+     * @returns {void}
+     */
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 431) {
+            document.querySelectorAll('.footer__section').forEach((el) => {
+                el.classList.remove('footer__section--is-open');
+                el.querySelector('.footer__content').style.maxHeight = null;
+            });
+        }
+    });
+});

@@ -109,6 +109,12 @@
     color: inherit;
 }
 
+.ic-arrow-down::before {
+    content: '\e90d';
+    color: $color-brand-primary;
+    font-size: 0.8rem;
+}
+
 .ic-hero-add-user::before {
     content: '\e90a';
     color: inherit;

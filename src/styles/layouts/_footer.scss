@@ -1,0 +1,273 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../base/base' as *;
+@use '../base/reset' as *;
+@use '../base/typography' as *;
+
+.footer {
+    padding: 0 2rem;
+    margin-top: 8rem;
+    position: relative;
+
+    &__visual {
+        display: none;
+
+        @include respond-to(tablet) {
+            display: block;
+            position: absolute;
+            top: 11rem;
+            right: 0;
+        }
+
+        @include respond-to(desktop) {
+            display: block;
+            position: absolute;
+            top: 5rem;
+            right: 0;
+        }
+    }
+
+    @include respond-to(tablet) {
+        margin: 20rem 0 5rem 0;
+        padding: 0 5rem;
+    }
+
+    @include respond-to(desktop) {
+        padding: 8rem 10rem;
+    }
+
+    &__dot-pattern {
+        display: none;
+
+        @include respond-to(desktop) {
+            display: block;
+            position: absolute;
+            bottom: 25rem;
+            left: -3rem;
+            opacity: 0.1;
+        }
+    }
+
+    &__container {
+        @include flex(flex-start, stretch, column);
+        max-width: 120rem;
+        margin: 0 auto;
+        gap: 40px;
+        position: relative;
+
+        @include respond-to(desktop) {
+            @include grid(4, 40px);
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            align-items: flex-start;
+        }
+    }
+
+    &__brand {
+        @include flex(flex-start, flex-start, column);
+        gap: 3.2rem;
+        width: 100%;
+    }
+
+    &__logo-box {
+        @include flex(flex-start, center, row);
+        gap: 1.6rem;
+    }
+
+    &__logo-text {
+        font-size: $text-size-heading-md;
+        font-weight: $font-weight-heading;
+        color: $color-brand-accent-tertiary;
+        letter-spacing: 1px;
+    }
+
+    &__brand-text {
+        font-size: $text-size-subheading;
+        color: rgba($color-brand-accent-tertiary, 0.5);
+        line-height: 1.6;
+        margin: 0;
+        max-width: 40rem;
+
+        @include respond-to(tablet) {
+            font-size: $text-size-medium;
+            max-width: none;
+        }
+
+        @include respond-to(desktop) {
+            font-size: 2rem;
+        }
+    }
+
+    &__socials {
+        @include flex(flex-start, center, row);
+        gap: 3.2rem;
+
+        @include respond-to(desktop) {
+            margin-top: 2rem;
+        }
+    }
+
+    &__social-link {
+        @include flex(center, center, row);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        text-decoration: none;
+        font-size: 3.2rem;
+    }
+
+    &__nav-wrapper {
+        @include flex(flex-start, stretch, column);
+        margin: 3rem 0;
+        width: 100%;
+        gap: 3rem;
+
+        @include respond-to(tablet) {
+            @include grid(3, 20px);
+        }
+
+        @include respond-to(desktop) {
+            display: contents;
+        }
+    }
+
+    &__section {
+        width: 100%;
+        padding-bottom: 1.5rem;
+
+        @include respond-to(tablet) {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        @include respond-to(desktop) {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+    }
+
+    &__heading-btn {
+        @include flex(space-between, center, row);
+        width: 100%;
+        background: none;
+        border: none;
+        padding: 1rem 0;
+        cursor: pointer;
+        text-align: left;
+
+        @include respond-to(tablet) {
+            cursor: default;
+            padding: 0;
+            margin-bottom: 2.4rem;
+        }
+
+        @include respond-to(desktop) {
+            cursor: default;
+            padding: 0;
+            margin-bottom: 2.4rem;
+        }
+    }
+
+    &__heading {
+        font-size: $text-size-medium;
+        font-weight: $font-weight-heading;
+        color: $color-brand-accent-tertiary;
+    }
+
+    &__arrow {
+        @include flex(center, center, row);
+        width: 21.5px;
+        height: 21.5px;
+        border: 1px solid $color-brand-primary;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+
+        &::after {
+            content: '';
+            transform: translateY(-2px) rotate(45deg);
+        }
+
+        @include respond-to(tablet) {
+            display: none;
+        }
+
+        @include respond-to(desktop) {
+            display: none;
+        }
+
+        .footer__section--is-open & {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+
+        @include respond-to(tablet) {
+            max-height: none;
+            gap: 4rem;
+            overflow: visible;
+        }
+
+        @include respond-to(desktop) {
+            max-height: none;
+            overflow: visible;
+        }
+    }
+
+    &__list {
+        @include flex(flex-start, flex-start, column);
+
+        list-style: none;
+        padding: 1rem 0 0 0;
+        margin: 0;
+        gap: 1.6rem;
+
+        @include respond-to(tablet) {
+            margin-top: 3.5rem;
+            gap: 3.5rem;
+            padding: 0;
+        }
+
+        @include respond-to(desktop) {
+            margin-top: 3.5rem;
+            gap: 3.5rem;
+            padding: 0;
+        }
+    }
+
+    &__link {
+        font-size: 1.8rem;
+        color: rgba($color-brand-accent-tertiary, 0.75);
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: $color-interactive-primary;
+        }
+    }
+
+    &__info {
+        font-size: 1.8rem;
+        color: rgba($color-brand-accent-tertiary, 0.75);
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: $color-interactive-primary;
+        }
+    }
+
+    &__address {
+        font-size: 1.8rem;
+        color: rgba($color-brand-accent-tertiary, 0.75);
+        text-decoration: none;
+        transition: color 0.2s ease;
+        line-height: 1.6;
+
+        &:hover {
+            color: $color-interactive-primary;
+        }
+    }
+}
