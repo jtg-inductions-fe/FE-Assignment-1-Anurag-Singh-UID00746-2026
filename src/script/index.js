@@ -2,11 +2,21 @@ import data from './utilities/data.json';
 
 const toggleButton = document.getElementById('header__toggle');
 const navMenu = document.querySelector('.header__nav');
+const container = document.querySelector('.header__container');
 
 initializeNavigation();
 handleActionBtns();
 renderStatsIntoContent();
 
+function handleScroll() {
+    if (container && scrollY > 4) {
+        container.classList.add('header__container--scrolled');
+    } else {
+        container.classList.remove('header__container--scrolled');
+    }
+}
+
+window.addEventListener('scroll', handleScroll);
 /**
  * Toggle the mobile navigation menu open and closed state.
  * @returns {void}
@@ -17,6 +27,22 @@ function toggleNavigation() {
     toggleButton.classList.toggle('header__toggle--active');
     navMenu.classList.toggle('header__nav--active');
 }
+
+const desktop = window.matchMedia('(min-width: 1025px)');
+
+/**
+ * Handles navigation menu open and closed state.
+ * @returns {void}
+ */
+function handleOpenState(e) {
+    if (e.matches) {
+        toggleButton.classList.remove('header__toggle--active');
+        navMenu.classList.remove('header__nav--active');
+    }
+}
+
+desktop.addEventListener('change', handleOpenState);
+handleOpenState(desktop);
 
 /**
  * Toggle the mobile navigation menu open and closed state.
@@ -34,7 +60,6 @@ function initializeNavigation() {
 function handleActionBtns() {
     const actions = document.querySelector('.header__actions');
     const navMenu = document.querySelector('.header__nav');
-    const container = document.querySelector('.header__container');
     const mobile = window.matchMedia('(max-width: 828px)');
 
     /**
@@ -164,8 +189,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                             <div class="testimonial-card__meta">
                                 <span class="testimonial-card__name">${item.name}</span>
-                                <span class="testimonial-card__divider">/</span>
-                                <span class="testimonial-card__role">${item.role}</span>
+                                <div class="testimonial-card__role-wrapper">
+                                    <span class="testimonial-card__role-wrapper--divider">/</span>
+                                    <span class="testimonial-card__role-wrapper--role">${item.role}</span>
+                                </div>
                             </div>
                             <div class="testimonial-card__rating">
                                 ${starsHTML}
@@ -239,7 +266,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.innerWidth >= 431) {
             document.querySelectorAll('.footer__section').forEach((el) => {
                 el.classList.remove('footer__section--is-open');
-                el.querySelector('.footer__content').style.maxHeight = null;
+                el.querySelector('.footer__heading-btn').setAttribute(
+                    'aria-expanded',
+                    'false',
+                );
             });
         }
     });

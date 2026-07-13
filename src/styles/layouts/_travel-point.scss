@@ -3,6 +3,7 @@
 @use '../base/base' as *;
 @use '../base/reset' as *;
 @use '../base/typography' as *;
+@use '../components/gradients' as *;
 
 .travel-point {
     @include flex(center, center, column);
@@ -69,7 +70,7 @@
         @include respond-to(desktop) {
             display: block;
             position: absolute;
-            right: -5rem;
+            right: clamp(-5rem, -2.5vw, 5rem);
             bottom: 28rem;
             object-fit: contain;
             pointer-events: none;
@@ -113,6 +114,7 @@
         line-height: 1.6;
         max-width: 35rem;
         margin: 0 auto;
+        @include ellipsis(3);
 
         @include respond-to(desktop) {
             margin: 0;
@@ -121,7 +123,9 @@
         }
 
         @include respond-to(tablet) {
-            max-width: 78rem;
+            @include ellipsis(2);
+            font-size: 1.8rem;
+            max-width: 85rem;
             width: 100%;
         }
     }
@@ -134,7 +138,7 @@
 
         @include respond-to(tablet) {
             @include grid(2, 3.2rem);
-            max-width: 85rem;
+            max-width: 95rem;
             margin: 5rem auto;
         }
 
@@ -151,14 +155,6 @@
         border-radius: 3.2rem;
         padding: 4rem 2.4rem;
         gap: 2rem;
-        transition:
-            transform 0.3s ease,
-            box-shadow 0.3s ease;
-
-        &:hover {
-            transform: translateY(-0.4rem);
-            box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.05);
-        }
     }
 
     &__card-number {

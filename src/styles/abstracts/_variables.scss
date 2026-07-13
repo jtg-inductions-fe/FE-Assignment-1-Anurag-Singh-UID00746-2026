@@ -33,7 +33,7 @@ $color-interactive-inverse: $color-white;
 
 // Breakpoints for responsive design
 $breakpoint-small: 431px;
-$breakpoint-medium: 1025px;
+$breakpoint-medium: 1110px;
 $breakpoint-large: 1441px;
 
 // Media Query / Breakpoint Aliases
@@ -41,16 +41,6 @@ $breakpoint-sm: $breakpoint-small;
 $breakpoint-md: $breakpoint-medium;
 $breakpoint-lg: $breakpoint-large;
 
-$gradient-bg-soft: linear-gradient(
-    to bottom,
-    $color-peach-light 0%,
-    $color-white 100%
-);
-
 $border-accent: 1px solid rgb(236, 234, 234);
-
-$bg-yellow-glow: radial-gradient(
-    circle at right center,
-    rgba($color-yellow-glow, 0.25) 0%,
-    rgba($color-yellow-glow, 0) 70%
-);
+$shadow-elevated: 0px 8px 24px rgba($color-brand-primary, 0.08);
+$shadow-btn-primary: 0px 45px 35px rgba($color-brand-primary, 0.08);

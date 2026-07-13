@@ -7,7 +7,7 @@
 .testimonials {
     width: 100%;
     max-width: 45rem;
-    padding: 4rem 1rem;
+    padding: 4rem 0;
     margin: 0 auto;
     text-align: center;
     background-position: center;
@@ -37,6 +37,14 @@
 
     &__container {
         position: relative;
+
+        @include respond-to(tablet) {
+            padding: 0 4rem;
+        }
+
+        @include respond-to(desktop) {
+            padding: 0 4rem;
+        }
     }
 
     &__slider {
@@ -141,7 +149,7 @@
         .swiper-pagination-bullet {
             width: 24px !important;
             height: 24px !important;
-            background: #e0e0e0;
+            background: rgba($color-brand-secondary, 0.3);
             opacity: 1;
             transition: all 0.3s ease;
         }
@@ -158,12 +166,16 @@
     width: 100%;
     @include flex(center, center, column);
 
+    @include respond-to(tablet) {
+        padding: 0 4rem;
+    }
+
     &__avatar-wrapper {
+        @include flex(center, flex-end);
         width: 128px;
         height: 128px;
         border-radius: 50%;
         overflow: hidden;
-        @include flex(center, flex-end);
         margin-bottom: 6rem;
     }
 
@@ -180,6 +192,7 @@
     }
 
     &__name {
+        @include ellipsis(1);
         font-size: $text-size-heading-md;
         color: $color-brand-accent-secondary;
         font-weight: $font-weight-heading;
@@ -197,36 +210,41 @@
         }
     }
 
-    &__divider {
+    &__role-wrapper {
+        @include flex(center, center, row);
+        gap: 6px;
         font-size: $text-size-heading-md;
         color: rgba($color-brand-accent-tertiary, 0.75);
         font-weight: $font-weight-heading;
-    }
 
-    &__role {
-        font-size: $text-size-heading-md;
-        color: rgba($color-brand-accent-tertiary, 0.75);
-        font-weight: $font-weight-heading;
-        letter-spacing: -0.04em;
-
-        @include respond-to(tablet) {
-            max-width: 65rem;
-            letter-spacing: 1px;
+        &--divider {
+            color: inherit;
         }
 
-        @include respond-to(desktop) {
-            max-width: 85rem;
-            letter-spacing: 1px;
+        &--role {
+            color: inherit;
+            letter-spacing: -0.04em;
+
+            @include respond-to(tablet) {
+                max-width: 65rem;
+                letter-spacing: 1px;
+            }
+
+            @include respond-to(desktop) {
+                max-width: 85rem;
+                letter-spacing: 1px;
+            }
         }
     }
 
     &__rating {
-        @include flex(center, center);
+        @include flex(center, center, row);
         gap: 1.6rem;
         margin-top: 2rem;
     }
 
     &__text {
+        @include ellipsis(3);
         color: $color-brand-secondary;
         font-size: $text-size-subheading;
         line-height: 1.6;
@@ -239,6 +257,7 @@
         }
 
         @include respond-to(desktop) {
+            @include ellipsis(2);
             font-size: $text-size-medium;
             max-width: 85rem;
         }

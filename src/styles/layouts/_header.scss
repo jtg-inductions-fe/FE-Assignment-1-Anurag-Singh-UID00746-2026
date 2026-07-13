@@ -9,6 +9,7 @@
 @use '../base/base' as *;
 @use '../base/reset' as *;
 @use '../base/typography' as *;
+@use '../components/gradients' as *;
 
 .header {
     @include flex(center, center, row);
@@ -23,6 +24,18 @@
         @include flex(space-between, center, row);
         width: 100%;
         max-width: 120rem;
+        border-radius: 2rem;
+        z-index: 1000;
+
+        @include respond-to(desktop) {
+            position: fixed;
+            padding: 1rem;
+
+            &--scrolled {
+                background: $gradient-bg-glass;
+                backdrop-filter: blur(10px);
+            }
+        }
     }
 
     &__toggle {

@@ -16,6 +16,7 @@
     padding: 1.5rem 3rem;
     max-width: 100%;
     width: 100%;
+    cursor: pointer;
 
     @include respond-to(tablet) {
         width: fit-content;
@@ -29,6 +30,10 @@
         background-color: $color-interactive-primary;
         color: $color-interactive-inverse;
         border: none;
+
+        &:hover {
+            box-shadow: $shadow-btn-primary;
+        }
     }
 
     &--secondary {
