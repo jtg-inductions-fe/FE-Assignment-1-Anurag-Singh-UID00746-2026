@@ -85,12 +85,12 @@
 
 .ic-social-instagram::before {
     content: '\e905';
-    color: inherit;
+    color: $color-interactive-inverse;
 }
 
 .ic-social-twitter::before {
     content: '\e906';
-    color: inherit;
+    color: $color-interactive-inverse;
 }
 
 .ic-star-rating::before {

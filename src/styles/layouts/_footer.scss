@@ -115,6 +115,14 @@
         font-size: 3.2rem;
     }
 
+    &__spread {
+        font-size: 1.5rem;
+        width: 34px;
+        height: 34px;
+        color: $color-interactive-inverse;
+        background-color: $color-interactive-primary;
+    }
+
     &__nav-wrapper {
         @include flex(flex-start, stretch, column);
         margin: 3rem 0;
