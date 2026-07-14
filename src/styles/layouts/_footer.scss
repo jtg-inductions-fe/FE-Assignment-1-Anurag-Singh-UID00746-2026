@@ -52,7 +52,7 @@
         @include flex(flex-start, stretch, column);
         max-width: 120rem;
         margin: 0 auto;
-        gap: 40px;
+        gap: 4rem;
         position: relative;
 
         @include respond-to(desktop) {
@@ -111,8 +111,8 @@
 
     &__social-link {
         @include flex(center, center, row);
-        width: 32px;
-        height: 32px;
+        width: 3.2rem;
+        height: 3.2rem;
         border-radius: 50%;
         text-decoration: none;
         font-size: 3.2rem;
@@ -120,8 +120,8 @@
 
     &__spread {
         font-size: 1.5rem;
-        width: 34px;
-        height: 34px;
+        width: 3.4rem;
+        height: 3.4rem;
         color: $color-interactive-inverse;
         background-color: $color-interactive-primary;
     }
@@ -186,8 +186,8 @@
 
     &__arrow {
         @include flex(center, center, row);
-        width: 21.5px;
-        height: 21.5px;
+        width: 2.15rem;
+        height: 2.15rem;
         border: 1px solid $color-brand-primary;
         color: $color-brand-primary;
         border-radius: 50%;
@@ -212,23 +212,25 @@
     }
 
     &__content {
-        max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease-out;
+        max-height: 0;
+        transition: max-height 0.5s ease;
 
         @include respond-to(tablet) {
-            max-height: none;
+            grid-template-rows: 1fr;
             gap: 4rem;
             overflow: visible;
         }
 
         @include respond-to(desktop) {
-            max-height: none;
+            grid-template-rows: 1fr;
             overflow: visible;
         }
+    }
 
-        &--closed {
-            max-height: none;
+    &__section--is-open {
+        .footer__content {
+            max-height: 50rem;
         }
     }
 

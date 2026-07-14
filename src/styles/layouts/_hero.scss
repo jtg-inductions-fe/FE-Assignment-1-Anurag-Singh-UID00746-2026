@@ -104,10 +104,12 @@
         color: $color-brand-primary;
         font-weight: $font-weight-heading;
         width: 100%;
+        max-width: 45rem;
 
         @include respond-to(tablet) {
             font-size: 5.6rem;
             margin-top: 2rem;
+            max-width: none;
         }
 
         @include respond-to(desktop) {

@@ -40,6 +40,7 @@
 
     &__toggle {
         background-color: transparent;
+        color: $color-interactive-primary;
         border: none;
         cursor: pointer;
         order: 2;
@@ -135,13 +136,11 @@
     &__actions {
         @include flex(center, center, row);
         order: 3;
-        align-items: center;
         gap: 1rem;
 
         &--drawer-mobile {
+            @include flex(space-between, center, row);
             width: 100%;
-            justify-content: space-between;
-            align-items: center;
             margin-top: 2rem;
         }
     }

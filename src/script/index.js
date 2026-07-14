@@ -7,6 +7,8 @@ const container = document.querySelector('.header__container');
 initializeNavigation();
 handleActionBtns();
 renderStatsIntoContent();
+renderTestimonials();
+toggleAccordion();
 
 function handleScroll() {
     if (container && scrollY > 4) {
@@ -119,7 +121,7 @@ function renderStatsIntoContent() {
     contentContainer.appendChild(fragment);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function renderTestimonials() {
     const wrapper = document.getElementById('testimonial-wrapper');
 
     if (!wrapper) {
@@ -210,9 +212,9 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(() => {
             contentContainer.textContent = 'Failed to load content.';
         });
-});
+}
 
-document.addEventListener('DOMContentLoaded', () => {
+function toggleAccordion() {
     const accordionButtons = document.querySelectorAll('.footer__heading-btn');
 
     /**
@@ -236,7 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.footer__section').forEach((el) => {
                 if (el !== section) {
                     el.classList.remove('footer__section--is-open');
-                    el.querySelector('.footer__content').style.maxHeight = null;
                     el.querySelector('.footer__heading-btn').setAttribute(
                         'aria-expanded',
                         'false',
@@ -246,11 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (isOpen) {
                 section.classList.remove('footer__section--is-open');
-                content.style.maxHeight = null;
                 this.setAttribute('aria-expanded', 'false');
             } else {
                 section.classList.add('footer__section--is-open');
-                content.style.maxHeight = content.scrollHeight + 'px';
                 this.setAttribute('aria-expanded', 'true');
             }
         });
@@ -273,4 +272,4 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
-});
+}
