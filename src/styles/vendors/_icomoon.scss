@@ -33,73 +33,84 @@
 
 .ic-hamburger-menu::before {
     content: '\e90b';
+    color: inherit;
     font-size: 4rem;
 }
 
 .ic-hero-play::before {
     content: '\e90c';
+    color: inherit;
     font-size: 2rem;
 }
 
 .ic-play::before {
     content: '\e90c';
+    color: inherit;
     font-size: 2.4rem;
 }
 
 .ic-hero-explore::before {
     content: '\e900';
-    font-size: 2rem;
     color: $color-brand-accent;
+    font-size: 2rem;
 }
 
 .ic-hero-location::before {
     content: '\e901';
-    color: yellow;
+    color: inherit;
     font-size: 1.3rem;
 }
 
 .ic-location-pin::before {
     content: '\e901';
-    color: $color-pink;
+    color: inherit;
     font-size: 1.3rem;
 }
 
 .ic-hero-paper-plane::before {
     content: '\e902';
-    color: white;
+    color: inherit;
     font-size: 1.4rem;
 }
 
 .ic-luggage-yellow::before {
     content: '\e903';
+    color: inherit;
 }
 
 .ic-social-facebook::before {
     content: '\e904';
+    color: inherit;
 }
 
 .ic-social-instagram::before {
     content: '\e905';
+    color: inherit;
 }
 
 .ic-social-twitter::before {
     content: '\e906';
+    color: inherit;
 }
 
 .ic-star-rating::before {
     content: '\e907';
+    color: #facd49;
+    font-size: 3.2rem;
 }
 
 .ic-arrow-left::before {
     content: '\e908';
+    color: inherit;
 }
 
 .ic-arrow-right::before {
     content: '\e909';
+    color: inherit;
 }
 
 .ic-hero-add-user::before {
     content: '\e90a';
-    color: white;
+    color: inherit;
     font-size: 1.4rem;
 }
