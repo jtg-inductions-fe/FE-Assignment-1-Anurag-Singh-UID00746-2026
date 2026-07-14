@@ -226,9 +226,11 @@
             grid-template-rows: 1fr;
             overflow: visible;
         }
+    }
 
-        &--closed {
-            max-height: none;
+    &__section--is-open {
+        .footer__content {
+            max-height: 50rem;
         }
     }
 
