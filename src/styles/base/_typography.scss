@@ -46,3 +46,7 @@ body {
     font-weight: $font-weight-body;
     color: $color-brand-secondary;
 }
+
+body:has(dialog[open]) {
+    overflow: hidden;
+}

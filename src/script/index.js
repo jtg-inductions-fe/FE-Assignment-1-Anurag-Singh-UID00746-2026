@@ -3,6 +3,9 @@ import data from './utilities/data.json';
 const toggleButton = document.getElementById('header__toggle');
 const navMenu = document.querySelector('.header__nav');
 const container = document.querySelector('.header__container');
+const modal = document.getElementById('deals');
+const openButton = document.getElementById('special-deals');
+const closeButton = document.getElementById('deals--close');
 
 initializeNavigation();
 handleActionBtns();
@@ -287,3 +290,14 @@ function toggleAccordion() {
         }
     });
 }
+
+function openModal() {
+    modal.showModal();
+}
+
+function closeModal() {
+    modal.close();
+}
+
+openButton.addEventListener('click', openModal);
+closeButton.addEventListener('click', closeModal);

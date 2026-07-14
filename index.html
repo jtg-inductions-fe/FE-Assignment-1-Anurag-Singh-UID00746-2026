@@ -57,7 +57,11 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="header__link">
+                                <a
+                                    href="#"
+                                    class="header__link"
+                                    id="special-deals"
+                                >
                                     Special Deals
                                 </a>
                             </li>
@@ -427,6 +431,38 @@
                 <p class="travel-point__card-label"></p>
             </div>
         </template>
+        <dialog class="deals" id="deals">
+            <div class="deals__container">
+                <button
+                    type="button"
+                    class="deals--close"
+                    id="deals--close"
+                    aria-label="Close button"
+                >
+                    X
+                </button>
+                <div class="deals__header">
+                    <span class="deals__subtitle">Special Deals</span>
+                    <h2 class="deals__title">Spin & Win!</h2>
+                    <p class="deals__description">
+                        Tap the center of the wheel to spin
+                    </p>
+                </div>
+                <div class="deals__body">
+                    <div class="deals__spinner"></div>
+                </div>
+                <div class="deals__footer">
+                    <button
+                        type="button"
+                        class="btn btn--secondary btn--full-width"
+                        aria-label="View all unlocked deals"
+                    >
+                        View All Unlocked Deals
+                        <div class="deals__all-deals">2</div>
+                    </button>
+                </div>
+            </div>
+        </dialog>
         <script type="module" src="./src/script/index.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
     </body>
