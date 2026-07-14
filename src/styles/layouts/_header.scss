@@ -9,6 +9,7 @@
 @use '../base/base' as *;
 @use '../base/reset' as *;
 @use '../base/typography' as *;
+@use '../components/gradients' as *;
 
 .header {
     @include flex(center, center, row);
@@ -23,10 +24,23 @@
         @include flex(space-between, center, row);
         width: 100%;
         max-width: 120rem;
+        border-radius: 2rem;
+        z-index: 1000;
+
+        @include respond-to(desktop) {
+            position: fixed;
+            padding: 1rem;
+
+            &--scrolled {
+                background: $gradient-bg-glass;
+                backdrop-filter: blur(10px);
+            }
+        }
     }
 
     &__toggle {
         background-color: transparent;
+        color: $color-interactive-primary;
         border: none;
         cursor: pointer;
         order: 2;
@@ -122,13 +136,11 @@
     &__actions {
         @include flex(center, center, row);
         order: 3;
-        align-items: center;
         gap: 1rem;
 
         &--drawer-mobile {
+            @include flex(space-between, center, row);
             width: 100%;
-            justify-content: space-between;
-            align-items: center;
             margin-top: 2rem;
         }
     }

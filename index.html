@@ -8,7 +8,6 @@
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
-            \
         />
     </head>
 
@@ -45,7 +44,7 @@
                         <ul class="header__menu">
                             <li>
                                 <a
-                                    href="#"
+                                    href="/"
                                     class="header__link header__link--active"
                                     aria-current="page"
                                 >
@@ -53,7 +52,9 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="header__link">Discover</a>
+                                <a href="#travel-point" class="header__link">
+                                    Discover
+                                </a>
                             </li>
                             <li>
                                 <a href="#" class="header__link">
@@ -61,7 +62,9 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="header__link">Contact</a>
+                                <a href="#footer" class="header__link">
+                                    Contact
+                                </a>
                             </li>
                         </ul>
                     </nav>
@@ -173,7 +176,7 @@
                         />
                     </div>
                 </section>
-                <section class="travel-point">
+                <section class="travel-point" id="travel-point">
                     <div class="travel-point__container">
                         <div class="travel-point__visual">
                             <img
@@ -223,6 +226,10 @@
                             >
                                 <i class="ic-arrow-left" aria-hidden="true"></i>
                             </button>
+                            <div
+                                class="swiper-wrapper"
+                                id="testimonial-wrapper"
+                            ></div>
                             <button
                                 type="button"
                                 class="testimonials__nav-btn testimonials__nav-btn--next"
@@ -231,10 +238,7 @@
                                 <i class="ic-arrow-right" aria-hidden="true">
                                 </i>
                             </button>
-                            <div
-                                class="swiper-wrapper"
-                                id="testimonial-wrapper"
-                            ></div>
+
                             <div
                                 class="swiper-pagination testimonials__pagination"
                             ></div>
@@ -242,6 +246,180 @@
                     </div>
                 </section>
             </main>
+            <footer class="footer" id="footer">
+                <img
+                    src="/assets/images/footer.svg"
+                    alt="Footer wavy pattern"
+                    class="footer__visual"
+                />
+                <div class="footer__container">
+                    <img
+                        src="/assets/images/overlay-footer-lines.svg"
+                        class="footer__dot-pattern"
+                        alt="Footer dot pattern"
+                    />
+                    <div class="footer__brand">
+                        <div class="footer__logo-box">
+                            <a href="/" aria-label="Travlog Homepage">
+                                <img
+                                    src="/assets/images/logo-header.svg"
+                                    alt="Travlog Logo"
+                                />
+                            </a>
+                            <span class="footer__logo-text">Travlog</span>
+                        </div>
+                        <p class="footer__brand-text">
+                            Contrary to popular belief, Lorem Ipsum is not
+                            simply random text. It has roots in a piece of
+                            classical Latin literature from 45 BC.
+                        </p>
+                        <div class="footer__socials">
+                            <a
+                                href="#"
+                                class="footer__social-link"
+                                aria-label="Facebook"
+                            >
+                                <i
+                                    class="ic-social-facebook"
+                                    aria-hidden="true"
+                                >
+                                </i>
+                            </a>
+                            <a
+                                href="#"
+                                class="footer__social-link footer__spread"
+                                aria-label="Twitter"
+                            >
+                                <i class="ic-social-twitter" aria-hidden="true">
+                                </i>
+                            </a>
+                            <a
+                                href="#"
+                                class="footer__social-link footer__spread"
+                                aria-label="Instagram"
+                            >
+                                <i
+                                    class="ic-social-instagram"
+                                    aria-hidden="true"
+                                >
+                                </i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer__nav-wrapper">
+                        <div class="footer__section">
+                            <button
+                                type="button"
+                                class="footer__heading-btn"
+                                aria-expanded="false"
+                                tabindex="-1"
+                            >
+                                <span class="footer__heading"> Company </span>
+                                <span class="footer__arrow" aria-hidden="true">
+                                    <i class="ic-arrow-down"></i>
+                                </span>
+                            </button>
+                            <div class="footer__content">
+                                <ul class="footer__list">
+                                    <li class="footer__item">
+                                        <a href="#" class="footer__link">
+                                            About
+                                        </a>
+                                    </li>
+                                    <li class="footer__item">
+                                        <a href="#" class="footer__link">
+                                            Career
+                                        </a>
+                                    </li>
+                                    <li class="footer__item">
+                                        <a href="#" class="footer__link">
+                                            Mobile
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="footer__section">
+                            <button
+                                type="button"
+                                class="footer__heading-btn"
+                                aria-expanded="false"
+                                tabindex="-1"
+                            >
+                                <span class="footer__heading"> Contact </span>
+                                <span class="footer__arrow" aria-hidden="true">
+                                    <i class="ic-arrow-down"></i>
+                                </span>
+                            </button>
+                            <div class="footer__content">
+                                <ul class="footer__list">
+                                    <li class="footer__item">
+                                        <a href="#" class="footer__link">
+                                            Why Travlog?
+                                        </a>
+                                    </li>
+                                    <li class="footer__item">
+                                        <a href="#" class="footer__link">
+                                            Partner with us
+                                        </a>
+                                    </li>
+                                    <li class="footer__item">
+                                        <a href="#" class="footer__link">
+                                            FAQ's
+                                        </a>
+                                    </li>
+                                    <li class="footer__item">
+                                        <a href="#" class="footer__link">
+                                            Blog
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="footer__section">
+                            <button
+                                type="button"
+                                class="footer__heading-btn"
+                                aria-expanded="false"
+                                tabindex="-1"
+                            >
+                                <span class="footer__heading"> Meet Us </span>
+                                <span class="footer__arrow" aria-hidden="true">
+                                    <i class="ic-arrow-down"></i>
+                                </span>
+                            </button>
+                            <div class="footer__content">
+                                <ul class="footer__list">
+                                    <li class="footer__item">
+                                        <a
+                                            href="tel:+009212345 6789"
+                                            class="footer__info"
+                                        >
+                                            +00 92 1234 56789
+                                        </a>
+                                    </li>
+                                    <li class="footer__item">
+                                        <a
+                                            href="mailto:info@travlog.com"
+                                            class="footer__link"
+                                        >
+                                            info@travlog.com
+                                        </a>
+                                    </li>
+                                    <li class="footer__item">
+                                        <address class="footer__address">
+                                            205. R Street, New York BD23200
+                                        </address>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
         <template id="stat-card-template">
             <div class="travel-point__card">

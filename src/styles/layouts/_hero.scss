@@ -57,7 +57,6 @@
 
         @include respond-to(desktop) {
             order: 2;
-            margin-top: 0;
             padding: 0;
             max-width: 110rem;
         }
@@ -91,7 +90,7 @@
         gap: 1.6rem;
         padding: 1.6rem 3.2rem;
         border-radius: 10rem;
-        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
+        box-shadow: $shadow-elevated;
     }
 
     &__eyebrow-text {
@@ -105,10 +104,12 @@
         color: $color-brand-primary;
         font-weight: $font-weight-heading;
         width: 100%;
+        max-width: 45rem;
 
         @include respond-to(tablet) {
             font-size: 5.6rem;
             margin-top: 2rem;
+            max-width: none;
         }
 
         @include respond-to(desktop) {
@@ -126,14 +127,16 @@
         font-size: $text-size-subheading;
         color: $color-brand-secondary;
         line-height: 1.6;
+        @include ellipsis(2);
 
         @include respond-to(tablet) {
+            font-size: 1.8rem;
             max-width: 44rem;
         }
 
         @include respond-to(desktop) {
-            font-size: 1.8rem;
             max-width: 44rem;
+            font-size: 1.8rem;
         }
     }
 

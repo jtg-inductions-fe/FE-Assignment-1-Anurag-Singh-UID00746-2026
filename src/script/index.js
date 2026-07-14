@@ -2,11 +2,23 @@ import data from './utilities/data.json';
 
 const toggleButton = document.getElementById('header__toggle');
 const navMenu = document.querySelector('.header__nav');
+const container = document.querySelector('.header__container');
 
 initializeNavigation();
 handleActionBtns();
 renderStatsIntoContent();
+renderTestimonials();
+toggleAccordion();
 
+function handleScroll() {
+    if (container && scrollY > 4) {
+        container.classList.add('header__container--scrolled');
+    } else {
+        container.classList.remove('header__container--scrolled');
+    }
+}
+
+window.addEventListener('scroll', handleScroll);
 /**
  * Toggle the mobile navigation menu open and closed state.
  * @returns {void}
@@ -18,6 +30,22 @@ function toggleNavigation() {
     navMenu.classList.toggle('header__nav--active');
 }
 
+const desktop = window.matchMedia('(min-width: 1025px)');
+
+/**
+ * Handles navigation menu open and closed state.
+ * @returns {void}
+ */
+function handleOpenState(e) {
+    if (e.matches) {
+        toggleButton.classList.remove('header__toggle--active');
+        navMenu.classList.remove('header__nav--active');
+    }
+}
+
+desktop.addEventListener('change', handleOpenState);
+handleOpenState(desktop);
+
 /**
  * Toggle the mobile navigation menu open and closed state.
  */
@@ -27,6 +55,20 @@ function initializeNavigation() {
     }
 }
 
+function handleActiveState(e) {
+    if (e.target.tagName === 'A') {
+        const active = container.querySelector('.header__link--active');
+
+        if (active) {
+            active.classList.remove('header__link--active');
+        }
+
+        e.target.classList.add('header__link--active');
+    }
+}
+
+container.addEventListener('click', handleActiveState);
+
 /**
  * Relocate the action buttons based on viewport width.
  * @returns {void}
@@ -34,7 +76,6 @@ function initializeNavigation() {
 function handleActionBtns() {
     const actions = document.querySelector('.header__actions');
     const navMenu = document.querySelector('.header__nav');
-    const container = document.querySelector('.header__container');
     const mobile = window.matchMedia('(max-width: 828px)');
 
     /**
@@ -94,7 +135,7 @@ function renderStatsIntoContent() {
     contentContainer.appendChild(fragment);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function renderTestimonials() {
     const wrapper = document.getElementById('testimonial-wrapper');
 
     if (!wrapper) {
@@ -164,8 +205,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                             <div class="testimonial-card__meta">
                                 <span class="testimonial-card__name">${item.name}</span>
-                                <span class="testimonial-card__divider">/</span>
-                                <span class="testimonial-card__role">${item.role}</span>
+                                <div class="testimonial-card__role-wrapper">
+                                    <span class="testimonial-card__role-wrapper--divider">/</span>
+                                    <span class="testimonial-card__role-wrapper--role">${item.role}</span>
+                                </div>
                             </div>
                             <div class="testimonial-card__rating">
                                 ${starsHTML}
@@ -183,4 +226,64 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(() => {
             contentContainer.textContent = 'Failed to load content.';
         });
-});
+}
+
+function toggleAccordion() {
+    const accordionButtons = document.querySelectorAll('.footer__heading-btn');
+
+    /**
+     * Handles the click event on accordion heading buttons for mobile view.
+     * Toggles the maximum height and open states of the current footer section,
+     * while closing all other open sibling footer sections.
+     *
+     * @this {HTMLButtonElement}
+     * @returns {void}
+     */
+    accordionButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+            if (window.innerWidth >= 431) return;
+
+            const section = this.closest('.footer__section');
+            const content = section.querySelector('.footer__content');
+            const isOpen = section.classList.contains(
+                'footer__section--is-open',
+            );
+
+            document.querySelectorAll('.footer__section').forEach((el) => {
+                if (el !== section) {
+                    el.classList.remove('footer__section--is-open');
+                    el.querySelector('.footer__heading-btn').setAttribute(
+                        'aria-expanded',
+                        'false',
+                    );
+                }
+            });
+
+            if (isOpen) {
+                section.classList.remove('footer__section--is-open');
+                this.setAttribute('aria-expanded', 'false');
+            } else {
+                section.classList.add('footer__section--is-open');
+                this.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    /**
+     * Resets the accordion states, transitions, and layout overrides
+     * when the browser window viewport scales past the mobile breakpoint threshold.
+     *
+     * @returns {void}
+     */
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 431) {
+            document.querySelectorAll('.footer__section').forEach((el) => {
+                el.classList.remove('footer__section--is-open');
+                el.querySelector('.footer__heading-btn').setAttribute(
+                    'aria-expanded',
+                    'false',
+                );
+            });
+        }
+    });
+}

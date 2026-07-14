@@ -16,7 +16,7 @@
     font-weight: normal;
     font-style: normal;
     line-height: 1;
-    color: $color-purple;
+    color: inherit;
 
     // remove the extra space below the icon
     display: inline-block;
@@ -39,7 +39,7 @@
 
 .ic-hero-play::before {
     content: '\e90c';
-    color: inherit;
+    color: $color-interactive-primary;
     font-size: 2rem;
 }
 
@@ -80,7 +80,7 @@
 
 .ic-social-facebook::before {
     content: '\e904';
-    color: inherit;
+    color: $color-interactive-primary;
 }
 
 .ic-social-instagram::before {
@@ -107,6 +107,12 @@
 .ic-arrow-right::before {
     content: '\e909';
     color: inherit;
+}
+
+.ic-arrow-down::before {
+    content: '\e90d';
+    color: inherit;
+    font-size: 0.8rem;
 }
 
 .ic-hero-add-user::before {
