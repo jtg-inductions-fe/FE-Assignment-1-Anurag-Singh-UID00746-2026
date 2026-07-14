@@ -55,6 +55,20 @@ function initializeNavigation() {
     }
 }
 
+function handleActiveState(e) {
+    if (e.target.tagName === 'A') {
+        const active = container.querySelector('.header__link--active');
+
+        if (active) {
+            active.classList.remove('header__link--active');
+        }
+
+        e.target.classList.add('header__link--active');
+    }
+}
+
+container.addEventListener('click', handleActiveState);
+
 /**
  * Relocate the action buttons based on viewport width.
  * @returns {void}

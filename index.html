@@ -44,7 +44,7 @@
                         <ul class="header__menu">
                             <li>
                                 <a
-                                    href="#"
+                                    href="/"
                                     class="header__link header__link--active"
                                     aria-current="page"
                                 >
@@ -52,7 +52,9 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="header__link">Discover</a>
+                                <a href="#travel-point" class="header__link">
+                                    Discover
+                                </a>
                             </li>
                             <li>
                                 <a href="#" class="header__link">
@@ -60,7 +62,9 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="header__link">Contact</a>
+                                <a href="#footer" class="header__link">
+                                    Contact
+                                </a>
                             </li>
                         </ul>
                     </nav>
@@ -172,7 +176,7 @@
                         />
                     </div>
                 </section>
-                <section class="travel-point">
+                <section class="travel-point" id="travel-point">
                     <div class="travel-point__container">
                         <div class="travel-point__visual">
                             <img
@@ -222,6 +226,10 @@
                             >
                                 <i class="ic-arrow-left" aria-hidden="true"></i>
                             </button>
+                            <div
+                                class="swiper-wrapper"
+                                id="testimonial-wrapper"
+                            ></div>
                             <button
                                 type="button"
                                 class="testimonials__nav-btn testimonials__nav-btn--next"
@@ -230,10 +238,7 @@
                                 <i class="ic-arrow-right" aria-hidden="true">
                                 </i>
                             </button>
-                            <div
-                                class="swiper-wrapper"
-                                id="testimonial-wrapper"
-                            ></div>
+
                             <div
                                 class="swiper-pagination testimonials__pagination"
                             ></div>
@@ -241,7 +246,7 @@
                     </div>
                 </section>
             </main>
-            <footer class="footer">
+            <footer class="footer" id="footer">
                 <img
                     src="/assets/images/footer.svg"
                     alt="Footer wavy pattern"
@@ -308,8 +313,9 @@
                                 type="button"
                                 class="footer__heading-btn"
                                 aria-expanded="false"
+                                tabindex="-1"
                             >
-                                <span class="footer__heading">Company</span>
+                                <span class="footer__heading"> Company </span>
                                 <span class="footer__arrow" aria-hidden="true">
                                     <i class="ic-arrow-down"></i>
                                 </span>
@@ -340,8 +346,9 @@
                                 type="button"
                                 class="footer__heading-btn"
                                 aria-expanded="false"
+                                tabindex="-1"
                             >
-                                <span class="footer__heading">Contact</span>
+                                <span class="footer__heading"> Contact </span>
                                 <span class="footer__arrow" aria-hidden="true">
                                     <i class="ic-arrow-down"></i>
                                 </span>
@@ -377,8 +384,9 @@
                                 type="button"
                                 class="footer__heading-btn"
                                 aria-expanded="false"
+                                tabindex="-1"
                             >
-                                <span class="footer__heading">Meet Us</span>
+                                <span class="footer__heading"> Meet Us </span>
                                 <span class="footer__arrow" aria-hidden="true">
                                     <i class="ic-arrow-down"></i>
                                 </span>
