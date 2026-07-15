@@ -7,7 +7,6 @@
 .section-subtitle {
     color: $color-brand-accent;
     font-size: $text-size-subheading;
-    font-weight: $font-weight-heading;
     text-transform: uppercase;
     letter-spacing: 0.4rem;
     display: block;
@@ -19,6 +18,13 @@
 
     @include respond-to(desktop) {
         font-size: $text-size-medium;
+    }
+
+    &--secondary {
+        font-size: $text-size-small-base;
+        font-weight: $font-weight-heading;
+        margin: 0;
+        letter-spacing: 1px;
     }
 }
 
@@ -34,5 +40,11 @@
 
     @include respond-to(desktop) {
         font-size: 4.4rem;
+    }
+
+    &--secondary {
+        font-size: $text-size-medium-base;
+        margin: 0;
+        letter-spacing: 1px;
     }
 }

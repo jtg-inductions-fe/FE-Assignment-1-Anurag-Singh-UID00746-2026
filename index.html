@@ -60,7 +60,7 @@
                                 <a
                                     href="#"
                                     class="header__link"
-                                    id="special-deals"
+                                    id="special-deals-btn"
                                 >
                                     Special Deals
                                 </a>
@@ -435,27 +435,41 @@
             <div class="deals__container">
                 <button
                     type="button"
-                    class="deals--close"
-                    id="deals--close"
+                    class="deals__close-btn"
+                    id="deals__close-btn"
                     aria-label="Close button"
                 >
                     X
                 </button>
                 <div class="deals__header">
-                    <span class="deals__subtitle">Special Deals</span>
-                    <h2 class="deals__title">Spin & Win!</h2>
+                    <span class="section-subtitle section-subtitle--secondary">
+                        Special Deals
+                    </span>
+                    <h2 class="section-title section-title--secondary">
+                        Spin & Win!
+                    </h2>
                     <p class="deals__description">
                         Tap the center of the wheel to spin
                     </p>
                 </div>
                 <div class="deals__body">
-                    <div class="deals__spinner"></div>
+                    <div class="spin-pointer"></div>
+                    <canvas class="spinner" id="wheel" width="228" height="228">
+                    </canvas>
+                    <button
+                        type="button"
+                        class="spinner__spin-btn"
+                        id="spinner__spin-btn"
+                        aria-label="Spin button"
+                    >
+                        Spin
+                    </button>
                 </div>
                 <div class="deals__footer">
                     <button
                         type="button"
                         class="btn btn--secondary btn--full-width"
-                        aria-label="View all unlocked deals"
+                        aria-label="View all unlocked deals button"
                     >
                         View All Unlocked Deals
                         <div class="deals__all-deals">2</div>

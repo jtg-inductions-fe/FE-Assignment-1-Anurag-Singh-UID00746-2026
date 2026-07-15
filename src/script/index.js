@@ -4,8 +4,14 @@ const toggleButton = document.getElementById('header__toggle');
 const navMenu = document.querySelector('.header__nav');
 const container = document.querySelector('.header__container');
 const modal = document.getElementById('deals');
-const openButton = document.getElementById('special-deals');
-const closeButton = document.getElementById('deals--close');
+const openButton = document.getElementById('special-deals-btn');
+const closeButton = document.getElementById('deals__close-btn');
+const canvas = document.getElementById('wheel');
+const spinBtn = document.getElementById('spinner__spin-btn');
+const ctx = canvas.getContext('2d');
+
+const deals = data['special-deals'].deals;
+const colors = ['red', 'blue', 'green', 'yellow'];
 
 initializeNavigation();
 handleActionBtns();
@@ -291,13 +297,120 @@ function toggleAccordion() {
     });
 }
 
-function openModal() {
+const openModal = () => {
     modal.showModal();
-}
+    draw();
+};
 
-function closeModal() {
+const closeModal = () => {
     modal.close();
-}
+};
 
 openButton.addEventListener('click', openModal);
 closeButton.addEventListener('click', closeModal);
+
+const size = canvas.width;
+const center = size / 2;
+const radius = center;
+const slice = (Math.PI * 2) / deals.length;
+
+let rotation = 0;
+let spinning = false;
+let speed = 0;
+
+function draw() {
+    ctx.clearRect(0, 0, size, size);
+    ctx.save();
+    ctx.translate(radius, radius);
+    ctx.rotate(rotation);
+
+    deals.forEach((_d, _idx) => {
+        const start = _idx * slice;
+        const end = start + slice;
+
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.arc(0, 0, radius, start, end);
+        ctx.closePath();
+
+        ctx.fillStyle = colors[_idx];
+        ctx.fill();
+
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+        ctx.save();
+
+        ctx.rotate(start + slice / 2);
+        ctx.textAlign = 'center';
+        ctx.font = 'bold 12px Inter';
+
+        if (colors[_idx] === 'yellow') {
+            ctx.fillStyle = '#000000';
+        } else {
+            ctx.fillStyle = '#ffffff';
+        }
+
+        ctx.translate(radius * 0.65, 0);
+        ctx.rotate(Math.PI / 2);
+
+        wrapText(_d.label);
+        ctx.restore();
+    });
+
+    ctx.restore();
+}
+
+function wrapText(txt) {
+    const words = txt.split(' ');
+
+    if (words.length === 2) {
+        ctx.fillText(words[0], 0, -5);
+        ctx.fillText(words[1], 0, 15);
+    } else {
+        const first = words.slice(0, 2).join(' ');
+        const second = words.slice(2).join(' ');
+
+        ctx.fillText(first, 0, -5);
+        ctx.fillText(second, 0, 15);
+    }
+}
+
+let rafId = null;
+
+function animate() {
+    if (!spinning) return;
+
+    rotation = rotation + speed;
+    speed = speed * 0.985;
+
+    draw();
+
+    if (speed < 0.002) {
+        spinning = false;
+        showCoupon();
+        return;
+    }
+
+    rafId = requestAnimationFrame(animate);
+}
+
+function spin() {
+    if (spinning) return;
+
+    speed = 0.35 + Math.random() * 0.15;
+    spinning = true;
+
+    if (rafId) cancelAnimationFrame(rafId);
+    animate();
+}
+
+function showCoupon() {
+    const twoPi = Math.PI * 2;
+    const rot = ((rotation % twoPi) + twoPi) % twoPi;
+    const ptrAngle = twoPi - rot + ((Math.PI + Math.PI / 2) % twoPi);
+    const idx = Math.floor(ptrAngle / slice) % deals.length;
+    const coupon = deals[idx];
+}
+
+spinBtn.addEventListener('click', spin);

@@ -29,5 +29,30 @@
                 "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
             }
         ]
+    },
+
+    "special-deals": {
+        "deals": [
+            {
+                "label": "20% Off Flights",
+                "promoCode": "FLY20-X8J2",
+                "validFor": 13
+            },
+            {
+                "label": "Free Hotel Night",
+                "promoCode": "HOTEL-9A4B",
+                "validFor": null
+            },
+            {
+                "label": "10% Off Packages",
+                "promoCode": "PKG10-QW12",
+                "validFor": 4
+            },
+            {
+                "label": "VIP Lounge",
+                "promoCode": "VIP-LMN9",
+                "validFor": 29
+            }
+        ]
     }
 }
