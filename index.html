@@ -439,10 +439,11 @@
                     id="deals__close-btn"
                     aria-label="Close button"
                 >
-                    X
+                    <i class="ic-close"></i>
                 </button>
                 <div class="deals__header">
                     <span class="section-subtitle section-subtitle--secondary">
+                        <i class="ic-special-gift"></i>
                         Special Deals
                     </span>
                     <h2 class="section-title section-title--secondary">
@@ -454,17 +455,26 @@
                 </div>
                 <div class="deals__body">
                     <div class="spin-pointer"></div>
-                    <canvas class="spinner" id="wheel" width="228" height="228">
-                    </canvas>
-                    <button
-                        type="button"
-                        class="spinner__spin-btn"
-                        id="spinner__spin-btn"
-                        aria-label="Spin button"
-                    >
-                        Spin
-                    </button>
+                    <div class="spinner__wrapper">
+                        <canvas
+                            class="spinner"
+                            id="wheel"
+                            width="228"
+                            height="228"
+                        >
+                        </canvas>
+                        <button
+                            type="button"
+                            class="spinner__spin-btn"
+                            id="spinner__spin-btn"
+                            aria-label="Spin button"
+                        >
+                            Spin
+                        </button>
+                    </div>
+                    <p class="deals__win-label"></p>
                 </div>
+                <div class="deals__unlocked-coupons"></div>
                 <div class="deals__footer">
                     <button
                         type="button"
@@ -472,7 +482,7 @@
                         aria-label="View all unlocked deals button"
                     >
                         View All Unlocked Deals
-                        <div class="deals__all-deals">2</div>
+                        <div class="deals__all-deals"></div>
                     </button>
                 </div>
             </div>

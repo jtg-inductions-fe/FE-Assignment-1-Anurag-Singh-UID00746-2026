@@ -6,12 +6,15 @@ const container = document.querySelector('.header__container');
 const modal = document.getElementById('deals');
 const openButton = document.getElementById('special-deals-btn');
 const closeButton = document.getElementById('deals__close-btn');
+const winLabel = document.querySelector('.deals__win-label');
+const allDeals = document.querySelector('.deals__all-deals');
 const canvas = document.getElementById('wheel');
 const spinBtn = document.getElementById('spinner__spin-btn');
+const couponContainer = document.querySelector('.deals__unlocked-coupons');
 const ctx = canvas.getContext('2d');
 
 const deals = data['special-deals'].deals;
-const colors = ['red', 'blue', 'green', 'yellow'];
+const colors = ['#F4436C', '#7C3AED', '#FBBF24', '#06B6D4'];
 
 initializeNavigation();
 handleActionBtns();
@@ -345,7 +348,7 @@ function draw() {
         ctx.textAlign = 'center';
         ctx.font = 'bold 12px Inter';
 
-        if (colors[_idx] === 'yellow') {
+        if (colors[_idx] === '#FBBF24') {
             ctx.fillStyle = '#000000';
         } else {
             ctx.fillStyle = '#ffffff';
@@ -396,6 +399,9 @@ function animate() {
 }
 
 function spin() {
+    winLabel.innerText = ' ';
+    couponContainer.innerHTML = null;
+
     if (spinning) return;
 
     speed = 0.35 + Math.random() * 0.15;
@@ -405,12 +411,55 @@ function spin() {
     animate();
 }
 
+let unlockedDeals = 0;
+allDeals.textContent = '0';
+
 function showCoupon() {
     const twoPi = Math.PI * 2;
     const rot = ((rotation % twoPi) + twoPi) % twoPi;
     const ptrAngle = twoPi - rot + ((Math.PI + Math.PI / 2) % twoPi);
     const idx = Math.floor(ptrAngle / slice) % deals.length;
+
+    if (idx < 4) {
+        unlockedDeals++;
+    }
+
+    allDeals.textContent = unlockedDeals;
+
     const coupon = deals[idx];
+    winLabel.innerText = 'You won';
+
+    let couponWrapper = document.createElement('div');
+    couponWrapper.className = 'deals__coupon-wrapper';
+
+    const offerWrapper = document.createElement('div');
+    offerWrapper.className = 'deals__offer-wrapper';
+
+    const offerText = document.createElement('p');
+    offerText.className = 'deals__offer';
+    offerText.textContent = deals[idx].label;
+
+    const validityText = document.createElement('p');
+    validityText.className = 'deals__validity';
+    validityText.innerText =
+        'Expires in' + ' ' + deals[idx].validFor + ' ' + 'days';
+
+    offerWrapper.append(offerText, validityText);
+
+    const codeWrapper = document.createElement('div');
+    codeWrapper.className = 'deals__code-wrapper';
+
+    const codeText = document.createElement('p');
+    codeText.className = 'deals__code';
+    codeText.innerText = deals[idx].promoCode;
+
+    const copyBtn = document.createElement('i');
+    copyBtn.className = 'ic-copy';
+
+    codeWrapper.append(codeText, copyBtn);
+    couponWrapper.append(offerWrapper, codeWrapper);
+
+    couponContainer.appendChild(couponWrapper);
 }
 
 spinBtn.addEventListener('click', spin);

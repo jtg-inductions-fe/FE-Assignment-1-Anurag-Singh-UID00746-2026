@@ -137,6 +137,12 @@
 }
 
 .ic-special-gift::before {
-    content: '\e913';
+    content: '\e914';
+    color: inherit;
+    font-size: 1.3rem;
+}
+
+.ic-close::before {
+    content: '\e912';
     color: inherit;
 }

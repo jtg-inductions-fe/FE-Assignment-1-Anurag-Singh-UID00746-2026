@@ -8,11 +8,15 @@
     border-radius: 50%;
     border: 4px solid $color-interactive-inverse;
     box-shadow: $shadow-spinner;
-    position: relative;
+
+    &__wrapper {
+        @include flex(center, center, center);
+        position: relative;
+    }
 
     &__spin-btn {
         position: absolute;
-        bottom: 43%;
+        bottom: 9.6rem;
         border-radius: 50%;
         background-color: $color-interactive-inverse;
         border: 3px solid $color-brand-accent;
