@@ -150,6 +150,7 @@
     &__code-wrapper {
         @include flex(center, center, row);
         gap: 1rem;
+        color: $color-brand-accent;
     }
 
     &__code {

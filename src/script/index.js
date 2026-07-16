@@ -14,13 +14,38 @@ const couponContainer = document.querySelector('.deals__unlocked-coupons');
 const ctx = canvas.getContext('2d');
 
 const deals = data['special-deals'].deals;
-const colors = ['#F4436C', '#7C3AED', '#FBBF24', '#06B6D4'];
+
+const PINK = '#F4436C';
+const PURPLE = '#7C3AED';
+const YELLOW = '#FBBF24';
+const BLUE = '#06B6D4';
+const WHITE = '#ffffff';
+const BLACK = '#000000';
+
+const colors = [];
+
+colors.push(PINK);
+colors.push(PURPLE);
+colors.push(YELLOW);
+colors.push(BLUE);
+
+let rafId = null;
 
 initializeNavigation();
 handleActionBtns();
 renderStatsIntoContent();
 renderTestimonials();
 toggleAccordion();
+
+const size = canvas.width;
+const center = size / 2;
+const radius = center;
+const slice = (Math.PI * 2) / deals.length;
+
+let rotation = 0;
+let spinning = false;
+let speed = 0;
+let unlockedDeals = 0;
 
 function handleScroll() {
     if (container && scrollY > 4) {
@@ -312,14 +337,20 @@ const closeModal = () => {
 openButton.addEventListener('click', openModal);
 closeButton.addEventListener('click', closeModal);
 
-const size = canvas.width;
-const center = size / 2;
-const radius = center;
-const slice = (Math.PI * 2) / deals.length;
+const wrapText = (txt) => {
+    const words = txt.split(' ');
 
-let rotation = 0;
-let spinning = false;
-let speed = 0;
+    if (words.length === 2) {
+        ctx.fillText(words[0], 0, -5);
+        ctx.fillText(words[1], 0, 15);
+    } else {
+        const first = words.slice(0, 2).join(' ');
+        const second = words.slice(2).join(' ');
+
+        ctx.fillText(first, 0, -5);
+        ctx.fillText(second, 0, 15);
+    }
+};
 
 function draw() {
     ctx.clearRect(0, 0, size, size);
@@ -340,7 +371,7 @@ function draw() {
         ctx.fill();
 
         ctx.lineWidth = 6;
-        ctx.strokeStyle = '#ffffff';
+        ctx.strokeStyle = WHITE;
         ctx.stroke();
         ctx.save();
 
@@ -348,10 +379,10 @@ function draw() {
         ctx.textAlign = 'center';
         ctx.font = 'bold 12px Inter';
 
-        if (colors[_idx] === '#FBBF24') {
-            ctx.fillStyle = '#000000';
+        if (colors[_idx] === YELLOW) {
+            ctx.fillStyle = BLACK;
         } else {
-            ctx.fillStyle = '#ffffff';
+            ctx.fillStyle = WHITE;
         }
 
         ctx.translate(radius * 0.65, 0);
@@ -364,57 +395,9 @@ function draw() {
     ctx.restore();
 }
 
-function wrapText(txt) {
-    const words = txt.split(' ');
-
-    if (words.length === 2) {
-        ctx.fillText(words[0], 0, -5);
-        ctx.fillText(words[1], 0, 15);
-    } else {
-        const first = words.slice(0, 2).join(' ');
-        const second = words.slice(2).join(' ');
-
-        ctx.fillText(first, 0, -5);
-        ctx.fillText(second, 0, 15);
-    }
-}
-
-let rafId = null;
-
-function animate() {
-    if (!spinning) return;
-
-    rotation = rotation + speed;
-    speed = speed * 0.985;
-
-    draw();
-
-    if (speed < 0.002) {
-        spinning = false;
-        showCoupon();
-        return;
-    }
-
-    rafId = requestAnimationFrame(animate);
-}
-
-function spin() {
-    winLabel.innerText = ' ';
-    couponContainer.innerHTML = null;
-
-    if (spinning) return;
-
-    speed = 0.35 + Math.random() * 0.15;
-    spinning = true;
-
-    if (rafId) cancelAnimationFrame(rafId);
-    animate();
-}
-
-let unlockedDeals = 0;
 allDeals.textContent = '0';
 
-function showCoupon() {
+const showCoupon = () => {
     const twoPi = Math.PI * 2;
     const rot = ((rotation % twoPi) + twoPi) % twoPi;
     const ptrAngle = twoPi - rot + ((Math.PI + Math.PI / 2) % twoPi);
@@ -460,6 +443,36 @@ function showCoupon() {
     couponWrapper.append(offerWrapper, codeWrapper);
 
     couponContainer.appendChild(couponWrapper);
-}
+};
+
+const animate = () => {
+    if (!spinning) return;
+
+    rotation = rotation + speed;
+    speed = speed * 0.985;
+
+    draw();
+
+    if (speed < 0.002) {
+        spinning = false;
+        showCoupon();
+        return;
+    }
+
+    rafId = requestAnimationFrame(animate);
+};
+
+const spin = () => {
+    winLabel.innerText = ' ';
+    couponContainer.innerHTML = null;
+
+    if (spinning) return;
+
+    speed = 0.35 + Math.random() * 0.15;
+    spinning = true;
+
+    if (rafId) cancelAnimationFrame(rafId);
+    animate();
+};
 
 spinBtn.addEventListener('click', spin);
