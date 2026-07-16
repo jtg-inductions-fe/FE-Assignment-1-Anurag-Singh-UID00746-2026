@@ -446,7 +446,10 @@
                         <i class="ic-special-gift"></i>
                         Special Deals
                     </span>
-                    <h2 class="section-title section-title--secondary">
+                    <h2
+                        class="section-title section-title--secondary"
+                        id="deals-modal__title"
+                    >
                         Spin & Win!
                     </h2>
                     <p class="deals__description">
@@ -456,6 +459,9 @@
                 <div class="deals__body">
                     <div class="spin-pointer"></div>
                     <div class="spinner__wrapper">
+                        <div class="spinner__loading" id="wheel-loading">
+                            <span>Loading...</span>
+                        </div>
                         <canvas
                             class="spinner"
                             id="wheel"
@@ -473,16 +479,58 @@
                         </button>
                     </div>
                     <p class="deals__win-label"></p>
+                    <div class="deals__unlocked-coupons"></div>
                 </div>
-                <div class="deals__unlocked-coupons"></div>
                 <div class="deals__footer">
                     <button
                         type="button"
                         class="btn btn--secondary btn--full-width"
+                        id="unlocked-deals"
                         aria-label="View all unlocked deals button"
                     >
                         View All Unlocked Deals
                         <div class="deals__all-deals"></div>
+                    </button>
+                </div>
+            </div>
+            <div
+                class="deals__container deals__container--inactive"
+                id="panel-two"
+            >
+                <button
+                    type="button"
+                    class="deals__close-btn"
+                    id="deals__close-btn"
+                    aria-label="Close button"
+                >
+                    <i class="ic-close"></i>
+                </button>
+                <div class="deals__header">
+                    <span class="section-subtitle section-subtitle--secondary">
+                        <i class="ic-special-gift"></i>
+                        Special Deals
+                    </span>
+                    <h2
+                        class="section-title section-title--secondary"
+                        id="deals-modal__title"
+                    >
+                        Unlocked Deals
+                    </h2>
+                    <p class="deals__description">
+                        All the deals you’ve unlocked yet!
+                    </p>
+                </div>
+                <div class="deals__body">
+                    <div class="deals__unlocked"></div>
+                </div>
+                <div class="deals__footer">
+                    <button
+                        type="button"
+                        class="btn btn--secondary btn--full-width"
+                        id="back-button"
+                        aria-label="Go Back button"
+                    >
+                        Go Back
                     </button>
                 </div>
             </div>
