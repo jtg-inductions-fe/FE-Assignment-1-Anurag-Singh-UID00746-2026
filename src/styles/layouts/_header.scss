@@ -29,7 +29,7 @@
 
         @include respond-to(desktop) {
             position: fixed;
-            padding: 1rem;
+            padding: 1rem 3rem;
 
             &--scrolled {
                 background: $gradient-bg-glass;

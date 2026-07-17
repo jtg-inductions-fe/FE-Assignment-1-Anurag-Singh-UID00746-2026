@@ -15,18 +15,18 @@
     &__dot-pattern {
         display: none;
 
-        @include respond-to(desktop) {
-            display: block;
-            position: absolute;
-            bottom: 4rem;
-            left: 4rem;
-        }
-
         @include respond-to(tablet) {
             display: block;
             position: absolute;
             bottom: 14rem;
             left: 5rem;
+        }
+
+        @include respond-to(desktop) {
+            display: block;
+            position: absolute;
+            bottom: 4rem;
+            left: 4rem;
         }
     }
 
@@ -70,6 +70,10 @@
         width: 100%;
         order: 2;
 
+        @include respond-to(tablet) {
+            max-width: 65rem;
+        }
+
         @include respond-to(desktop) {
             @include flex(start, start, column);
             text-align: start;
@@ -77,10 +81,6 @@
             order: 1;
             margin-bottom: 8rem;
             max-width: 44rem;
-        }
-
-        @include respond-to(tablet) {
-            max-width: 65rem;
         }
     }
 

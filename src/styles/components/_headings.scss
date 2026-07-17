@@ -16,10 +16,6 @@
         font-size: $text-size-medium;
     }
 
-    @include respond-to(desktop) {
-        font-size: $text-size-medium;
-    }
-
     &--secondary {
         font-size: $text-size-small;
         font-weight: $font-weight-heading;
@@ -39,7 +35,7 @@
     }
 
     @include respond-to(desktop) {
-        font-size: 4.4rem;
+        font-size: $text-size-display-lg;
     }
 
     &--secondary {

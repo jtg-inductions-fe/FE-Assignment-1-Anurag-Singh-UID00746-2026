@@ -3,14 +3,13 @@ import * as CONSTANTS from './constants.js';
 
 const DEALS_URL =
     'https://gist.githubusercontent.com/ameer-wajid-ali/1f29ebee4295cede36f8d74b45e576df/raw/122966c9a123861249f173911d8d93a76dc06d7a/';
+
 const toggleButton = document.getElementById('header__toggle');
 const navMenu = document.querySelector('.header__nav');
 const container = document.querySelector('.header__container');
 const modalContainer = document.querySelector('.deals__container');
 const modal = document.getElementById('deals');
 const backBtn = document.getElementById('back-button');
-const dealsBody = document.querySelector('.deals__body');
-const dealsFooter = document.querySelector('.deals__footer');
 const openButton = document.getElementById('special-deals-btn');
 const closeButton = document.getElementById('close-btn');
 const winLabel = document.querySelector('.deals__win-label');
@@ -21,17 +20,14 @@ const spinBtn = document.getElementById('spin-btn');
 const unlockedDeals = document.querySelector('.deals__unlocked');
 const unlockedDealsBtn = document.getElementById('unlocked-deals');
 const couponContainer = document.querySelector('.deals__unlocked-coupons');
-const modalTitle = document.getElementById('deals-modal-title');
-const modalDescription = document.querySelector('.deals__description');
 const couponTemplate = document.getElementById('coupon-card-template');
+// const testimonialTemplate = document.getElementById('testimonial-template');
 const ctx = canvas.getContext('2d');
 
 let colors = [];
 let selectRand = [];
 let dealsData = [];
-let validity;
 let rafId = null;
-let noSpin = false;
 
 const wonDeals = JSON.parse(localStorage.getItem('wonDeals')) || [];
 
@@ -100,6 +96,10 @@ function initializeNavigation() {
     }
 }
 
+/**
+ * Handles the active state of nav links
+ * @returns {void}
+ */
 function handleActiveState(e) {
     if (e.target.tagName === 'A') {
         const active = container.querySelector('.header__link--active');
@@ -179,6 +179,11 @@ function renderStatsIntoContent() {
 
     contentContainer.appendChild(fragment);
 }
+
+/**
+ * Renders the caraousel and shows the testimonial cards
+ * @returns {void}
+ */
 
 function renderTestimonials() {
     const wrapper = document.getElementById('testimonial-wrapper');
@@ -289,7 +294,6 @@ function toggleAccordion() {
             if (window.innerWidth >= 431) return;
 
             const section = this.closest('.footer__section');
-            const content = section.querySelector('.footer__content');
             const isOpen = section.classList.contains(
                 'footer__section--is-open',
             );
@@ -333,11 +337,19 @@ function toggleAccordion() {
     });
 }
 
+/**
+ * Opens the modal
+ * @returns {void}
+ */
 const openModal = () => {
     modal.showModal();
     draw();
 };
 
+/**
+ * closes the modal
+ * @returns {void}
+ */
 const closeModal = () => {
     modal.close();
 };
@@ -345,6 +357,10 @@ const closeModal = () => {
 openButton?.addEventListener('click', openModal);
 closeButton?.addEventListener('click', closeModal);
 
+/**
+ * Shuffles the elements of the given array
+ * @returns {number[]}
+ */
 const shuffle = (arr) => {
     const shuffled = [...arr];
 
@@ -356,6 +372,10 @@ const shuffle = (arr) => {
     return shuffled;
 };
 
+/**
+ * Handles the state where no spin is left
+ * @returns {void}
+ */
 const handleNoSpinLeft = () => {
     if (selectRand.length < 4) {
         ctx.clearRect(0, 0, size, size);
@@ -368,6 +388,10 @@ const handleNoSpinLeft = () => {
     }
 };
 
+/**
+ * Selects deals randomly, max number of deaks is 4
+ * @returns {void}
+ */
 const selectRandom = () => {
     const filtered = shuffle(
         dealsData.filter(
@@ -380,11 +404,15 @@ const selectRandom = () => {
     handleNoSpinLeft();
 };
 
+/**
+ * Calls the API to fetch the deals data
+ * @returns {void}
+ */
 const fetchDeals = async () => {
     try {
         const res = await fetch(DEALS_URL);
         if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`HTTP error! Status: ${res.status}`);
         }
         dealsData = await res.json();
         selectRandom();
@@ -395,6 +423,10 @@ const fetchDeals = async () => {
 
 fetchDeals();
 
+/**
+ * Handles the text wrapping inside the slice of the spinner
+ * @returns {void}
+ */
 const wrapText = (txt) => {
     const words = txt.split(' ');
     if (words.length === 2) {
@@ -408,6 +440,10 @@ const wrapText = (txt) => {
     }
 };
 
+/**
+ * Copies the given text
+ * @returns {void}
+ */
 const copy = (e) => {
     if (e.target.tagName.toUpperCase() === 'I') {
         copyToClipboard(e.target.id);
@@ -415,6 +451,10 @@ const copy = (e) => {
     }
 };
 
+/**
+ * Draws the graphics inside the canvas
+ * @returns {void}
+ */
 function draw() {
     ctx.clearRect(0, 0, size, size);
 
@@ -460,11 +500,19 @@ function draw() {
 
 allDeals.textContent = wonDeals.length;
 
+/**
+ * Stores the won deals in local storage
+ * @returns {void}
+ */
 const storeData = (idx) => {
     wonDeals.push({ ...selectRand[idx], wonAt: Date.now() });
     localStorage.setItem('wonDeals', JSON.stringify(wonDeals));
 };
 
+/**
+ * Renders the won deal
+ * @returns {void}
+ */
 const renderCoupon = (idx) => {
     allDeals.textContent = wonDeals.length;
     winLabel.innerText = 'You won!';
@@ -485,6 +533,10 @@ const renderCoupon = (idx) => {
     couponContainer.appendChild(clone);
 };
 
+/**
+ * Finds the won deal, stores it and then it is rendered
+ * @returns {void}
+ */
 const findAndRenderCoupon = () => {
     const twoPi = Math.PI * 2;
     const rot = ((rotation % twoPi) + twoPi) % twoPi;
@@ -497,6 +549,10 @@ const findAndRenderCoupon = () => {
 
 couponContainer.addEventListener('click', copy);
 
+/**
+ * Handles the rotation animation
+ * @returns {void}
+ */
 const animate = () => {
     if (!spinning) return;
 
@@ -516,6 +572,10 @@ const animate = () => {
     rafId = requestAnimationFrame(animate);
 };
 
+/**
+ * Handles spinning state
+ * @returns {void}
+ */
 const spin = () => {
     winLabel.innerText = ' ';
     couponContainer.innerHTML = null;
@@ -534,10 +594,18 @@ const spin = () => {
     animate();
 };
 
+/**
+ * Copies the text to clipboard
+ * @returns {void}
+ */
 const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
 };
 
+/**
+ * Renders all the won deals
+ * @returns {void}
+ */
 const showAllDeals = () => {
     unlockedDeals.innerHTML = '';
     modalContainer.classList.add('deals__container--inactive');
@@ -578,10 +646,16 @@ const showAllDeals = () => {
 
         fragment.appendChild(clone);
     });
+
+    unlockedDeals.appendChild(fragment);
 };
 
 unlockedDeals.addEventListener('click', copy);
 
+/**
+ * Redirects to the previous section
+ * @returns {void}
+ */
 const Back = () => {
     modalContainer.classList.remove('deals__container--inactive');
     seccondPanel.classList.remove('deals__container--active');

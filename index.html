@@ -74,12 +74,14 @@
                     </nav>
                     <div class="header__actions">
                         <button
+                            type="button"
                             class="btn btn--secondary"
                             aria-label="Login button"
                         >
                             Log In
                         </button>
                         <button
+                            type="button"
                             class="btn btn--primary"
                             aria-label="Signup button"
                         >
@@ -260,7 +262,6 @@
                     <img
                         src="/assets/images/overlay-footer-lines.svg"
                         class="footer__dot-pattern"
-                        alt="Footer dot pattern"
                     />
                     <div class="footer__brand">
                         <div class="footer__logo-box">
@@ -431,6 +432,31 @@
                 <p class="travel-point__card-label"></p>
             </div>
         </template>
+        <template id="testimonial-template">
+            <div class="swiper-slide">
+                <div class="testimonial-card">
+                    <div class="testimonial-card__avatar-wrapper">
+                        <img
+                            src="assets/images/img-testimonial-user.svg"
+                            class="testimonial-card__avatar"
+                        />
+                    </div>
+                    <div class="testimonial-card__meta">
+                        <span class="testimonial-card__name"></span>
+                        <div class="testimonial-card__role-wrapper">
+                            <span
+                                class="testimonial-card__role-wrapper--divider"
+                            >
+                            </span>
+                            <span class="testimonial-card__role-wrapper--role">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card__rating"></div>
+                    <p class="testimonial-card__text"></p>
+                </div>
+            </div>
+        </template>
         <template id="coupon-card-template">
             <div class="deals__coupon-wrapper">
                 <div class="deals__offer-wrapper">
@@ -544,7 +570,7 @@
                 </div>
             </div>
         </dialog>
-        <script type="module" src="./src/script/index.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+        <script type="module" src="./src/script/index.js"></script>
     </body>
 </html>
