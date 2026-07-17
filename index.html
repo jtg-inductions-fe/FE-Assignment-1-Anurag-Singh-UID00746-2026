@@ -431,12 +431,24 @@
                 <p class="travel-point__card-label"></p>
             </div>
         </template>
+        <template id="coupon-card-template">
+            <div class="deals__coupon-wrapper">
+                <div class="deals__offer-wrapper">
+                    <p class="deals__offer"></p>
+                    <p class="deals__validity"></p>
+                </div>
+                <div class="deals__code-wrapper">
+                    <p class="deals__code"></p>
+                    <i class="ic-copy"></i>
+                </div>
+            </div>
+        </template>
         <dialog class="deals" id="deals">
             <div class="deals__container">
                 <button
                     type="button"
                     class="deals__close-btn"
-                    id="deals__close-btn"
+                    id="close-btn"
                     aria-label="Close button"
                 >
                     <i class="ic-close"></i>
@@ -448,20 +460,17 @@
                     </span>
                     <h2
                         class="section-title section-title--secondary"
-                        id="deals-modal__title"
+                        id="deals-modal-title"
                     >
                         Spin & Win!
                     </h2>
-                    <p class="deals__description">
+                    <p class="deals__modal-description">
                         Tap the center of the wheel to spin
                     </p>
                 </div>
                 <div class="deals__body">
                     <div class="spin-pointer"></div>
                     <div class="spinner__wrapper">
-                        <div class="spinner__loading" id="wheel-loading">
-                            <span>Loading...</span>
-                        </div>
                         <canvas
                             class="spinner"
                             id="wheel"
@@ -472,7 +481,7 @@
                         <button
                             type="button"
                             class="spinner__spin-btn"
-                            id="spinner__spin-btn"
+                            id="spin-btn"
                             aria-label="Spin button"
                         >
                             Spin
@@ -500,7 +509,7 @@
                 <button
                     type="button"
                     class="deals__close-btn"
-                    id="deals__close-btn"
+                    id="close-btn-for-panel-two"
                     aria-label="Close button"
                 >
                     <i class="ic-close"></i>
@@ -512,11 +521,11 @@
                     </span>
                     <h2
                         class="section-title section-title--secondary"
-                        id="deals-modal__title"
+                        id="deals-modal-title"
                     >
                         Unlocked Deals
                     </h2>
-                    <p class="deals__description">
+                    <p class="deals__modal-description">
                         All the deals you’ve unlocked yet!
                     </p>
                 </div>

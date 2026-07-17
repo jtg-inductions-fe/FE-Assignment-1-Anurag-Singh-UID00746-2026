@@ -1,0 +1,9 @@
+export const PINK = '#F4436C';
+export const PURPLE = '#7C3AED';
+export const YELLOW = '#FBBF24';
+export const BLUE = '#06B6D4';
+export const WHITE = '#ffffff';
+export const BLACK = '#000000';
+export const DEAL_FONT = 'bold 12px Inter';
+export const CENTER = 'center';
+export const COLOR_KEYS = ['PINK', 'PURPLE', 'YELLOW', 'BLUE'];

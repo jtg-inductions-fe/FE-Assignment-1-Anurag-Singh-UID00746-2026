@@ -14,7 +14,6 @@ $font-bold: 700;
 
 // Font Size Scale (Structured from extra small to large)
 $font-xs: 0.7rem;
-$font-ssm: 1.2rem;
 $font-sm: 1.4rem;
 $font-md: 1.6rem;
 $font-slg: 1.8rem;
@@ -31,9 +30,7 @@ $font-weight-heading: $font-bold;
 
 // Semantic Font Sizes (Mapped to your exact layout needs)
 $text-size-heading: $font-4xl;
-$text-size-medium-base: $font-slg;
 $text-size-subheading: $font-md;
-$text-size-small-base: $font-ssm;
 $text-size-small: $font-sm;
 $text-size-extra-small: $font-xs;
 $text-size-medium: $font-lg;

@@ -20,12 +20,12 @@
         border-radius: 50%;
         background-color: $color-interactive-inverse;
         border: 3px solid $color-brand-accent;
-        width: 4.4rem;
-        height: 4.4rem;
+        width: 5rem;
+        height: 5rem;
         color: $color-brand-accent;
         font-weight: $font-weight-heading;
         letter-spacing: 0.05em;
-        font-size: $text-size-small-base;
+        font-size: $text-size-small;
         cursor: pointer;
 
         &--disabled {
@@ -49,7 +49,7 @@
         @include flex(center, center, center);
         z-index: 10;
         color: #333333;
-        font-size: $text-size-small-base;
+        font-size: $text-size-small;
 
         &::before {
             content: '';

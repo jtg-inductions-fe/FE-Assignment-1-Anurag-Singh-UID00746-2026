@@ -116,24 +116,24 @@
         width: 100%;
     }
 
-    &__description {
+    &__modal-description {
         color: rgba($color-brand-secondary, 0.6);
-        font-size: $text-size-small-base;
+        font-size: $text-size-small;
     }
 
     &__all-deals {
         border-radius: 50%;
         background-color: $color-interactive-primary;
         color: $color-interactive-inverse;
-        font-size: $text-size-small-base;
+        font-size: $text-size-small;
         text-align: center;
-        width: 1.9rem;
-        padding: 0.3rem 0;
+        width: 2.5rem;
+        padding: 0.5rem 0;
     }
 
     &__win-label {
         color: $color-brand-primary;
-        font-size: $text-size-small-base;
+        font-size: $text-size-small;
         font-weight: $font-weight-heading;
         margin-top: 2rem;
     }
@@ -172,7 +172,6 @@
     &__validity {
         color: $color-interactive-primary;
         font-size: $text-size-small;
-        font-size: $text-size-small-base;
 
         &--expired {
             color: $color-brand-secondary;
