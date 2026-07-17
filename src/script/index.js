@@ -12,22 +12,31 @@ const modal = document.getElementById('deals');
 const backBtn = document.getElementById('back-button');
 const openButton = document.getElementById('special-deals-btn');
 const closeButton = document.getElementById('close-btn');
+const closeButtonForPanelTwo = document.getElementById(
+    'close-btn-for-panel-two',
+);
 const winLabel = document.querySelector('.deals__win-label');
 const allDeals = document.querySelector('.deals__all-deals');
 const canvas = document.getElementById('wheel');
 const seccondPanel = document.getElementById('panel-two');
 const spinBtn = document.getElementById('spin-btn');
+const loader = document.getElementById('spinner-loading');
 const unlockedDeals = document.querySelector('.deals__unlocked');
 const unlockedDealsBtn = document.getElementById('unlocked-deals');
 const couponContainer = document.querySelector('.deals__unlocked-coupons');
 const couponTemplate = document.getElementById('coupon-card-template');
-// const testimonialTemplate = document.getElementById('testimonial-template');
+const template = document.getElementById('testimonial-template');
 const ctx = canvas.getContext('2d');
 
 let colors = [];
 let selectRand = [];
 let dealsData = [];
 let rafId = null;
+let winningIdx = 0;
+let startRotation = 0;
+let targetRotation = 0;
+let spinDuration = CONSTANTS.SPIN_DURATION;
+let spinStartTime = 0;
 
 const wonDeals = JSON.parse(localStorage.getItem('wonDeals')) || [];
 
@@ -44,11 +53,10 @@ toggleAccordion();
 const size = canvas.width;
 const center = size / 2;
 const radius = center;
-const slice = (Math.PI * 2) / 4;
+const slice = (Math.PI * 2) / CONSTANTS.SLICES;
 
 let rotation = 0;
 let spinning = false;
-let speed = 0;
 
 function handleScroll() {
     if (!container) return;
@@ -60,13 +68,12 @@ function handleScroll() {
 }
 
 window.addEventListener('scroll', handleScroll);
-/**
- * Toggle the mobile navigation menu open and closed state.
- * @returns {void}
- */
+
 function toggleNavigation() {
     const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
-    toggleButton.setAttribute('aria-expanded', !isExpanded);
+    const nextExpanded = !isExpanded;
+
+    toggleButton.setAttribute('aria-expanded', nextExpanded);
     toggleButton.classList.toggle('header__toggle--active');
     navMenu.classList.toggle('header__nav--active');
 }
@@ -94,6 +101,23 @@ function initializeNavigation() {
     if (toggleButton) {
         toggleButton.addEventListener('click', toggleNavigation);
     }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+
+        const isTabletOrMobile = window.matchMedia(
+            '(max-width: 1110px)',
+        ).matches;
+        if (!isTabletOrMobile) return;
+
+        const isExpanded =
+            toggleButton?.getAttribute('aria-expanded') === 'true';
+        if (!isExpanded) return;
+
+        toggleButton.setAttribute('aria-expanded', 'false');
+        toggleButton.classList.remove('header__toggle--active');
+        navMenu.classList.remove('header__nav--active');
+    });
 }
 
 /**
@@ -184,7 +208,6 @@ function renderStatsIntoContent() {
  * Renders the caraousel and shows the testimonial cards
  * @returns {void}
  */
-
 function renderTestimonials() {
     const wrapper = document.getElementById('testimonial-wrapper');
 
@@ -206,26 +229,22 @@ function renderTestimonials() {
             return;
         }
 
-        try {
-            new Swiper(sliderContainer, {
-                slidesPerView: 1,
-                spaceBetween: 30,
-                loop: true,
-                navigation: {
-                    nextEl: '.testimonials__nav-btn--next',
-                    prevEl: '.testimonials__nav-btn--prev',
-                },
-                pagination: {
-                    el: '.testimonials__pagination',
-                    clickable: true,
-                },
-                speed: 600,
-                observer: true,
-                observeParents: true,
-            });
-        } catch {
-            return;
-        }
+        new Swiper(sliderContainer, {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            navigation: {
+                nextEl: '.testimonials__nav-btn--next',
+                prevEl: '.testimonials__nav-btn--prev',
+            },
+            pagination: {
+                el: '.testimonials__pagination',
+                clickable: true,
+            },
+            speed: 600,
+            observer: true,
+            observeParents: true,
+        });
     }
 
     fetch(new URL('./utilities/data.json', import.meta.url))
@@ -237,41 +256,52 @@ function renderTestimonials() {
         })
         .then((jsonData) => {
             const testimonialsArray = jsonData['testimonials'].users;
-            let allSlidesHTML = '';
+
+            const fragment = document.createDocumentFragment();
 
             testimonialsArray.forEach((item) => {
-                let starsHTML = '';
-                for (let i = 0; i < 5; i++) {
-                    if (i < item.rating) {
-                        starsHTML += '<i class="ic-star-rating"></i>';
-                    }
+                const clone = template.content.cloneNode(true);
+
+                const avatarImg = clone.querySelector(
+                    '.testimonial-card__avatar',
+                );
+                if (avatarImg) {
+                    avatarImg.src = 'assets/images/img-testimonial-user.svg';
+                    avatarImg.alt = item.name;
                 }
 
-                allSlidesHTML += `
-                    <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-card__avatar-wrapper">
-                                <img src="assets/images/img-testimonial-user.svg" alt="${item.name}" class="testimonial-card__avatar">
-                            </div>
-                            <div class="testimonial-card__meta">
-                                <span class="testimonial-card__name">${item.name}</span>
-                                <div class="testimonial-card__role-wrapper">
-                                    <span class="testimonial-card__role-wrapper--divider">/</span>
-                                    <span class="testimonial-card__role-wrapper--role">${item.role}</span>
-                                </div>
-                            </div>
-                            <div class="testimonial-card__rating">
-                                ${starsHTML}
-                            </div>
-                            <p class="testimonial-card__text">${item.description}</p>
-                        </div>
-                    </div>
-                `;
+                const nameEl = clone.querySelector('.testimonial-card__name');
+                if (nameEl) nameEl.textContent = item.name;
+
+                const roleEl = clone.querySelector(
+                    '.testimonial-card__role-wrapper--role',
+                );
+                if (roleEl) roleEl.textContent = item.role;
+
+                const ratingEl = clone.querySelector(
+                    '.testimonial-card__rating',
+                );
+
+                if (ratingEl) {
+                    let starsHTML = '';
+                    for (let i = 0; i < 5; i++) {
+                        if (i < item.rating) {
+                            starsHTML += '<i class="ic-star-rating"></i>';
+                        }
+                    }
+                    ratingEl.innerHTML = starsHTML;
+                }
+
+                const descEl = clone.querySelector('.testimonial-card__text');
+                if (descEl) descEl.textContent = item.description;
+
+                fragment.appendChild(clone);
             });
 
-            wrapper.innerHTML = allSlidesHTML;
-
+            wrapper.innerHTML = '';
+            wrapper.appendChild(fragment);
             initTestimonialSwiper();
+            return;
         })
         .catch(() => {
             contentContainer.textContent = 'Failed to load content.';
@@ -356,6 +386,38 @@ const closeModal = () => {
 
 openButton?.addEventListener('click', openModal);
 closeButton?.addEventListener('click', closeModal);
+closeButtonForPanelTwo?.addEventListener('click', closeModal);
+
+/**
+ * Loading state for spinner
+ * @returns {void}
+ */
+const spinnerLoading = () => {
+    if (!loader || !spinBtn) return;
+
+    const spinPointer = document.querySelector('.spinner__spin-pointer');
+    spinPointer?.classList.add('spinner__spin-pointer--loading');
+
+    if (spinBtn) {
+        spinBtn.disabled = true;
+    }
+
+    loader.classList.remove('spinner__loading--hidden');
+    loader.textContent = 'Loading..';
+
+    setTimeout(() => {
+        loader.classList.add('spinner__loading--hidden');
+
+        const spinPointer = document.querySelector('.spinner__spin-pointer');
+        spinPointer?.classList.remove('spinner__spin-pointer--loading');
+
+        if (spinBtn) {
+            spinBtn.disabled = false;
+        }
+    }, 1000);
+};
+
+openButton?.addEventListener('click', spinnerLoading);
 
 /**
  * Shuffles the elements of the given array
@@ -377,14 +439,17 @@ const shuffle = (arr) => {
  * @returns {void}
  */
 const handleNoSpinLeft = () => {
-    if (selectRand.length < 4) {
+    if (selectRand.length < CONSTANTS.SLICES) {
         ctx.clearRect(0, 0, size, size);
         winLabel.remove();
+
         spinBtn.classList.add('spinner__spin-btn--disabled');
-        spinBtn.innerText = 'No more spin left';
+        spinBtn.disabled = true;
+        spinBtn.textContent = 'No more spin left';
     } else {
         spinBtn.classList.remove('spinner__spin-btn--disabled');
-        spinBtn.innerText = 'Spin';
+        spinBtn.disabled = false;
+        spinBtn.textContent = 'Spin';
     }
 };
 
@@ -393,13 +458,16 @@ const handleNoSpinLeft = () => {
  * @returns {void}
  */
 const selectRandom = () => {
+    const wonPromoCodes = new Set(wonDeals.map((won) => won.promoCode));
+
     const filtered = shuffle(
-        dealsData.filter(
-            (deal) => !wonDeals.some((won) => won.promoCode === deal.promoCode),
-        ),
+        dealsData.filter((deal) => !wonPromoCodes.has(deal.promoCode)),
     );
 
-    selectRand = filtered.length >= 4 ? filtered.slice(0, 4) : [...filtered];
+    selectRand =
+        filtered.length >= CONSTANTS.SLICES
+            ? filtered.slice(0, 4)
+            : [...filtered];
 
     handleNoSpinLeft();
 };
@@ -417,7 +485,12 @@ const fetchDeals = async () => {
         dealsData = await res.json();
         selectRandom();
     } catch {
-        return;
+        if (winLabel) winLabel.innerText = 'Failed to load deals';
+        if (spinBtn) {
+            spinBtn.classList.add('spinner__spin-btn--disabled');
+            spinBtn.disabled = true;
+            spinBtn.innerText = 'Failed to load deals';
+        }
     }
 };
 
@@ -458,7 +531,7 @@ const copy = (e) => {
 function draw() {
     ctx.clearRect(0, 0, size, size);
 
-    if (selectRand.length < 4) {
+    if (selectRand.length < CONSTANTS.SLICES) {
         return;
     }
 
@@ -533,43 +606,35 @@ const renderCoupon = (idx) => {
     couponContainer.appendChild(clone);
 };
 
-/**
- * Finds the won deal, stores it and then it is rendered
- * @returns {void}
- */
-const findAndRenderCoupon = () => {
-    const twoPi = Math.PI * 2;
-    const rot = ((rotation % twoPi) + twoPi) % twoPi;
-    const ptrAngle = twoPi - rot + ((Math.PI + Math.PI / 2) % twoPi);
-    const idx = Math.floor(ptrAngle / slice) % 4;
-
-    storeData(idx);
-    renderCoupon(idx);
-};
-
 couponContainer.addEventListener('click', copy);
+
+const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
 /**
  * Handles the rotation animation
  * @returns {void}
  */
-const animate = () => {
+const animate = (timestamp) => {
     if (!spinning) return;
 
-    rotation = rotation + speed;
-    speed = speed * 0.985;
-    spinBtn.disabled = true;
+    const elapsed = timestamp - spinStartTime;
+    const progress = Math.min(elapsed / spinDuration, 1);
+
+    rotation =
+        startRotation +
+        (targetRotation - startRotation) * easeOutCubic(progress);
 
     draw();
 
-    if (speed < 0.002) {
+    if (progress < 1) {
+        rafId = requestAnimationFrame(animate);
+    } else {
         spinning = false;
         spinBtn.disabled = false;
-        findAndRenderCoupon();
-        return;
-    }
 
-    rafId = requestAnimationFrame(animate);
+        storeData(winningIdx);
+        renderCoupon(winningIdx);
+    }
 };
 
 /**
@@ -577,21 +642,44 @@ const animate = () => {
  * @returns {void}
  */
 const spin = () => {
+    // Hard-block click/animation when button is disabled.
+    if (
+        !spinBtn ||
+        spinBtn.disabled ||
+        spinBtn.classList.contains('spinner__spin-btn--disabled')
+    ) {
+        return;
+    }
+
     winLabel.innerText = ' ';
     couponContainer.innerHTML = null;
 
     selectRandom();
 
-    if (spinning) return;
+    if (spinning || selectRand.length < CONSTANTS.SLICES) return;
 
-    speed = 0.35 + Math.random() * 0.15;
+    winningIdx = Math.floor(Math.random() * CONSTANTS.SLICES);
 
-    if (selectRand.length >= 4) {
-        spinning = true;
+    const pointerAngle = 1.5 * Math.PI;
+    const sliceCenter = winningIdx * slice + slice / 2;
+
+    const currentModulo = rotation % (Math.PI * 2);
+    let angleDiff = pointerAngle - sliceCenter - currentModulo;
+
+    if (angleDiff < 0) {
+        angleDiff += Math.PI * 2;
     }
 
+    startRotation = rotation;
+    const fullSpins = 6 * Math.PI * 2;
+    targetRotation = rotation + fullSpins + angleDiff;
+
+    spinStartTime = performance.now();
+    spinning = true;
+    spinBtn.disabled = true;
+
     if (rafId) cancelAnimationFrame(rafId);
-    animate();
+    rafId = requestAnimationFrame(animate);
 };
 
 /**

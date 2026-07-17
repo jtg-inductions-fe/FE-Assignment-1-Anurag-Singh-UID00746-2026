@@ -7,3 +7,5 @@ export const BLACK = '#000000';
 export const DEAL_FONT = 'bold 12px Inter';
 export const CENTER = 'center';
 export const COLOR_KEYS = ['PINK', 'PURPLE', 'YELLOW', 'BLUE'];
+export const SPIN_DURATION = 4000;
+export const SLICES = 4;

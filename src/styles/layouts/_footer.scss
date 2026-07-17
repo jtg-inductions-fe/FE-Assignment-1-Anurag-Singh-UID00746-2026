@@ -6,11 +6,16 @@
 
 .footer {
     padding: 0 2rem;
-    margin-top: 8rem;
+    margin-top: 10rem;
     position: relative;
 
     @include respond-to(tablet) {
         margin-bottom: 2rem;
+        margin-top: 8rem;
+    }
+
+    @include respond-to(desktop) {
+        margin-top: 8rem;
     }
 
     &__visual {

@@ -16,8 +16,12 @@
     padding: 3.8rem 1.5rem 1.7rem 1.5rem;
     position: relative;
 
+    @include respond-to(tablet) {
+        padding: 3.5rem 6rem;
+    }
+
     @include respond-to(desktop) {
-        padding: 6.5rem 13.5rem;
+        padding: 8.8rem 13.5rem;
     }
 
     &__container {
@@ -29,7 +33,7 @@
 
         @include respond-to(desktop) {
             position: fixed;
-            padding: 1rem 3rem;
+            padding: 1rem;
 
             &--scrolled {
                 background: $gradient-bg-glass;
@@ -64,7 +68,7 @@
         order: 1;
 
         @include respond-to(tablet) {
-            margin-left: 10rem;
+            margin-left: 18rem;
         }
     }
 

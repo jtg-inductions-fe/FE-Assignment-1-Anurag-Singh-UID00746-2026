@@ -17,6 +17,7 @@
         height: 70rem;
         max-width: 100%;
         padding: 0;
+        margin-top: -7rem;
         background-image: linear-gradient(
                 rgba(255, 255, 255, 0.9),
                 rgba(255, 255, 255, 0.9)
@@ -32,7 +33,7 @@
                 rgba(255, 255, 255, 0.9)
             ),
             url('/assets/images/bg-testimonial-wave.svg');
-        padding-top: 10rem;
+        padding-top: 15rem;
     }
 
     &__container {
