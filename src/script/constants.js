@@ -9,3 +9,11 @@ export const CENTER = 'center';
 export const COLOR_KEYS = ['PINK', 'PURPLE', 'YELLOW', 'BLUE'];
 export const SPIN_DURATION = 4000;
 export const SLICES = 4;
+export const KEYS = {
+    ESCAPE: 'Escape',
+};
+
+export const BREAKPOINTS = {
+    TABLET: '(max-width: 1110px)',
+    MOBILE: '(max-width: 828px)',
+};

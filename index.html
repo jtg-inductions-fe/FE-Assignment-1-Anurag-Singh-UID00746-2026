@@ -57,13 +57,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a
-                                    href="#"
-                                    class="header__link"
+                                <button
+                                    type="button"
+                                    class="header__link header__btn"
                                     id="special-deals-btn"
+                                    aria-haspopup="dialog"
                                 >
                                     Special Deals
-                                </a>
+                                </button>
                             </li>
                             <li>
                                 <a href="#footer" class="header__link">
@@ -447,6 +448,7 @@
                             <span
                                 class="testimonial-card__role-wrapper--divider"
                             >
+                                /
                             </span>
                             <span class="testimonial-card__role-wrapper--role">
                             </span>
@@ -534,7 +536,7 @@
                     <button
                         type="button"
                         class="btn btn--secondary btn--full-width"
-                        id="unlocked-deals"
+                        id="unlocked-deals-button"
                         aria-label="View all unlocked deals button"
                     >
                         View All Unlocked Deals
@@ -544,12 +546,12 @@
             </div>
             <div
                 class="deals__container deals__container--inactive"
-                id="panel-two"
+                id="unlocked-deals-panel"
             >
                 <button
                     type="button"
                     class="deals__close-btn"
-                    id="close-btn-for-panel-two"
+                    id="unlocked-deals-close-btn"
                     aria-label="Close button"
                 >
                     <i class="ic-close"></i>

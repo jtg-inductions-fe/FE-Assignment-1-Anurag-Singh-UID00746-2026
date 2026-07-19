@@ -12,21 +12,21 @@ const modal = document.getElementById('deals');
 const backBtn = document.getElementById('back-button');
 const openButton = document.getElementById('special-deals-btn');
 const closeButton = document.getElementById('close-btn');
-const closeButtonForPanelTwo = document.getElementById(
-    'close-btn-for-panel-two',
+const closeButtonForUnlockedDeals = document.getElementById(
+    'unlocked-deals-close-btn',
 );
 const winLabel = document.querySelector('.deals__win-label');
 const allDeals = document.querySelector('.deals__all-deals');
-const canvas = document.getElementById('wheel');
-const seccondPanel = document.getElementById('panel-two');
+const SpinnerCanvas = document.getElementById('wheel');
+const unlockedDealsPanel = document.getElementById('unlocked-deals-panel');
 const spinBtn = document.getElementById('spin-btn');
-const loader = document.getElementById('spinner-loading');
-const unlockedDeals = document.querySelector('.deals__unlocked');
-const unlockedDealsBtn = document.getElementById('unlocked-deals');
+const spinnerLoader = document.getElementById('spinner-loading');
+const unlockedDealsContainer = document.querySelector('.deals__unlocked');
+const unlockedDealsBtn = document.getElementById('unlocked-deals-button');
 const couponContainer = document.querySelector('.deals__unlocked-coupons');
 const couponTemplate = document.getElementById('coupon-card-template');
-const template = document.getElementById('testimonial-template');
-const ctx = canvas.getContext('2d');
+const testimonialTemplate = document.getElementById('testimonial-template');
+const ctx = SpinnerCanvas.getContext('2d');
 
 let colors = [];
 let selectRand = [];
@@ -40,9 +40,7 @@ let spinStartTime = 0;
 
 const wonDeals = JSON.parse(localStorage.getItem('wonDeals')) || [];
 
-CONSTANTS.COLOR_KEYS.forEach((key) => {
-    colors.push(CONSTANTS[key]);
-});
+colors = CONSTANTS.COLOR_KEYS.map((key) => CONSTANTS[key]);
 
 initializeNavigation();
 handleActionBtns();
@@ -50,7 +48,7 @@ renderStatsIntoContent();
 renderTestimonials();
 toggleAccordion();
 
-const size = canvas.width;
+const size = SpinnerCanvas.width;
 const center = size / 2;
 const radius = center;
 const slice = (Math.PI * 2) / CONSTANTS.SLICES;
@@ -58,6 +56,13 @@ const slice = (Math.PI * 2) / CONSTANTS.SLICES;
 let rotation = 0;
 let spinning = false;
 
+/**
+ * Handles the window scroll event to toggle a scrolled class on the header container.
+ * Adds the styling class when the page is scrolled past a specific threshold.
+ *
+ * @function handleScroll
+ * @returns {void} This function does not return a value.
+ */
 function handleScroll() {
     if (!container) return;
     if (scrollY > 4) {
@@ -103,10 +108,10 @@ function initializeNavigation() {
     }
 
     window.addEventListener('keydown', (e) => {
-        if (e.key !== 'Escape') return;
+        if (e.key !== CONSTANTS.KEYS.ESCAPE) return;
 
         const isTabletOrMobile = window.matchMedia(
-            '(max-width: 1110px)',
+            CONSTANTS.BREAKPOINTS.TABLET,
         ).matches;
         if (!isTabletOrMobile) return;
 
@@ -125,14 +130,16 @@ function initializeNavigation() {
  * @returns {void}
  */
 function handleActiveState(e) {
-    if (e.target.tagName === 'A') {
+    const link = e.target.closest('.header__link');
+
+    if (link) {
         const active = container.querySelector('.header__link--active');
 
         if (active) {
             active.classList.remove('header__link--active');
         }
 
-        e.target.classList.add('header__link--active');
+        link.classList.add('header__link--active');
     }
 }
 
@@ -145,7 +152,7 @@ container.addEventListener('click', handleActiveState);
 function handleActionBtns() {
     const actions = document.querySelector('.header__actions');
     const navMenu = document.querySelector('.header__nav');
-    const mobile = window.matchMedia('(max-width: 828px)');
+    const mobile = window.matchMedia(CONSTANTS.BREAKPOINTS.MOBILE);
 
     /**
      * Move or restore the action buttons for the current screen size.
@@ -260,7 +267,7 @@ function renderTestimonials() {
             const fragment = document.createDocumentFragment();
 
             testimonialsArray.forEach((item) => {
-                const clone = template.content.cloneNode(true);
+                const clone = testimonialTemplate.content.cloneNode(true);
 
                 const avatarImg = clone.querySelector(
                     '.testimonial-card__avatar',
@@ -371,8 +378,9 @@ function toggleAccordion() {
  * Opens the modal
  * @returns {void}
  */
-const openModal = () => {
+const openModal = async () => {
     modal.showModal();
+    await fetchDeals();
     draw();
 };
 
@@ -386,14 +394,14 @@ const closeModal = () => {
 
 openButton?.addEventListener('click', openModal);
 closeButton?.addEventListener('click', closeModal);
-closeButtonForPanelTwo?.addEventListener('click', closeModal);
+closeButtonForUnlockedDeals?.addEventListener('click', closeModal);
 
 /**
  * Loading state for spinner
  * @returns {void}
  */
 const spinnerLoading = () => {
-    if (!loader || !spinBtn) return;
+    if (!spinnerLoader || !spinBtn) return;
 
     const spinPointer = document.querySelector('.spinner__spin-pointer');
     spinPointer?.classList.add('spinner__spin-pointer--loading');
@@ -402,11 +410,11 @@ const spinnerLoading = () => {
         spinBtn.disabled = true;
     }
 
-    loader.classList.remove('spinner__loading--hidden');
-    loader.textContent = 'Loading..';
+    spinnerLoader.classList.remove('spinner__loading--hidden');
+    spinnerLoader.textContent = 'Loading..';
 
     setTimeout(() => {
-        loader.classList.add('spinner__loading--hidden');
+        spinnerLoader.classList.add('spinner__loading--hidden');
 
         const spinPointer = document.querySelector('.spinner__spin-pointer');
         spinPointer?.classList.remove('spinner__spin-pointer--loading');
@@ -484,17 +492,18 @@ const fetchDeals = async () => {
         }
         dealsData = await res.json();
         selectRandom();
+        draw();
     } catch {
         if (winLabel) winLabel.innerText = 'Failed to load deals';
         if (spinBtn) {
             spinBtn.classList.add('spinner__spin-btn--disabled');
             spinBtn.disabled = true;
             spinBtn.innerText = 'Failed to load deals';
+            spinBtn.blur();
+            spinBtn.setAttribute('tabindex', '-1');
         }
     }
 };
-
-fetchDeals();
 
 /**
  * Handles the text wrapping inside the slice of the spinner
@@ -518,9 +527,11 @@ const wrapText = (txt) => {
  * @returns {void}
  */
 const copy = (e) => {
-    if (e.target.tagName.toUpperCase() === 'I') {
-        copyToClipboard(e.target.id);
-        alert('Copied');
+    const iconElement = e.target.closest('i');
+
+    if (iconElement) {
+        navigator.clipboard.writeText(iconElement.id);
+        alert('Copied to clipboard');
     }
 };
 
@@ -642,7 +653,6 @@ const animate = (timestamp) => {
  * @returns {void}
  */
 const spin = () => {
-    // Hard-block click/animation when button is disabled.
     if (
         !spinBtn ||
         spinBtn.disabled ||
@@ -683,23 +693,15 @@ const spin = () => {
 };
 
 /**
- * Copies the text to clipboard
- * @returns {void}
- */
-const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-};
-
-/**
  * Renders all the won deals
  * @returns {void}
  */
 const showAllDeals = () => {
-    unlockedDeals.innerHTML = '';
+    unlockedDealsContainer.innerHTML = '';
     modalContainer.classList.add('deals__container--inactive');
-    seccondPanel.classList.add('deals__container--active');
+    unlockedDealsPanel.classList.add('deals__container--active');
 
-    if (!couponTemplate || !unlockedDeals) return;
+    if (!couponTemplate || !unlockedDealsContainer) return;
 
     const fragment = document.createDocumentFragment();
 
@@ -735,10 +737,10 @@ const showAllDeals = () => {
         fragment.appendChild(clone);
     });
 
-    unlockedDeals.appendChild(fragment);
+    unlockedDealsContainer.appendChild(fragment);
 };
 
-unlockedDeals.addEventListener('click', copy);
+unlockedDealsContainer.addEventListener('click', copy);
 
 /**
  * Redirects to the previous section
@@ -746,7 +748,7 @@ unlockedDeals.addEventListener('click', copy);
  */
 const Back = () => {
     modalContainer.classList.remove('deals__container--inactive');
-    seccondPanel.classList.remove('deals__container--active');
+    unlockedDealsPanel.classList.remove('deals__container--active');
 };
 
 spinBtn.addEventListener('click', spin);
