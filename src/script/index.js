@@ -17,16 +17,18 @@ const closeButtonForUnlockedDeals = document.getElementById(
 );
 const winLabel = document.querySelector('.deals__win-label');
 const allDeals = document.querySelector('.deals__all-deals');
-const SpinnerCanvas = document.getElementById('wheel');
+const spinnerCanvas = document.getElementById('wheel');
 const unlockedDealsPanel = document.getElementById('unlocked-deals-panel');
 const spinBtn = document.getElementById('spin-btn');
 const spinnerLoader = document.getElementById('spinner-loading');
 const unlockedDealsContainer = document.querySelector('.deals__unlocked');
 const unlockedDealsBtn = document.getElementById('unlocked-deals-button');
 const couponContainer = document.querySelector('.deals__unlocked-coupons');
+const contentContainer = document.querySelector('.travel-point__stats');
+const statCardTemplate = document.getElementById('stat-card-template');
 const couponTemplate = document.getElementById('coupon-card-template');
 const testimonialTemplate = document.getElementById('testimonial-template');
-const ctx = SpinnerCanvas.getContext('2d');
+const ctx = spinnerCanvas.getContext('2d');
 
 let colors = [];
 let selectRand = [];
@@ -48,7 +50,7 @@ renderStatsIntoContent();
 renderTestimonials();
 toggleAccordion();
 
-const size = SpinnerCanvas.width;
+const size = spinnerCanvas.width;
 const center = size / 2;
 const radius = center;
 const slice = (Math.PI * 2) / CONSTANTS.SLICES;
@@ -81,9 +83,64 @@ function toggleNavigation() {
     toggleButton.setAttribute('aria-expanded', nextExpanded);
     toggleButton.classList.toggle('header__toggle--active');
     navMenu.classList.toggle('header__nav--active');
+    syncHeaderActionsTabFocus();
 }
 
 const desktop = window.matchMedia('(min-width: 1025px)');
+
+/**
+ * Disable keyboard tab-focus for the header menu on mobile/tablet.
+ * This prevents focus landing on links/buttons when the nav is in the
+ * drawer layout.
+ *
+ * @param {boolean} isDesktop
+ * @returns {void}
+ */
+function setHeaderMenuTabFocus(isDesktop) {
+    const menu = document.querySelector('.header__menu');
+    if (!menu) return;
+
+    const focusable = menu.querySelectorAll('a[href], button');
+
+    focusable.forEach((el) => {
+        if (isDesktop) {
+            el.removeAttribute('tabindex');
+        } else {
+            el.setAttribute('tabindex', '-1');
+        }
+    });
+}
+
+/**
+ * On mobile/tablet, header action buttons (Log In / Sign Up) should be
+ * keyboard-focusable only when the hamburger drawer is open.
+ */
+function setHeaderActionsTabFocus(isAllowed) {
+    const actionsButtons = document.querySelectorAll('.header__actions button');
+
+    actionsButtons.forEach((btn) => {
+        if (isAllowed) {
+            btn.removeAttribute('tabindex');
+        } else {
+            btn.setAttribute('tabindex', '-1');
+        }
+    });
+}
+
+/**
+ * Sync header actions focus state based on:
+ * - desktop: always allow
+ * - mobile/tablet: allow only when drawer is open
+ */
+function syncHeaderActionsTabFocus() {
+    if (!toggleButton) return;
+    if (desktop.matches) {
+        setHeaderActionsTabFocus(true);
+        return;
+    }
+    const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+    setHeaderActionsTabFocus(isExpanded);
+}
 
 /**
  * Handles navigation menu open and closed state.
@@ -93,11 +150,49 @@ function handleOpenState(e) {
     if (e.matches) {
         toggleButton.classList.remove('header__toggle--active');
         navMenu.classList.remove('header__nav--active');
+        setHeaderMenuTabFocus(true);
+    } else {
+        setHeaderMenuTabFocus(false);
     }
 }
 
 desktop.addEventListener('change', handleOpenState);
 handleOpenState(desktop);
+
+/**
+ * On mobile/tablet, hamburger should come first in tab order.
+ * Also keep menu items unfocusable on mobile/tablet.
+ */
+function handleHeaderTabOrder() {
+    const isDesktop = desktop.matches;
+    setHeaderMenuTabFocus(isDesktop);
+    const logo = document.querySelector('.header__logo');
+    const hamburger = document.getElementById('header__toggle');
+
+    if (!logo || !hamburger) return;
+    const isTablet = window.matchMedia(CONSTANTS.BREAKPOINTS.TABLET).matches;
+    const isMobile = window.matchMedia(CONSTANTS.BREAKPOINTS.MOBILE).matches;
+    const isTabletOnly = isTablet && !isMobile;
+
+    if (isTabletOnly) {
+        if (
+            logo.compareDocumentPosition(hamburger) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+        ) {
+            logo.parentNode.insertBefore(hamburger, logo);
+        }
+    } else {
+        if (
+            hamburger.compareDocumentPosition(logo) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+        ) {
+            hamburger.parentNode.insertBefore(logo, hamburger);
+        }
+    }
+}
+
+desktop.addEventListener('change', handleHeaderTabOrder);
+handleHeaderTabOrder();
 
 /**
  * Toggle the mobile navigation menu open and closed state.
@@ -185,10 +280,7 @@ function handleActionBtns() {
  * @returns {void}
  */
 function renderStatsIntoContent() {
-    const contentContainer = document.querySelector('.travel-point__stats');
-    const template = document.getElementById('stat-card-template');
-
-    if (!contentContainer || !template) {
+    if (!contentContainer || !statCardTemplate) {
         return;
     }
 
@@ -198,7 +290,7 @@ function renderStatsIntoContent() {
     const fragment = document.createDocumentFragment();
 
     statsList.forEach((stat) => {
-        const clone = template.content.cloneNode(true);
+        const clone = statCardTemplate.content.cloneNode(true);
 
         clone.querySelector('.travel-point__card-number').textContent =
             stat.value;
@@ -226,9 +318,6 @@ function renderTestimonials() {
         const sliderContainer = document.querySelector('.testimonials__slider');
 
         if (typeof Swiper === 'undefined') {
-            if (sliderContainer) {
-                sliderContainer.classList.add('testimonials__slider--fallback');
-            }
             return;
         }
 
@@ -236,7 +325,7 @@ function renderTestimonials() {
             return;
         }
 
-        new Swiper(sliderContainer, {
+        new window.Swiper(sliderContainer, {
             slidesPerView: 1,
             spaceBetween: 30,
             loop: true,
@@ -664,7 +753,9 @@ const spin = () => {
     winLabel.innerText = ' ';
     couponContainer.innerHTML = null;
 
-    selectRandom();
+    if (wonDeals.length !== 0) {
+        selectRandom();
+    }
 
     if (spinning || selectRand.length < CONSTANTS.SLICES) return;
 

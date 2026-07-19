@@ -17,18 +17,9 @@
     font-style: normal;
     line-height: 1;
     color: inherit;
-
-    // remove the extra space below the icon
     display: inline-block;
-
-    // allow the icon to be treated like text
-    // vertical-align: middle;
     -webkit-font-smoothing: antialiased;
-
-    // Chrome and Safari
     -moz-osx-font-smoothing: grayscale;
-
-    // Firefox
 }
 
 .ic-hamburger-menu::before {

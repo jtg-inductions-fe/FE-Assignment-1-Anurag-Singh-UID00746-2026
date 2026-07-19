@@ -136,7 +136,7 @@
     }
 
     &__nav-wrapper {
-        @include flex(flex-start, stretch, column);
+        @include flex(center, stretch, column);
         margin: 3rem 0;
         width: 100%;
         gap: 3rem;
