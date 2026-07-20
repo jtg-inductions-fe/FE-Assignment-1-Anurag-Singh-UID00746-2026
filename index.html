@@ -10,7 +10,6 @@
             href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
         />
     </head>
-
     <body>
         <div class="container">
             <header class="header">
@@ -57,9 +56,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="header__link">
+                                <button
+                                    type="button"
+                                    class="header__link header__btn"
+                                    id="special-deals-btn"
+                                    aria-haspopup="dialog"
+                                >
                                     Special Deals
-                                </a>
+                                </button>
                             </li>
                             <li>
                                 <a href="#footer" class="header__link">
@@ -70,12 +74,14 @@
                     </nav>
                     <div class="header__actions">
                         <button
+                            type="button"
                             class="btn btn--secondary"
                             aria-label="Login button"
                         >
                             Log In
                         </button>
                         <button
+                            type="button"
                             class="btn btn--primary"
                             aria-label="Signup button"
                         >
@@ -100,11 +106,11 @@
                         </div>
                         <div class="hero__content">
                             <div class="hero__eyebrow">
-                                <i class="ic-hero-explore" aria-hidden="true">
-                                </i>
                                 <span class="hero__eyebrow-text">
                                     Explore the world!
                                 </span>
+                                <i class="ic-hero-explore" aria-hidden="true">
+                                </i>
                             </div>
 
                             <h1 class="hero__title">
@@ -238,7 +244,6 @@
                                 <i class="ic-arrow-right" aria-hidden="true">
                                 </i>
                             </button>
-
                             <div
                                 class="swiper-pagination testimonials__pagination"
                             ></div>
@@ -256,7 +261,6 @@
                     <img
                         src="/assets/images/overlay-footer-lines.svg"
                         class="footer__dot-pattern"
-                        alt="Footer dot pattern"
                     />
                     <div class="footer__brand">
                         <div class="footer__logo-box">
@@ -275,7 +279,7 @@
                         </p>
                         <div class="footer__socials">
                             <a
-                                href="#"
+                                href="https://www.facebook.com/"
                                 class="footer__social-link"
                                 aria-label="Facebook"
                             >
@@ -286,7 +290,7 @@
                                 </i>
                             </a>
                             <a
-                                href="#"
+                                href="https://www.x.com/"
                                 class="footer__social-link footer__spread"
                                 aria-label="Twitter"
                             >
@@ -294,7 +298,7 @@
                                 </i>
                             </a>
                             <a
-                                href="#"
+                                href="https://www.instagram.com/"
                                 class="footer__social-link footer__spread"
                                 aria-label="Instagram"
                             >
@@ -313,9 +317,10 @@
                                 type="button"
                                 class="footer__heading-btn"
                                 aria-expanded="false"
-                                tabindex="-1"
                             >
-                                <span class="footer__heading"> Company </span>
+                                <span class="footer__heading" tabindex="-1">
+                                    Company
+                                </span>
                                 <span class="footer__arrow" aria-hidden="true">
                                     <i class="ic-arrow-down"></i>
                                 </span>
@@ -346,9 +351,10 @@
                                 type="button"
                                 class="footer__heading-btn"
                                 aria-expanded="false"
-                                tabindex="-1"
                             >
-                                <span class="footer__heading"> Contact </span>
+                                <span class="footer__heading" tabindex="-1">
+                                    Contact
+                                </span>
                                 <span class="footer__arrow" aria-hidden="true">
                                     <i class="ic-arrow-down"></i>
                                 </span>
@@ -384,9 +390,10 @@
                                 type="button"
                                 class="footer__heading-btn"
                                 aria-expanded="false"
-                                tabindex="-1"
                             >
-                                <span class="footer__heading"> Meet Us </span>
+                                <span class="footer__heading" tabindex="-1">
+                                    Meet Us
+                                </span>
                                 <span class="footer__arrow" aria-hidden="true">
                                     <i class="ic-arrow-down"></i>
                                 </span>
@@ -427,7 +434,159 @@
                 <p class="travel-point__card-label"></p>
             </div>
         </template>
-        <script type="module" src="./src/script/index.js"></script>
+        <template id="testimonial-template">
+            <div class="swiper-slide">
+                <div class="testimonial-card">
+                    <div class="testimonial-card__avatar-wrapper">
+                        <img
+                            src="assets/images/img-testimonial-user.svg"
+                            class="testimonial-card__avatar"
+                        />
+                    </div>
+                    <div class="testimonial-card__meta">
+                        <span class="testimonial-card__name"></span>
+                        <div class="testimonial-card__role-wrapper">
+                            <span
+                                class="testimonial-card__role-wrapper--divider"
+                            >
+                                /
+                            </span>
+                            <span class="testimonial-card__role-wrapper--role">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card__rating"></div>
+                    <p class="testimonial-card__text"></p>
+                </div>
+            </div>
+        </template>
+        <template id="coupon-card-template">
+            <div class="deals__coupon-wrapper">
+                <div class="deals__offer-wrapper">
+                    <p class="deals__offer"></p>
+                    <p class="deals__validity"></p>
+                </div>
+                <div class="deals__code-wrapper">
+                    <p class="deals__code"></p>
+                    <button
+                        type="button"
+                        class="deals__copy-btn"
+                        aria-label="Copy button"
+                    >
+                        <i class="ic-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </template>
+        <dialog class="deals" id="deals">
+            <div class="deals__container">
+                <button
+                    type="button"
+                    class="deals__close-btn"
+                    id="close-btn"
+                    aria-label="Close button"
+                >
+                    <i class="ic-close"></i>
+                </button>
+                <div class="deals__header">
+                    <span class="section-subtitle section-subtitle--secondary">
+                        <i class="ic-special-gift"></i>
+                        Special Deals
+                    </span>
+                    <h2
+                        class="section-title section-title--secondary"
+                        id="deals-modal-title"
+                    >
+                        Spin & Win!
+                    </h2>
+                    <p class="deals__modal-description">
+                        Tap the center of the wheel to spin
+                    </p>
+                </div>
+                <div class="deals__body">
+                    <div class="spinner__spin-pointer"></div>
+                    <div class="spinner__wrapper">
+                        <div
+                            class="spinner__loading spinner__loading--hidden"
+                            id="spinner-loading"
+                            aria-live="polite"
+                        >
+                            Loading..
+                        </div>
+                        <canvas
+                            class="spinner"
+                            id="wheel"
+                            width="228"
+                            height="228"
+                        >
+                        </canvas>
+                        <button
+                            type="button"
+                            class="spinner__spin-btn"
+                            id="spin-btn"
+                            aria-label="Spin button"
+                        >
+                            Spin
+                        </button>
+                    </div>
+                    <p class="deals__win-label"></p>
+                    <div class="deals__unlocked-coupons"></div>
+                </div>
+                <div class="deals__footer">
+                    <button
+                        type="button"
+                        class="btn btn--secondary btn--full-width"
+                        id="unlocked-deals-button"
+                        aria-label="View all unlocked deals button"
+                    >
+                        View All Unlocked Deals
+                        <div class="deals__all-deals"></div>
+                    </button>
+                </div>
+            </div>
+            <div
+                class="deals__container deals__container--inactive"
+                id="unlocked-deals-panel"
+            >
+                <button
+                    type="button"
+                    class="deals__close-btn"
+                    id="unlocked-deals-close-btn"
+                    aria-label="Close button"
+                >
+                    <i class="ic-close"></i>
+                </button>
+                <div class="deals__header">
+                    <span class="section-subtitle section-subtitle--secondary">
+                        <i class="ic-special-gift"></i>
+                        Special Deals
+                    </span>
+                    <h2
+                        class="section-title section-title--secondary"
+                        id="deals-modal-title"
+                    >
+                        Unlocked Deals
+                    </h2>
+                    <p class="deals__modal-description">
+                        All the deals you’ve unlocked yet!
+                    </p>
+                </div>
+                <div class="deals__body">
+                    <div class="deals__unlocked"></div>
+                </div>
+                <div class="deals__footer">
+                    <button
+                        type="button"
+                        class="btn btn--secondary btn--full-width"
+                        id="back-button"
+                        aria-label="Go Back button"
+                    >
+                        Go Back
+                    </button>
+                </div>
+            </div>
+        </dialog>
         <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+        <script type="module" src="./src/script/index.js"></script>
     </body>
 </html>

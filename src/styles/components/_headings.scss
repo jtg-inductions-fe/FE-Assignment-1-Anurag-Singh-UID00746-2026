@@ -7,7 +7,6 @@
 .section-subtitle {
     color: $color-brand-accent;
     font-size: $text-size-subheading;
-    font-weight: $font-weight-heading;
     text-transform: uppercase;
     letter-spacing: 0.4rem;
     display: block;
@@ -17,8 +16,11 @@
         font-size: $text-size-medium;
     }
 
-    @include respond-to(desktop) {
-        font-size: $text-size-medium;
+    &--secondary {
+        font-size: $text-size-small;
+        font-weight: $font-weight-heading;
+        margin: 0;
+        letter-spacing: 1px;
     }
 }
 
@@ -33,6 +35,12 @@
     }
 
     @include respond-to(desktop) {
-        font-size: 4.4rem;
+        font-size: $text-size-display-lg;
+    }
+
+    &--secondary {
+        font-size: $text-size-medium;
+        margin: 0;
+        letter-spacing: 1px;
     }
 }

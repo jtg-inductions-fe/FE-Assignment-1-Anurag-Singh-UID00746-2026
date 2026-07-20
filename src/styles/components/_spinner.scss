@@ -1,0 +1,69 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../base/base' as *;
+@use '../base/reset' as *;
+@use '../base/typography' as *;
+
+.spinner {
+    border-radius: 50%;
+    border: 4px solid $color-interactive-inverse;
+    box-shadow: $shadow-spinner;
+
+    &__wrapper {
+        @include flex(center, center, center);
+        position: relative;
+    }
+
+    &__spin-btn {
+        position: absolute;
+        bottom: 9.6rem;
+        border-radius: 50%;
+        background-color: $color-interactive-inverse;
+        border: 3px solid $color-brand-accent;
+        width: 5rem;
+        height: 5rem;
+        color: $color-brand-accent;
+        font-weight: $font-weight-heading;
+        letter-spacing: 0.05em;
+        font-size: $text-size-small;
+        cursor: pointer;
+
+        &--disabled {
+            width: fit-content;
+            height: fit-content;
+            border-radius: 0;
+            bottom: 11rem;
+            border: none;
+            pointer-events: none;
+        }
+    }
+
+    &__loading {
+        @include flex(center, center, center);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $color-spinner-loading;
+        border-radius: 50%;
+        z-index: 10;
+        color: $color-brand-primary;
+        font-size: $text-size-small;
+
+        &--hidden {
+            display: none;
+        }
+    }
+
+    &__spin-pointer {
+        clip-path: polygon(50% 100%, 0 0, 100% 0);
+        height: 2rem;
+        width: 2rem;
+        background-color: $color-brand-accent;
+
+        &--loading {
+            background-color: $color-spinner-loading;
+        }
+    }
+}

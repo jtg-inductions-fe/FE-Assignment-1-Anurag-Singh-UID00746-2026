@@ -1,8 +1,48 @@
 import data from './utilities/data.json';
+import * as CONSTANTS from './constants.js';
+
+const DEALS_URL =
+    'https://gist.githubusercontent.com/ameer-wajid-ali/1f29ebee4295cede36f8d74b45e576df/raw/122966c9a123861249f173911d8d93a76dc06d7a/';
 
 const toggleButton = document.getElementById('header__toggle');
 const navMenu = document.querySelector('.header__nav');
 const container = document.querySelector('.header__container');
+const modalContainer = document.querySelector('.deals__container');
+const modal = document.getElementById('deals');
+const backBtn = document.getElementById('back-button');
+const openButton = document.getElementById('special-deals-btn');
+const closeButton = document.getElementById('close-btn');
+const closeButtonForUnlockedDeals = document.getElementById(
+    'unlocked-deals-close-btn',
+);
+const winLabel = document.querySelector('.deals__win-label');
+const allDeals = document.querySelector('.deals__all-deals');
+const spinnerCanvas = document.getElementById('wheel');
+const unlockedDealsPanel = document.getElementById('unlocked-deals-panel');
+const spinBtn = document.getElementById('spin-btn');
+const spinnerLoader = document.getElementById('spinner-loading');
+const unlockedDealsContainer = document.querySelector('.deals__unlocked');
+const unlockedDealsBtn = document.getElementById('unlocked-deals-button');
+const couponContainer = document.querySelector('.deals__unlocked-coupons');
+const contentContainer = document.querySelector('.travel-point__stats');
+const statCardTemplate = document.getElementById('stat-card-template');
+const couponTemplate = document.getElementById('coupon-card-template');
+const testimonialTemplate = document.getElementById('testimonial-template');
+let ctx = spinnerCanvas.getContext('2d');
+
+let colors = [];
+let selectRand = [];
+let dealsData = [];
+let rafId = null;
+let winningIdx = 0;
+let startRotation = 0;
+let targetRotation = 0;
+let spinDuration = CONSTANTS.SPIN_DURATION;
+let spinStartTime = 0;
+
+const wonDeals = JSON.parse(localStorage.getItem('wonDeals')) || [];
+
+colors = CONSTANTS.COLOR_KEYS.map((key) => CONSTANTS[key]);
 
 initializeNavigation();
 handleActionBtns();
@@ -10,27 +50,125 @@ renderStatsIntoContent();
 renderTestimonials();
 toggleAccordion();
 
-function handleScroll() {
-    if (container && scrollY > 4) {
+const size = spinnerCanvas.width;
+const center = size / 2;
+const radius = center;
+const slice = (Math.PI * 2) / CONSTANTS.SLICES;
+
+let rotation = 0;
+let spinning = false;
+
+/**
+ * Handles the window scroll event to toggle a scrolled class on the header container.
+ * Adds the styling class when the page is scrolled past a specific threshold.
+ *
+ * @function handleScroll
+ * @returns {void} This function does not return a value.
+ */
+const handleScroll = () => {
+    if (!container) return;
+    if (scrollY > 4) {
         container.classList.add('header__container--scrolled');
     } else {
         container.classList.remove('header__container--scrolled');
     }
-}
+};
 
 window.addEventListener('scroll', handleScroll);
-/**
- * Toggle the mobile navigation menu open and closed state.
- * @returns {void}
- */
+
 function toggleNavigation() {
     const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
-    toggleButton.setAttribute('aria-expanded', !isExpanded);
+    const nextExpanded = !isExpanded;
+
+    toggleButton.setAttribute('aria-expanded', nextExpanded);
     toggleButton.classList.toggle('header__toggle--active');
     navMenu.classList.toggle('header__nav--active');
+    syncHeaderActionsTabFocus();
+    syncHeaderMenuTabFocus();
 }
 
 const desktop = window.matchMedia('(min-width: 1025px)');
+
+/**
+ * Disable keyboard tab-focus for the header menu on mobile/tablet.
+ * This prevents focus landing on links/buttons when the nav is in the
+ * drawer layout.
+ *
+ * @param {boolean} isDesktop
+ * @returns {void}
+ */
+/**
+ * Syncs keyboard focusability for the header nav links (mobile/tablet).
+ *
+ * - Desktop: always focusable
+ * - Mobile/Tablet: focusable only when drawer is open (isAllowed=true)
+ *
+ * @param {boolean} isDesktop
+ * @param {boolean} isAllowed
+ * @returns {void}
+ */
+function setHeaderMenuTabFocus(isDesktop, isAllowed) {
+    const menu = document.querySelector('.header__menu');
+    if (!menu) return;
+
+    const focusable = menu.querySelectorAll('a[href], button');
+
+    focusable.forEach((el) => {
+        if (isDesktop || isAllowed) {
+            el.removeAttribute('tabindex');
+        } else {
+            el.setAttribute('tabindex', '-1');
+        }
+    });
+}
+
+/**
+ * On mobile/tablet, header action buttons (Log In / Sign Up) should be
+ * keyboard-focusable only when the hamburger drawer is open.
+ */
+function setHeaderActionsTabFocus(isAllowed) {
+    const actionsButtons = document.querySelectorAll('.header__actions button');
+
+    actionsButtons.forEach((btn) => {
+        if (isAllowed) {
+            btn.removeAttribute('tabindex');
+        } else {
+            btn.setAttribute('tabindex', '-1');
+        }
+    });
+}
+
+/**
+ * Sync header actions focus state based on:
+ * - desktop: always allow
+ * - mobile/tablet: allow only when drawer is open
+ */
+function syncHeaderActionsTabFocus() {
+    if (!toggleButton) return;
+    if (desktop.matches) {
+        setHeaderActionsTabFocus(true);
+        setHeaderMenuTabFocus(true, true);
+        return;
+    }
+    const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+    setHeaderActionsTabFocus(isExpanded);
+    setHeaderMenuTabFocus(false, isExpanded);
+}
+
+/**
+ * Keep nav link tabindex in sync on each open/close interaction.
+ */
+function syncHeaderMenuTabFocus() {
+    if (!toggleButton) return;
+
+    if (desktop.matches) {
+        setHeaderMenuTabFocus(true, true);
+        return;
+    }
+
+    const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+    setHeaderMenuTabFocus(false, isExpanded);
+}
 
 /**
  * Handles navigation menu open and closed state.
@@ -40,11 +178,49 @@ function handleOpenState(e) {
     if (e.matches) {
         toggleButton.classList.remove('header__toggle--active');
         navMenu.classList.remove('header__nav--active');
+        setHeaderMenuTabFocus(true);
+    } else {
+        setHeaderMenuTabFocus(false);
     }
 }
 
 desktop.addEventListener('change', handleOpenState);
 handleOpenState(desktop);
+
+/**
+ * On mobile/tablet, hamburger should come first in tab order.
+ * Also keep menu items unfocusable on mobile/tablet.
+ */
+function handleHeaderTabOrder() {
+    const isDesktop = desktop.matches;
+    setHeaderMenuTabFocus(isDesktop);
+    const logo = document.querySelector('.header__logo');
+    const hamburger = document.getElementById('header__toggle');
+
+    if (!logo || !hamburger) return;
+    const isTablet = window.matchMedia(CONSTANTS.BREAKPOINTS.TABLET).matches;
+    const isMobile = window.matchMedia(CONSTANTS.BREAKPOINTS.MOBILE).matches;
+    const isTabletOnly = isTablet && !isMobile;
+
+    if (isTabletOnly) {
+        if (
+            logo.compareDocumentPosition(hamburger) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+        ) {
+            logo.parentNode.insertBefore(hamburger, logo);
+        }
+    } else {
+        if (
+            hamburger.compareDocumentPosition(logo) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+        ) {
+            hamburger.parentNode.insertBefore(logo, hamburger);
+        }
+    }
+}
+
+desktop.addEventListener('change', handleHeaderTabOrder);
+handleHeaderTabOrder();
 
 /**
  * Toggle the mobile navigation menu open and closed state.
@@ -53,17 +229,42 @@ function initializeNavigation() {
     if (toggleButton) {
         toggleButton.addEventListener('click', toggleNavigation);
     }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key !== CONSTANTS.KEYS.ESCAPE) return;
+
+        const isTabletOrMobile = window.matchMedia(
+            CONSTANTS.BREAKPOINTS.TABLET,
+        ).matches;
+        if (!isTabletOrMobile) return;
+
+        const isExpanded =
+            toggleButton?.getAttribute('aria-expanded') === 'true';
+        if (!isExpanded) return;
+
+        toggleButton.setAttribute('aria-expanded', 'false');
+        toggleButton.classList.remove('header__toggle--active');
+        navMenu.classList.remove('header__nav--active');
+        syncHeaderMenuTabFocus();
+        syncHeaderActionsTabFocus();
+    });
 }
 
+/**
+ * Handles the active state of nav links
+ * @returns {void}
+ */
 function handleActiveState(e) {
-    if (e.target.tagName === 'A') {
+    const link = e.target.closest('.header__link');
+
+    if (link) {
         const active = container.querySelector('.header__link--active');
 
         if (active) {
             active.classList.remove('header__link--active');
         }
 
-        e.target.classList.add('header__link--active');
+        link.classList.add('header__link--active');
     }
 }
 
@@ -76,7 +277,7 @@ container.addEventListener('click', handleActiveState);
 function handleActionBtns() {
     const actions = document.querySelector('.header__actions');
     const navMenu = document.querySelector('.header__nav');
-    const mobile = window.matchMedia('(max-width: 828px)');
+    const mobile = window.matchMedia(CONSTANTS.BREAKPOINTS.MOBILE);
 
     /**
      * Move or restore the action buttons for the current screen size.
@@ -109,10 +310,7 @@ function handleActionBtns() {
  * @returns {void}
  */
 function renderStatsIntoContent() {
-    const contentContainer = document.querySelector('.travel-point__stats');
-    const template = document.getElementById('stat-card-template');
-
-    if (!contentContainer || !template) {
+    if (!contentContainer || !statCardTemplate) {
         return;
     }
 
@@ -122,7 +320,7 @@ function renderStatsIntoContent() {
     const fragment = document.createDocumentFragment();
 
     statsList.forEach((stat) => {
-        const clone = template.content.cloneNode(true);
+        const clone = statCardTemplate.content.cloneNode(true);
 
         clone.querySelector('.travel-point__card-number').textContent =
             stat.value;
@@ -135,6 +333,10 @@ function renderStatsIntoContent() {
     contentContainer.appendChild(fragment);
 }
 
+/**
+ * Renders the caraousel and shows the testimonial cards
+ * @returns {void}
+ */
 function renderTestimonials() {
     const wrapper = document.getElementById('testimonial-wrapper');
 
@@ -146,9 +348,6 @@ function renderTestimonials() {
         const sliderContainer = document.querySelector('.testimonials__slider');
 
         if (typeof Swiper === 'undefined') {
-            if (sliderContainer) {
-                sliderContainer.classList.add('testimonials__slider--fallback');
-            }
             return;
         }
 
@@ -156,26 +355,22 @@ function renderTestimonials() {
             return;
         }
 
-        try {
-            new Swiper(sliderContainer, {
-                slidesPerView: 1,
-                spaceBetween: 30,
-                loop: true,
-                navigation: {
-                    nextEl: '.testimonials__nav-btn--next',
-                    prevEl: '.testimonials__nav-btn--prev',
-                },
-                pagination: {
-                    el: '.testimonials__pagination',
-                    clickable: true,
-                },
-                speed: 600,
-                observer: true,
-                observeParents: true,
-            });
-        } catch {
-            return;
-        }
+        new window.Swiper(sliderContainer, {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            navigation: {
+                nextEl: '.testimonials__nav-btn--next',
+                prevEl: '.testimonials__nav-btn--prev',
+            },
+            pagination: {
+                el: '.testimonials__pagination',
+                clickable: true,
+            },
+            speed: 600,
+            observer: true,
+            observeParents: true,
+        });
     }
 
     fetch(new URL('./utilities/data.json', import.meta.url))
@@ -187,41 +382,52 @@ function renderTestimonials() {
         })
         .then((jsonData) => {
             const testimonialsArray = jsonData['testimonials'].users;
-            let allSlidesHTML = '';
+
+            const fragment = document.createDocumentFragment();
 
             testimonialsArray.forEach((item) => {
-                let starsHTML = '';
-                for (let i = 0; i < 5; i++) {
-                    if (i < item.rating) {
-                        starsHTML += '<i class="ic-star-rating"></i>';
-                    }
+                const clone = testimonialTemplate.content.cloneNode(true);
+
+                const avatarImg = clone.querySelector(
+                    '.testimonial-card__avatar',
+                );
+                if (avatarImg) {
+                    avatarImg.src = 'assets/images/img-testimonial-user.svg';
+                    avatarImg.alt = item.name;
                 }
 
-                allSlidesHTML += `
-                    <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-card__avatar-wrapper">
-                                <img src="assets/images/img-testimonial-user.svg" alt="${item.name}" class="testimonial-card__avatar">
-                            </div>
-                            <div class="testimonial-card__meta">
-                                <span class="testimonial-card__name">${item.name}</span>
-                                <div class="testimonial-card__role-wrapper">
-                                    <span class="testimonial-card__role-wrapper--divider">/</span>
-                                    <span class="testimonial-card__role-wrapper--role">${item.role}</span>
-                                </div>
-                            </div>
-                            <div class="testimonial-card__rating">
-                                ${starsHTML}
-                            </div>
-                            <p class="testimonial-card__text">${item.description}</p>
-                        </div>
-                    </div>
-                `;
+                const nameEl = clone.querySelector('.testimonial-card__name');
+                if (nameEl) nameEl.textContent = item.name;
+
+                const roleEl = clone.querySelector(
+                    '.testimonial-card__role-wrapper--role',
+                );
+                if (roleEl) roleEl.textContent = item.role;
+
+                const ratingEl = clone.querySelector(
+                    '.testimonial-card__rating',
+                );
+
+                if (ratingEl) {
+                    let starsHTML = '';
+                    for (let i = 0; i < 5; i++) {
+                        if (i < item.rating) {
+                            starsHTML += '<i class="ic-star-rating"></i>';
+                        }
+                    }
+                    ratingEl.innerHTML = starsHTML;
+                }
+
+                const descEl = clone.querySelector('.testimonial-card__text');
+                if (descEl) descEl.textContent = item.description;
+
+                fragment.appendChild(clone);
             });
 
-            wrapper.innerHTML = allSlidesHTML;
-
+            wrapper.innerHTML = '';
+            wrapper.appendChild(fragment);
             initTestimonialSwiper();
+            return;
         })
         .catch(() => {
             contentContainer.textContent = 'Failed to load content.';
@@ -244,7 +450,6 @@ function toggleAccordion() {
             if (window.innerWidth >= 431) return;
 
             const section = this.closest('.footer__section');
-            const content = section.querySelector('.footer__content');
             const isOpen = section.classList.contains(
                 'footer__section--is-open',
             );
@@ -287,3 +492,388 @@ function toggleAccordion() {
         }
     });
 }
+
+/**
+ * Opens the modal
+ * @returns {void}
+ */
+const openModal = async () => {
+    modal.showModal();
+    await fetchDeals();
+    draw();
+};
+
+/**
+ * closes the modal
+ * @returns {void}
+ */
+const closeModal = () => {
+    modal.close();
+};
+
+openButton?.addEventListener('click', openModal);
+closeButton?.addEventListener('click', closeModal);
+closeButtonForUnlockedDeals?.addEventListener('click', closeModal);
+
+/**
+ * Loading state for spinner
+ * @returns {void}
+ */
+const spinnerLoading = () => {
+    if (!spinnerLoader || !spinBtn) return;
+
+    const spinPointer = document.querySelector('.spinner__spin-pointer');
+    spinPointer?.classList.add('spinner__spin-pointer--loading');
+
+    if (spinBtn) {
+        spinBtn.disabled = true;
+    }
+
+    spinnerLoader.classList.remove('spinner__loading--hidden');
+    spinnerLoader.textContent = 'Loading..';
+
+    setTimeout(() => {
+        spinnerLoader.classList.add('spinner__loading--hidden');
+
+        const spinPointer = document.querySelector('.spinner__spin-pointer');
+        spinPointer?.classList.remove('spinner__spin-pointer--loading');
+
+        if (spinBtn) {
+            spinBtn.disabled = false;
+        }
+    }, 1000);
+};
+
+openButton?.addEventListener('click', spinnerLoading);
+
+/**
+ * Shuffles the elements of the given array
+ * @returns {number[]}
+ */
+const shuffle = (arr) => {
+    const shuffled = [...arr];
+
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+
+    return shuffled;
+};
+
+/**
+ * Handles the state where no spin is left
+ * @returns {void}
+ */
+const handleNoSpinLeft = () => {
+    if (selectRand.length < CONSTANTS.SLICES) {
+        if (ctx) ctx.clearRect(0, 0, size, size);
+
+        winLabel.remove();
+
+        spinBtn.classList.add('spinner__spin-btn--disabled');
+        spinBtn.disabled = true;
+        spinBtn.textContent = 'No more spin left';
+    } else {
+        spinBtn.classList.remove('spinner__spin-btn--disabled');
+        spinBtn.disabled = false;
+        spinBtn.textContent = 'Spin';
+    }
+};
+
+/**
+ * Selects deals randomly, max number of deaks is 4
+ * @returns {void}
+ */
+const selectRandom = () => {
+    const wonPromoCodes = new Set(wonDeals.map((won) => won.promoCode));
+
+    const filtered = shuffle(
+        dealsData.filter((deal) => !wonPromoCodes.has(deal.promoCode)),
+    );
+
+    selectRand =
+        filtered.length >= CONSTANTS.SLICES
+            ? filtered.slice(0, 4)
+            : [...filtered];
+
+    handleNoSpinLeft();
+};
+
+/**
+ * Calls the API to fetch the deals data
+ * @returns {void}
+ */
+const fetchDeals = async () => {
+    try {
+        const res = await fetch(DEALS_URL);
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        dealsData = await res.json();
+        selectRandom();
+        draw();
+    } catch {
+        if (winLabel) winLabel.innerText = 'Failed to load deals';
+        if (spinBtn) {
+            spinBtn.classList.add('spinner__spin-btn--disabled');
+            spinBtn.disabled = true;
+            spinBtn.innerText = 'Failed to load deals';
+            spinBtn.blur();
+            spinBtn.setAttribute('tabindex', '-1');
+        }
+    }
+};
+
+/**
+ * Handles the text wrapping inside the slice of the spinner
+ * @returns {void}
+ */
+const wrapText = (txt) => {
+    const words = txt.split(' ');
+    if (words.length === 2) {
+        ctx.fillText(words[0], 0, -5);
+        ctx.fillText(words[1], 0, 15);
+    } else {
+        const first = words.slice(0, 2).join(' ');
+        const second = words.slice(2).join(' ');
+        ctx.fillText(first, 0, -5);
+        ctx.fillText(second, 0, 15);
+    }
+};
+
+/**
+ * Copies the given text
+ * @returns {void}
+ */
+const copy = (e) => {
+    const copyBtn = e.target.closest('.deals__copy-btn');
+    if (!copyBtn) return;
+
+    const code = copyBtn.dataset.code;
+    if (!code) return;
+    navigator.clipboard.writeText(code);
+    alert('Copied to clipboard');
+};
+
+/**
+ * Draws the graphics inside the canvas
+ * @returns {void}
+ */
+function draw() {
+    ctx.clearRect(0, 0, size, size);
+
+    if (selectRand.length < CONSTANTS.SLICES) {
+        return;
+    }
+
+    ctx.save();
+    ctx.translate(radius, radius);
+    ctx.rotate(rotation);
+
+    selectRand.forEach((deal, idx) => {
+        const start = idx * slice;
+        const end = start + slice;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.arc(0, 0, radius, start, end);
+        ctx.closePath();
+        ctx.fillStyle = colors[idx];
+        ctx.fill();
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = CONSTANTS.WHITE;
+        ctx.stroke();
+
+        ctx.save();
+        ctx.rotate(start + slice / 2);
+        ctx.textAlign = CONSTANTS.CENTER;
+        ctx.font = CONSTANTS.DEAL_FONT;
+
+        if (colors[idx] === CONSTANTS.YELLOW) {
+            ctx.fillStyle = CONSTANTS.BLACK;
+        } else {
+            ctx.fillStyle = CONSTANTS.WHITE;
+        }
+        ctx.translate(radius * 0.65, 0);
+        ctx.rotate(Math.PI / 2);
+        wrapText(deal.label);
+        ctx.restore();
+    });
+    ctx.restore();
+}
+
+allDeals.textContent = wonDeals.length;
+
+/**
+ * Stores the won deals in local storage
+ * @returns {void}
+ */
+const storeData = (idx) => {
+    wonDeals.push({ ...selectRand[idx], wonAt: Date.now() });
+    localStorage.setItem('wonDeals', JSON.stringify(wonDeals));
+};
+
+/**
+ * Renders the won deal
+ * @returns {void}
+ */
+const renderCoupon = (idx) => {
+    allDeals.textContent = wonDeals.length;
+    winLabel.innerText = 'You won!';
+    couponContainer.innerHTML = '';
+
+    if (!couponTemplate || !couponContainer) return;
+
+    const clone = couponTemplate.content.cloneNode(true);
+
+    clone.querySelector('.deals__offer').textContent = selectRand[idx].label;
+    clone.querySelector('.deals__validity').textContent =
+        `Expires in ${selectRand[idx].validFor ?? 7} days`;
+    clone.querySelector('.deals__code').textContent = selectRand[idx].promoCode;
+
+    const copyBtn = clone.querySelector('.deals__copy-btn');
+    if (copyBtn) {
+        copyBtn.dataset.code = selectRand[idx].promoCode;
+        copyBtn.addEventListener('click', copy);
+    }
+
+    couponContainer.appendChild(clone);
+};
+
+const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+/**
+ * Handles the rotation animation
+ * @returns {void}
+ */
+const animate = (timestamp) => {
+    if (!spinning) return;
+
+    const elapsed = timestamp - spinStartTime;
+    const progress = Math.min(elapsed / spinDuration, 1);
+
+    rotation =
+        startRotation +
+        (targetRotation - startRotation) * easeOutCubic(progress);
+
+    draw();
+
+    if (progress < 1) {
+        rafId = requestAnimationFrame(animate);
+    } else {
+        spinning = false;
+        spinBtn.disabled = false;
+
+        storeData(winningIdx);
+        renderCoupon(winningIdx);
+    }
+};
+
+/**
+ * Handles spinning state
+ * @returns {void}
+ */
+const spin = () => {
+    if (
+        !spinBtn ||
+        spinBtn.disabled ||
+        spinBtn.classList.contains('spinner__spin-btn--disabled')
+    ) {
+        return;
+    }
+
+    winLabel.innerText = ' ';
+    couponContainer.innerHTML = null;
+
+    if (wonDeals.length !== 0) {
+        selectRandom();
+    }
+
+    if (spinning || selectRand.length < CONSTANTS.SLICES) return;
+
+    winningIdx = Math.floor(Math.random() * CONSTANTS.SLICES);
+
+    const pointerAngle = 1.5 * Math.PI;
+    const sliceCenter = winningIdx * slice + slice / 2;
+
+    const currentModulo = rotation % (Math.PI * 2);
+    let angleDiff = pointerAngle - sliceCenter - currentModulo;
+
+    if (angleDiff < 0) {
+        angleDiff += Math.PI * 2;
+    }
+
+    startRotation = rotation;
+    const fullSpins = 6 * Math.PI * 2;
+    targetRotation = rotation + fullSpins + angleDiff;
+
+    spinStartTime = performance.now();
+    spinning = true;
+    spinBtn.disabled = true;
+
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(animate);
+};
+
+/**
+ * Renders all the won deals
+ * @returns {void}
+ */
+const showAllDeals = () => {
+    unlockedDealsContainer.innerHTML = '';
+    modalContainer.classList.add('deals__container--inactive');
+    unlockedDealsPanel.classList.add('deals__container--active');
+
+    if (!couponTemplate || !unlockedDealsContainer) return;
+
+    const fragment = document.createDocumentFragment();
+
+    wonDeals.forEach((deal) => {
+        const clone = couponTemplate.content.cloneNode(true);
+
+        clone.querySelector('.deals__offer').textContent = deal.label;
+
+        const allowedDays = deal.validFor === null ? 7 : deal.validFor;
+
+        const msPassed = Date.now() - (deal.wonAt || Date.now());
+        const daysPassed = Math.floor(msPassed / (1000 * 60 * 60 * 24));
+
+        const valid = allowedDays - daysPassed;
+
+        if (valid <= 0) {
+            const couponContainer = clone.querySelector(
+                '.deals__coupon-wrapper',
+            );
+            couponContainer.classList.add('deals__coupon-wrapper--expired');
+            const expiry = clone.querySelector('.deals__validity');
+            expiry.textContent = 'Deal Expired';
+            expiry.classList.add('deals__validity--expired');
+        } else {
+            clone.querySelector('.deals__validity').textContent =
+                `Expires in ${valid} days`;
+        }
+
+        clone.querySelector('.deals__code').textContent = deal.promoCode;
+        const copyBtn = clone.querySelector('.deals__copy-btn');
+        copyBtn.dataset.code = deal.promoCode;
+
+        fragment.appendChild(clone);
+    });
+
+    unlockedDealsContainer.appendChild(fragment);
+};
+
+/**
+ * Redirects to the previous section
+ * @returns {void}
+ */
+const Back = () => {
+    modalContainer.classList.remove('deals__container--inactive');
+    unlockedDealsPanel.classList.remove('deals__container--active');
+};
+
+spinBtn.addEventListener('click', spin);
+
+unlockedDealsBtn.addEventListener('click', showAllDeals);
+backBtn.addEventListener('click', Back);
+unlockedDealsContainer.addEventListener('click', copy);

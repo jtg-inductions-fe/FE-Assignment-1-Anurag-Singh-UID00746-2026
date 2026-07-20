@@ -6,8 +6,17 @@
 
 .footer {
     padding: 0 2rem;
-    margin-top: 8rem;
+    margin-top: 10rem;
     position: relative;
+
+    @include respond-to(tablet) {
+        margin-bottom: 2rem;
+        margin-top: 8rem;
+    }
+
+    @include respond-to(desktop) {
+        margin-top: 8rem;
+    }
 
     &__visual {
         display: none;
@@ -127,7 +136,7 @@
     }
 
     &__nav-wrapper {
-        @include flex(flex-start, stretch, column);
+        @include flex(center, stretch, column);
         margin: 3rem 0;
         width: 100%;
         gap: 3rem;
@@ -234,6 +243,12 @@
         }
     }
 
+    &__section--is-open {
+        .footer__content {
+            max-height: 50rem;
+        }
+    }
+
     &__list {
         @include flex(flex-start, flex-start, column);
 
@@ -245,7 +260,7 @@
         @include respond-to(tablet) {
             margin-top: 3.5rem;
             gap: 3.5rem;
-            padding: 0;
+            padding: 2rem 0rem;
         }
 
         @include respond-to(desktop) {
@@ -255,19 +270,10 @@
         }
     }
 
-    &__link {
-        font-size: 1.8rem;
-        color: rgba($color-brand-accent-tertiary, 0.75);
-        text-decoration: none;
-        transition: color 0.2s ease;
-
-        &:hover {
-            color: $color-interactive-primary;
-        }
-    }
-
-    &__info {
-        font-size: 1.8rem;
+    &__link,
+    &__info,
+    &__address {
+        font-size: $text-size-subheading;
         color: rgba($color-brand-accent-tertiary, 0.75);
         text-decoration: none;
         transition: color 0.2s ease;
@@ -278,14 +284,6 @@
     }
 
     &__address {
-        font-size: 1.8rem;
-        color: rgba($color-brand-accent-tertiary, 0.75);
-        text-decoration: none;
-        transition: color 0.2s ease;
         line-height: 1.6;
-
-        &:hover {
-            color: $color-interactive-primary;
-        }
     }
 }

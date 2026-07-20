@@ -17,6 +17,7 @@
         height: 70rem;
         max-width: 100%;
         padding: 0;
+        margin-top: -7rem;
         background-image: linear-gradient(
                 rgba(255, 255, 255, 0.9),
                 rgba(255, 255, 255, 0.9)
@@ -32,7 +33,7 @@
                 rgba(255, 255, 255, 0.9)
             ),
             url('/assets/images/bg-testimonial-wave.svg');
-        padding-top: 10rem;
+        padding-top: 15rem;
     }
 
     &__container {
@@ -72,12 +73,12 @@
     }
 
     &__nav-btn {
+        @include flex(center, center);
         width: 6.4rem;
         height: 6.4rem;
         border-radius: 50%;
         background: $color-interactive-inverse;
         color: $color-brand-primary;
-        @include flex(center, center);
         cursor: pointer;
         position: absolute;
         top: 2.5rem;
@@ -85,26 +86,10 @@
         transition: all 0.3s ease;
         border: 1px solid rgba($color-brand-accent-tertiary, 0.1);
 
-        i {
-            color: inherit;
-        }
-
-        i::before {
-            color: inherit !important;
-        }
-
         &:hover {
             box-shadow: 0px 20px 15px rgba(0, 0, 0, 0.08);
             background-color: $color-interactive-primary;
             color: $color-interactive-inverse;
-
-            i {
-                color: inherit;
-            }
-
-            i::before {
-                color: inherit !important;
-            }
         }
 
         @include respond-to(tablet) {
@@ -117,10 +102,6 @@
             width: 10rem;
             height: 10rem;
             top: 13rem;
-        }
-
-        &::after {
-            display: none !important;
         }
 
         &--prev {
@@ -162,9 +143,9 @@
 }
 
 .testimonial-card {
+    @include flex(center, center, column);
     background: transparent;
     width: 100%;
-    @include flex(center, center, column);
 
     @include respond-to(tablet) {
         padding: 0 4rem;

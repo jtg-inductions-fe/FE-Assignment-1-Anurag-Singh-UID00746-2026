@@ -17,18 +17,9 @@
     font-style: normal;
     line-height: 1;
     color: inherit;
-
-    // remove the extra space below the icon
     display: inline-block;
-
-    // allow the icon to be treated like text
-    // vertical-align: middle;
     -webkit-font-smoothing: antialiased;
-
-    // Chrome and Safari
     -moz-osx-font-smoothing: grayscale;
-
-    // Firefox
 }
 
 .ic-hamburger-menu::before {
@@ -85,12 +76,12 @@
 
 .ic-social-instagram::before {
     content: '\e905';
-    color: inherit;
+    color: $color-interactive-inverse;
 }
 
 .ic-social-twitter::before {
     content: '\e906';
-    color: inherit;
+    color: $color-interactive-inverse;
 }
 
 .ic-star-rating::before {
@@ -134,9 +125,16 @@
 .ic-copy::before {
     content: '\e913';
     color: inherit;
+    font-size: 1.3rem;
 }
 
 .ic-special-gift::before {
-    content: '\e913';
+    content: '\e914';
+    color: inherit;
+    font-size: 1.8rem;
+}
+
+.ic-close::before {
+    content: '\e912';
     color: inherit;
 }
