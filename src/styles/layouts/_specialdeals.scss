@@ -135,7 +135,7 @@
         color: $color-brand-primary;
         font-size: $text-size-small;
         font-weight: $font-weight-heading;
-        margin-top: 2rem;
+        margin: 2rem 0rem;
     }
 
     &__unlocked-coupons {
@@ -144,7 +144,6 @@
 
     &__coupon-wrapper {
         @include flex(space-between, center, row);
-        margin-top: 2rem;
         padding: 2rem;
         width: 100%;
         border-radius: 1.6rem;
@@ -206,5 +205,6 @@
         @include flex(center, center, column);
         width: 100%;
         max-height: 90dvh;
+        gap: 2rem;
     }
 }
