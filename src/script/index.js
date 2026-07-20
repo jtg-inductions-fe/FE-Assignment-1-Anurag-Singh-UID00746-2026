@@ -65,14 +65,14 @@ let spinning = false;
  * @function handleScroll
  * @returns {void} This function does not return a value.
  */
-function handleScroll() {
+const handleScroll = () => {
     if (!container) return;
     if (scrollY > 4) {
         container.classList.add('header__container--scrolled');
     } else {
         container.classList.remove('header__container--scrolled');
     }
-}
+};
 
 window.addEventListener('scroll', handleScroll);
 
@@ -84,6 +84,7 @@ function toggleNavigation() {
     toggleButton.classList.toggle('header__toggle--active');
     navMenu.classList.toggle('header__nav--active');
     syncHeaderActionsTabFocus();
+    syncHeaderMenuTabFocus();
 }
 
 const desktop = window.matchMedia('(min-width: 1025px)');
@@ -96,14 +97,24 @@ const desktop = window.matchMedia('(min-width: 1025px)');
  * @param {boolean} isDesktop
  * @returns {void}
  */
-function setHeaderMenuTabFocus(isDesktop) {
+/**
+ * Syncs keyboard focusability for the header nav links (mobile/tablet).
+ *
+ * - Desktop: always focusable
+ * - Mobile/Tablet: focusable only when drawer is open (isAllowed=true)
+ *
+ * @param {boolean} isDesktop
+ * @param {boolean} isAllowed
+ * @returns {void}
+ */
+function setHeaderMenuTabFocus(isDesktop, isAllowed) {
     const menu = document.querySelector('.header__menu');
     if (!menu) return;
 
     const focusable = menu.querySelectorAll('a[href], button');
 
     focusable.forEach((el) => {
-        if (isDesktop) {
+        if (isDesktop || isAllowed) {
             el.removeAttribute('tabindex');
         } else {
             el.setAttribute('tabindex', '-1');
@@ -136,10 +147,27 @@ function syncHeaderActionsTabFocus() {
     if (!toggleButton) return;
     if (desktop.matches) {
         setHeaderActionsTabFocus(true);
+        setHeaderMenuTabFocus(true, true);
         return;
     }
     const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
     setHeaderActionsTabFocus(isExpanded);
+    setHeaderMenuTabFocus(false, isExpanded);
+}
+
+/**
+ * Keep nav link tabindex in sync on each open/close interaction.
+ */
+function syncHeaderMenuTabFocus() {
+    if (!toggleButton) return;
+
+    if (desktop.matches) {
+        setHeaderMenuTabFocus(true, true);
+        return;
+    }
+
+    const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+    setHeaderMenuTabFocus(false, isExpanded);
 }
 
 /**
@@ -217,6 +245,8 @@ function initializeNavigation() {
         toggleButton.setAttribute('aria-expanded', 'false');
         toggleButton.classList.remove('header__toggle--active');
         navMenu.classList.remove('header__nav--active');
+        syncHeaderMenuTabFocus();
+        syncHeaderActionsTabFocus();
     });
 }
 
@@ -618,10 +648,13 @@ const wrapText = (txt) => {
 const copy = (e) => {
     const iconElement = e.target.closest('i');
 
-    if (iconElement) {
-        navigator.clipboard.writeText(iconElement.id);
-        alert('Copied to clipboard');
-    }
+    if (!iconElement) return;
+
+    const code = iconElement.dataset.code;
+    if (!code) return;
+
+    navigator.clipboard.writeText(code);
+    alert('Copied to clipboard');
 };
 
 /**
@@ -701,7 +734,7 @@ const renderCoupon = (idx) => {
     clone.querySelector('.deals__code').textContent = selectRand[idx].promoCode;
 
     const icon = clone.querySelector('.ic-copy');
-    if (icon) icon.id = selectRand[idx].promoCode;
+    if (icon) icon.dataset.code = selectRand[idx].promoCode;
 
     couponContainer.appendChild(clone);
 };
@@ -823,7 +856,7 @@ const showAllDeals = () => {
         clone.querySelector('.deals__code').textContent = deal.promoCode;
 
         const icon = clone.querySelector('.ic-copy');
-        if (icon) icon.id = deal.promoCode;
+        if (icon) icon.dataset.code = deal.promoCode;
 
         fragment.appendChild(clone);
     });
