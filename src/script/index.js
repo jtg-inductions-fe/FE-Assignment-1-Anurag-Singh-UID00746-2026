@@ -28,7 +28,7 @@ const contentContainer = document.querySelector('.travel-point__stats');
 const statCardTemplate = document.getElementById('stat-card-template');
 const couponTemplate = document.getElementById('coupon-card-template');
 const testimonialTemplate = document.getElementById('testimonial-template');
-const ctx = spinnerCanvas.getContext('2d');
+let ctx = spinnerCanvas.getContext('2d');
 
 let colors = [];
 let selectRand = [];
@@ -567,7 +567,8 @@ const shuffle = (arr) => {
  */
 const handleNoSpinLeft = () => {
     if (selectRand.length < CONSTANTS.SLICES) {
-        ctx.clearRect(0, 0, size, size);
+        if (ctx) ctx.clearRect(0, 0, size, size);
+
         winLabel.remove();
 
         spinBtn.classList.add('spinner__spin-btn--disabled');
@@ -732,14 +733,14 @@ const renderCoupon = (idx) => {
     clone.querySelector('.deals__validity').textContent =
         `Expires in ${selectRand[idx].validFor ?? 7} days`;
     clone.querySelector('.deals__code').textContent = selectRand[idx].promoCode;
+    const copyBtn = clone.querySelector('#unlocked-deals-copy-btn');
+    copyBtn.addEventListener('click', copy);
 
     const icon = clone.querySelector('.ic-copy');
     if (icon) icon.dataset.code = selectRand[idx].promoCode;
 
     couponContainer.appendChild(clone);
 };
-
-couponContainer.addEventListener('click', copy);
 
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
@@ -854,6 +855,9 @@ const showAllDeals = () => {
         }
 
         clone.querySelector('.deals__code').textContent = deal.promoCode;
+        const copyBtn = clone.querySelector('#unlocked-deals-copy-btn');
+
+        copyBtn.addEventListener('click', copy);
 
         const icon = clone.querySelector('.ic-copy');
         if (icon) icon.dataset.code = deal.promoCode;
@@ -863,8 +867,6 @@ const showAllDeals = () => {
 
     unlockedDealsContainer.appendChild(fragment);
 };
-
-unlockedDealsContainer.addEventListener('click', copy);
 
 /**
  * Redirects to the previous section
