@@ -647,13 +647,11 @@ const wrapText = (txt) => {
  * @returns {void}
  */
 const copy = (e) => {
-    const iconElement = e.target.closest('i');
+    const copyBtn = e.target.closest('.deals__copy-btn');
+    if (!copyBtn) return;
 
-    if (!iconElement) return;
-
-    const code = iconElement.dataset.code;
+    const code = copyBtn.dataset.code;
     if (!code) return;
-
     navigator.clipboard.writeText(code);
     alert('Copied to clipboard');
 };
@@ -696,7 +694,6 @@ function draw() {
         } else {
             ctx.fillStyle = CONSTANTS.WHITE;
         }
-
         ctx.translate(radius * 0.65, 0);
         ctx.rotate(Math.PI / 2);
         wrapText(deal.label);
@@ -733,11 +730,12 @@ const renderCoupon = (idx) => {
     clone.querySelector('.deals__validity').textContent =
         `Expires in ${selectRand[idx].validFor ?? 7} days`;
     clone.querySelector('.deals__code').textContent = selectRand[idx].promoCode;
-    const copyBtn = clone.querySelector('#unlocked-deals-copy-btn');
-    copyBtn.addEventListener('click', copy);
 
-    const icon = clone.querySelector('.ic-copy');
-    if (icon) icon.dataset.code = selectRand[idx].promoCode;
+    const copyBtn = clone.querySelector('.deals__copy-btn');
+    if (copyBtn) {
+        copyBtn.dataset.code = selectRand[idx].promoCode;
+        copyBtn.addEventListener('click', copy);
+    }
 
     couponContainer.appendChild(clone);
 };
@@ -843,9 +841,10 @@ const showAllDeals = () => {
         const valid = allowedDays - daysPassed;
 
         if (valid <= 0) {
-            clone
-                .querySelector('.deals__coupon-wrapper')
-                .classList.add('deals__coupon-wrapper--expired');
+            const couponContainer = clone.querySelector(
+                '.deals__coupon-wrapper',
+            );
+            couponContainer.classList.add('deals__coupon-wrapper--expired');
             const expiry = clone.querySelector('.deals__validity');
             expiry.textContent = 'Deal Expired';
             expiry.classList.add('deals__validity--expired');
@@ -855,12 +854,8 @@ const showAllDeals = () => {
         }
 
         clone.querySelector('.deals__code').textContent = deal.promoCode;
-        const copyBtn = clone.querySelector('#unlocked-deals-copy-btn');
-
-        copyBtn.addEventListener('click', copy);
-
-        const icon = clone.querySelector('.ic-copy');
-        if (icon) icon.dataset.code = deal.promoCode;
+        const copyBtn = clone.querySelector('.deals__copy-btn');
+        copyBtn.dataset.code = deal.promoCode;
 
         fragment.appendChild(clone);
     });
@@ -881,3 +876,4 @@ spinBtn.addEventListener('click', spin);
 
 unlockedDealsBtn.addEventListener('click', showAllDeals);
 backBtn.addEventListener('click', Back);
+unlockedDealsContainer.addEventListener('click', copy);
